@@ -58,4 +58,8 @@ class ViewsController extends Controller
     {
         return view('user.loker');
     }
+    public function detailLoker()
+    {
+        return view('user.detail-job');
+    }
 }
