@@ -62,4 +62,16 @@ class ViewsController extends Controller
     {
         return view('user.detail-job');
     }
+    public function lamaranSaya()
+    {
+        return view('user.job-apply');
+    }
+    public function disimpan()
+    {
+        return view('user.bookmarking');
+    }
+    public function profile()
+    {
+        return view('user.user-profile');
+    }
 }

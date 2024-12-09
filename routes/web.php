@@ -21,3 +21,6 @@ Route::get('/user/company',[ViewsController::class,'userCompany']);
 Route::get('/user/detail-company',[ViewsController::class,'userDetailCompany']);
 Route::get('/user/loker',[ViewsController::class,'userLoker']);
 Route::get('/user/detail-loker',[ViewsController::class,'detailLoker']);
+Route::get('/user/lamaran-saya',[ViewsController::class,'lamaranSaya']);
+Route::get('/user/disimpan',[ViewsController::class,'disimpan']);
+Route::get('/user/profile',[ViewsController::class,'profile']);
