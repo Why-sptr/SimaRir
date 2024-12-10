@@ -17,6 +17,8 @@ Route::get('admin/list-admin',[ViewsController::class,'listAdmin']);
 Route::get('admin/skill',[ViewsController::class,'skill']);
 Route::get('admin/company-field',[ViewsController::class,'companyField']);
 Route::get('/company',[ViewsController::class,'company']);
+Route::get('/company/detail-job',[ViewsController::class,'detailJob']);
+Route::get('/company/detail-user',[ViewsController::class,'detailUser']);
 Route::get('/user/company',[ViewsController::class,'userCompany']);
 Route::get('/user/detail-company',[ViewsController::class,'userDetailCompany']);
 Route::get('/user/loker',[ViewsController::class,'userLoker']);

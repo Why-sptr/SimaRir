@@ -46,6 +46,14 @@ class ViewsController extends Controller
     {
         return view('company.index');
     }
+    public function detailJob()
+    {
+        return view('company.detail-job');
+    }
+    public function detailUser()
+    {
+        return view('company.detail-user');
+    }
     public function userCompany()
     {
         return view('user.company');
