@@ -87,7 +87,7 @@
 
     <div class="container mt-4">
       <div class="card p-3 shadow-sm border-0">
-        <h4 class="fw-bold">Informasi Pekerjaan</h4>
+        <h5 class="fw-bold">Informasi Pekerjaan</h5>
         <div class="card p-3 shadow-sm border-0">
           <!-- Syarat/Kualifikasi Section -->
           <h5 class="card-title">Syarat / Kualifikasi</h5>
