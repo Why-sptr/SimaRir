@@ -22,7 +22,7 @@
 <body>
     <section>
         <div class="container mt-4 text-center">
-            <h2 class="fw-bold">Disimpan</h2>
+            <h3 class="fw-bold">Disimpan</h3>
         </div>
         <div class="container mt-4">
             <div class="col-md-12">
@@ -34,31 +34,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -70,31 +73,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -106,31 +112,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -142,31 +151,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -178,31 +190,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -214,31 +229,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -250,31 +268,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -286,31 +307,34 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 10 jt - 11 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Hybrid</span>
-                                    <span class="badge bg-secondary me-2">Kontrak</span>
-                                    <span class="badge bg-secondary me-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary">+13</span>
+                                <div class="d-flex flex-wrap mb-2 gap-2">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-muted">Kandidat Pelamar</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>

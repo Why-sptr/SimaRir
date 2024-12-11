@@ -22,7 +22,7 @@
 <body>
   <section>
     <div class="container mt-4">
-      <div class="card p-3">
+      <div class="card p-3 shadow-sm border-0 shadow-sm border-0">
         <div class="row align-items-center">
           <!-- Image Section -->
           <div class="col-md-4">
@@ -32,62 +32,130 @@
           </div>
           <!-- Text and Details Section -->
           <div class="col-md-8">
-            <h5 class="fw-bold">Nama Lowongan</h5>
+            <h3 class="fw-bold">Nama Lowongan</h3>
             <div class="row">
               <div class="col-md-6">
-                <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
-                <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Bidang Perusahaan - Bidang Pekerjaan</p>
-                <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Salary</p>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-building" style="width: 24px;"></i>
+                  <p class="card-text fw-semibold">Perusahaan</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-building" style="width: 24px;"></i>
+                  <p class="card-text">Bidang Perusahaan - Bidang Pekerjaan</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-money-bill" style="width: 24px;"></i>
+                  <p class="card-text">Salary</p>
+                </div>
               </div>
               <div class="col-md-6">
-                <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Tipe Pekerjaan</p>
-                <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Metode Pekerjaan</p>
-                <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Verifikasi Perusahaan</p>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-clock" style="width: 24px;"></i>
+                  <p class="card-text">Tipe Pekerjaan</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-briefcase" style="width: 24px;"></i>
+                  <p class="card-text">Metode Pekerjaan</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-check" style="width: 24px;"></i>
+                  <p class="card-text">Verifikasi Perusahaan</p>
+                </div>
               </div>
             </div>
             <!-- Buttons -->
             <div class="mt-3">
-              <button class="btn btn-light border">Lamar</button>
-              <button class="btn btn-light border">Bagikan</button>
-              <button class="btn btn-light border">Favorit</button>
+              <button class="btn btn-primary fw-semibold">Lamar</button>
+              <button class="btn btn-outline-primary fw-semibold"><i class="fa-solid fa-share-from-square me-2"></i>Bagikan</button>
+              <button class="btn btn-outline-primary fw-semibold"><i class="fa-regular fa-bookmark me-2"></i>Favorit</button>
             </div>
           </div>
         </div>
         <hr>
         <!-- Skills Section -->
-        <div class="d-flex flex-wrap gap-2">
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
-          <span class="badge bg-light text-dark">Skill Pekerjaan</span>
+        <div class="d-flex flex-wrap gap-2 justify-content-center text-center">
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
         </div>
       </div>
     </div>
 
     <div class="container mt-4">
-      <div class="card p-3">
-        <h5 class="fw-bold">Informasi Pekerjaan</h5>
-        <div class="card p-3">
+      <div class="card p-3 shadow-sm border-0">
+        <h4 class="fw-bold">Informasi Pekerjaan</h4>
+        <div class="card p-3 shadow-sm border-0">
           <!-- Syarat/Kualifikasi Section -->
-          <h6 class="fw-bold">Syarat / Kualifikasi</h6>
+          <h5 class="card-title">Syarat / Kualifikasi</h5>
           <div class="row">
             <div class="col-12">
               <ul class="list-unstyled">
-                <li><span class="badge bg-light text-dark">Pengalaman</span></li>
-                <li><span class="badge bg-light text-dark">Pendidikan</span></li>
-                <li><span class="badge bg-light text-dark">Jurusan</span></li>
-                <li><span class="badge bg-light text-dark">IPK</span></li>
-                <li><span class="badge bg-light text-dark">Toefl</span></li>
+                <li class="row">
+                  <div class="col-2 col-md-2">
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-calendar-day" style="width: 24px;"></i>
+                      <p class="card-text fw-semibold">Pengalaman</p>
+                    </div>
+                  </div>
+                  <div class="col-auto col-md-auto">
+                    <span class="ms-auto">: 3-5 Tahun</span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-2 col-md-2">
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-graduation-cap" style="width: 24px;"></i>
+                      <p class="card-text fw-semibold">Pendidikan</p>
+                    </div>
+                  </div>
+                  <div class="col-auto col-md-auto">
+                    <span class="ms-auto">: 3-5 Tahun</span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-2 col-md-2">
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-laptop-file" style="width: 24px;"></i>
+                      <p class="card-text fw-semibold">Jurusan</p>
+                    </div>
+                  </div>
+                  <div class="col-auto col-md-auto">
+                    <span class="ms-auto">: 3-5 Tahun</span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-2 col-md-2">
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-book" style="width: 24px;"></i>
+                      <p class="card-text fw-semibold">IPK</p>
+                    </div>
+                  </div>
+                  <div class="col-auto col-md-auto">
+                    <span class="ms-auto">: 3-5 Tahun</span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-2 col-md-2">
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-font-awesome" style="width: 24px;"></i>
+                      <p class="card-text fw-semibold">Toefl</p>
+                    </div>
+                  </div>
+                  <div class="col-auto col-md-auto">
+                    <span class="ms-auto">: 3-5 Tahun</span>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="card p-3 mt-3">
+        <div class="card p-3 shadow-sm border-0 mt-3">
           <!-- Deskripsi Pekerjaan Section -->
-          <h6 class="fw-bold">Deskripsi Pekerjaan</h6>
+          <h5 class="card-title">Deskripsi Pekerjaan</h5>
           <div class="row">
             <div class="col-12">
               <p>
@@ -114,7 +182,7 @@
     </div>
 
     <div class="container mt-4">
-      <div class="card p-3">
+      <div class="card p-3 shadow-sm border-0">
         <div class="row align-items-center">
           <!-- Image Section -->
           <div class="col-md-4">
@@ -124,16 +192,28 @@
           </div>
           <!-- Text and Details Section -->
           <div class="col-md-8">
-            <h5 class="fw-bold">Nama Perusahaan</h5>
+            <h3 class="fw-bold">Nama Perusahaan</h3>
             <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
             <div class="row">
               <div class="col-md-6">
-                <p><span class="badge bg-light text-dark"></span>Lokasi Perusahaan</p>
-                <p><span class="badge bg-light text-dark"></span>Bidang Perusahaan</p>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-location-dot" style="width: 24px;"></i>
+                  <p class="card-text fw-semibold">Lokasi Perusahaan</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-building" style="width: 24px;"></i>
+                  <p class="card-text">Bidang Perusahaan</p>
+                </div>
               </div>
               <div class="col-md-6">
-                <p><span class="badge bg-light text-dark"></span>Karyawan Perusahaan</p>
-                <p><span class="badge bg-light text-dark"></span>Status Verifikasi</p>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-users" style="width: 24px;"></i>
+                  <p class="card-text">Karyawan Perusahaan</p>
+                </div>
+                <div class="d-flex gap-2 align-items-center">
+                  <i class="fa-solid fa-check" style="width: 24px;"></i>
+                  <p class="card-text">Verifikasi Perusahaan</p>
+                </div>
               </div>
             </div>
           </div>
@@ -142,38 +222,42 @@
     </div>
 
     <div class="container mt-4">
-      <div class="card p-4">
-      <h5 class="fw-bold">Rekomendasi Pekerjaan</h5>
+      <div class="card p-3 shadow-sm border-0">
+        <h5 class="fw-bold">Rekomendasi Pekerjaan</h5>
         <div class="row g-4">
           <div class="col-md-6 d-flex">
             <div class="card shadow-sm border-0 flex-grow-1">
               <div class="card-body">
                 <!-- Job Title and Salary -->
                 <div class="d-flex justify-content-between">
-                  <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                  <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                  <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                  <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                 </div>
                 <!-- Job Tags -->
-                <div class="d-flex flex-wrap mb-2">
-                  <span class="badge bg-secondary me-2">Remote</span>
-                  <span class="badge bg-secondary me-2">Freelance</span>
-                  <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                  <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                  <span class="badge bg-secondary">+8</span>
+                <div class="d-flex flex-wrap mb-2 gap-1">
+                  <span class="badge bg-secondary p-2">Hybrid</span>
+                  <span class="badge bg-secondary p-2">Kontrak</span>
+                  <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                  <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                  <span class="badge bg-secondary p-2">+13</span>
                 </div>
                 <!-- Company Info -->
                 <div class="d-flex align-items-center mb-2">
-                  <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                  <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                   <div>
-                    <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                    <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                    <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-location-dot"></i>
+                      <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                    </div>
                   </div>
                 </div>
+                <hr>
                 <!-- Footer -->
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">5 hari yang lalu</small>
-                  <button class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-bookmark"></i>
+                  <small class="text-muted">Kandidat Pelamar</small>
+                  <button class="btn btn-sm">
+                    <i class="fa-regular fa-bookmark"></i>
                   </button>
                 </div>
               </div>
@@ -184,30 +268,34 @@
               <div class="card-body">
                 <!-- Job Title and Salary -->
                 <div class="d-flex justify-content-between">
-                  <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                  <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                  <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                  <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                 </div>
                 <!-- Job Tags -->
-                <div class="d-flex flex-wrap mb-2">
-                  <span class="badge bg-secondary me-2">Remote</span>
-                  <span class="badge bg-secondary me-2">Freelance</span>
-                  <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                  <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                  <span class="badge bg-secondary">+8</span>
+                <div class="d-flex flex-wrap mb-2 gap-1">
+                  <span class="badge bg-secondary p-2">Hybrid</span>
+                  <span class="badge bg-secondary p-2">Kontrak</span>
+                  <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                  <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                  <span class="badge bg-secondary p-2">+13</span>
                 </div>
                 <!-- Company Info -->
                 <div class="d-flex align-items-center mb-2">
-                  <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                  <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                   <div>
-                    <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                    <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                    <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                    <div class="d-flex gap-2 align-items-center">
+                      <i class="fa-solid fa-location-dot"></i>
+                      <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                    </div>
                   </div>
                 </div>
+                <hr>
                 <!-- Footer -->
                 <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">5 hari yang lalu</small>
-                  <button class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-bookmark"></i>
+                  <small class="text-muted">Kandidat Pelamar</small>
+                  <button class="btn btn-sm">
+                    <i class="fa-regular fa-bookmark"></i>
                   </button>
                 </div>
               </div>

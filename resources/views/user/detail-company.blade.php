@@ -22,7 +22,7 @@
 <body>
     <section>
         <div class="container mt-4">
-            <div class="card p-3">
+            <div class="card p-3 shadow-sm border-0">
                 <div class="row align-items-center">
                     <!-- Image Section -->
                     <div class="col-md-4">
@@ -32,16 +32,28 @@
                     </div>
                     <!-- Text and Details Section -->
                     <div class="col-md-8">
-                        <h5 class="fw-bold">Nama Perusahaan</h5>
+                        <h3 class="fw-bold">Nama Perusahaan</h3>
                         <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
                         <div class="row">
                             <div class="col-md-6">
-                                <p><span class="badge bg-light text-dark"></span>Lokasi Perusahaan</p>
-                                <p><span class="badge bg-light text-dark"></span>Bidang Perusahaan</p>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <i class="fa-solid fa-location-dot" style="width: 24px;"></i>
+                                    <p class="card-text fw-semibold">Lokasi Perusahaan</p>
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <i class="fa-solid fa-building" style="width: 24px;"></i>
+                                    <p class="card-text">Bidang Perusahaan</p>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <p><span class="badge bg-light text-dark"></span>Karyawan Perusahaan</p>
-                                <p><span class="badge bg-light text-dark"></span>Status Verifikasi</p>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <i class="fa-solid fa-users" style="width: 24px;"></i>
+                                    <p class="card-text">Karyawan Perusahaan</p>
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <i class="fa-solid fa-check" style="width: 24px;"></i>
+                                    <p class="card-text">Verifikasi Perusahaan</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -50,7 +62,7 @@
         </div>
 
         <div class="container mt-4">
-            <div class="card p-4">
+            <div class="card p-3 shadow-sm border-0">
                 <h5 class="fw-bold">Lowongan Pekerjaan</h5>
                 <div class="row g-4">
                     <div class="col-md-6 d-flex">
@@ -58,30 +70,31 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Remote</span>
-                                    <span class="badge bg-secondary me-2">Freelance</span>
-                                    <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                    <span class="badge bg-secondary">+8</span>
+                                <div class="d-flex flex-wrap mb-2 gap-1">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                        <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
                                     </div>
                                 </div>
+                                <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">5 hari yang lalu</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <small class="text-muted">3 hari yang lalu</small>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -92,30 +105,31 @@
                             <div class="card-body">
                                 <!-- Job Title and Salary -->
                                 <div class="d-flex justify-content-between">
-                                    <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                    <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
+                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
                                 </div>
                                 <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2">
-                                    <span class="badge bg-secondary me-2">Remote</span>
-                                    <span class="badge bg-secondary me-2">Freelance</span>
-                                    <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                    <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                    <span class="badge bg-secondary">+8</span>
+                                <div class="d-flex flex-wrap mb-2 gap-1">
+                                    <span class="badge bg-secondary p-2">Hybrid</span>
+                                    <span class="badge bg-secondary p-2">Kontrak</span>
+                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
+                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
+                                    <span class="badge bg-secondary p-2">+13</span>
                                 </div>
                                 <!-- Company Info -->
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                     <div>
-                                        <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                        <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
+                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
                                     </div>
                                 </div>
+                                <hr>
                                 <!-- Footer -->
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">5 hari yang lalu</small>
-                                    <button class="btn btn-outline-primary btn-sm">
-                                        <i class="bi bi-bookmark"></i>
+                                    <small class="text-muted">3 hari yang lalu</small>
+                                    <button class="btn btn-sm">
+                                        <i class="fa-regular fa-bookmark"></i>
                                     </button>
                                 </div>
                             </div>
@@ -126,7 +140,7 @@
         </div>
 
         <div class="container mt-4">
-            <div class="card p-4">
+            <div class="card shadow-sm border-0 p-3">
                 <h5 class="fw-bold">Deskripsi Perusahaan</h5>
                 <p>
                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
@@ -135,83 +149,89 @@
         </div>
 
         <div class="container my-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Informasi Perusahaan</h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card h-100 p-3">
-                                <h6 class="mb-3">Hari dan Jam Kerja</h6>
-                                <ul class="list-unstyled">
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Senin</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Selasa</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Rabu</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Kamis</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Jumat</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Sabtu</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                    <li class="row">
-                                        <div class="col-4 col-md-4">
-                                            <span>Minggu</span>
-                                        </div>
-                                        <div class="col-8 col-md-8">
-                                            <span class="ms-auto">: 08.00–16.00</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="card shadow-sm border-0 p-4">
+                <h5 class="fw-bold">Informasi Perusahaan</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0 h-100 p-3">
+                            <h6 class="mb-3">Hari dan Jam Kerja</h6>
+                            <ul class="list-unstyled">
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Senin</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Selasa</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Rabu</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Kamis</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Jumat</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Sabtu</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                                <li class="row">
+                                    <div class="col-4 col-md-4">
+                                        <span>Minggu</span>
+                                    </div>
+                                    <div class="col-8 col-md-8">
+                                        <span class="ms-auto">: 08.00–16.00</span>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="col-md-6">
-                            <div class="card h-100 p-3">
-                                <h6 class="mb-3">Informasi Lainnya</h6>
-                                <ul class="list-unstyled">
-                                    <li><p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Email Perusahaan</p></li>
-                                    <li><p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p></li>
-                                    <li><p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p></li>
-                                    <li><p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p></li>
-                                </ul>
-                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card shadow-sm border-0 h-100 p-3">
+                            <h6 class="mb-3">Informasi Lainnya</h6>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Email Perusahaan</p>
+                                </li>
+                                <li>
+                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
+                                </li>
+                                <li>
+                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
+                                </li>
+                                <li>
+                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -219,7 +239,7 @@
         </div>
 
         <div class="container mt-4">
-            <div class="card p-4">
+            <div class="card shadow-sm border-0 p-3">
                 <h5 class="fw-bold">Galeri Perusahaan</h5>
                 <div class="row g-4">
                     <div class="col-4">

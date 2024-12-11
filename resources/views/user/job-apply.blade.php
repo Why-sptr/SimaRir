@@ -22,7 +22,7 @@
 <body>
     <section>
         <div class="container mt-4 text-center">
-            <h2 class="fw-bold">Lamaran Saya</h2>
+            <h3 class="fw-bold">Lamaran Saya</h3>
         </div>
         <div class="container mt-4">
             <div class="row">
@@ -31,7 +31,7 @@
                         data-bs-target="#sidebarContent" aria-expanded="false" aria-controls="sidebarContent">
                         Filter
                     </button>
-                    <div class="card p-3">
+                    <div class="card shadow-sm border-0 p-3">
                         <div class="collapse d-md-block sticky-sidebar" id="sidebarContent">
                             <!-- Jenis Section -->
                             <div class="mb-4">
@@ -75,7 +75,7 @@
                                 </form>
                             </div>
                             <!-- Button -->
-                            <button class="btn-web1 w-100">Terapkan</button>
+                            <button class="btn btn-primary w-100">Terapkan</button>
                         </div>
                     </div>
                 </div>
@@ -90,23 +90,26 @@
                                 <div class="card-body">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                        <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                        <h5 class="card-title fw-bold mb-2">Frontend Developer (Remote)</h5>
+                                        <p class="text-primary fw-semibold mb-1">Rp 8 jt - 10 jt</p>
                                     </div>
                                     <!-- Job Tags -->
-                                    <div class="d-flex flex-wrap mb-2">
-                                        <span class="badge bg-secondary me-2">Remote</span>
-                                        <span class="badge bg-secondary me-2">Freelance</span>
-                                        <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                        <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                        <span class="badge bg-secondary">+8</span>
+                                    <div class="d-flex flex-wrap mb-2 gap-2">
+                                        <span class="badge bg-secondary p-2">Remote</span>
+                                        <span class="badge bg-secondary p-2">Freelance</span>
+                                        <span class="badge bg-secondary p-2">1 – 3 tahun</span>
+                                        <span class="badge bg-secondary p-2">Minimal Diploma (D3)</span>
+                                        <span class="badge bg-secondary p-2">+8</span>
                                     </div>
                                     <!-- Company Info -->
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                        <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                            <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -120,23 +123,26 @@
                                 <div class="card-body">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                        <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                        <h5 class="card-title fw-bold mb-2">Frontend Developer (Remote)</h5>
+                                        <p class="text-primary fw-semibold mb-1">Rp 8 jt - 10 jt</p>
                                     </div>
                                     <!-- Job Tags -->
-                                    <div class="d-flex flex-wrap mb-2">
-                                        <span class="badge bg-secondary me-2">Remote</span>
-                                        <span class="badge bg-secondary me-2">Freelance</span>
-                                        <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                        <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                        <span class="badge bg-secondary">+8</span>
+                                    <div class="d-flex flex-wrap mb-2 gap-2">
+                                        <span class="badge bg-secondary p-2">Remote</span>
+                                        <span class="badge bg-secondary p-2">Freelance</span>
+                                        <span class="badge bg-secondary p-2">1 – 3 tahun</span>
+                                        <span class="badge bg-secondary p-2">Minimal Diploma (D3)</span>
+                                        <span class="badge bg-secondary p-2">+8</span>
                                     </div>
                                     <!-- Company Info -->
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                        <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                            <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -150,23 +156,26 @@
                                 <div class="card-body">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                        <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                        <h5 class="card-title fw-bold mb-2">Frontend Developer (Remote)</h5>
+                                        <p class="text-primary fw-semibold mb-1">Rp 8 jt - 10 jt</p>
                                     </div>
                                     <!-- Job Tags -->
-                                    <div class="d-flex flex-wrap mb-2">
-                                        <span class="badge bg-secondary me-2">Remote</span>
-                                        <span class="badge bg-secondary me-2">Freelance</span>
-                                        <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                        <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                        <span class="badge bg-secondary">+8</span>
+                                    <div class="d-flex flex-wrap mb-2 gap-2">
+                                        <span class="badge bg-secondary p-2">Remote</span>
+                                        <span class="badge bg-secondary p-2">Freelance</span>
+                                        <span class="badge bg-secondary p-2">1 – 3 tahun</span>
+                                        <span class="badge bg-secondary p-2">Minimal Diploma (D3)</span>
+                                        <span class="badge bg-secondary p-2">+8</span>
                                     </div>
                                     <!-- Company Info -->
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                        <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                            <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -180,23 +189,26 @@
                                 <div class="card-body">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                        <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                        <h5 class="card-title fw-bold mb-2">Frontend Developer (Remote)</h5>
+                                        <p class="text-primary fw-semibold mb-1">Rp 8 jt - 10 jt</p>
                                     </div>
                                     <!-- Job Tags -->
-                                    <div class="d-flex flex-wrap mb-2">
-                                        <span class="badge bg-secondary me-2">Remote</span>
-                                        <span class="badge bg-secondary me-2">Freelance</span>
-                                        <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                        <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                        <span class="badge bg-secondary">+8</span>
+                                    <div class="d-flex flex-wrap mb-2 gap-2">
+                                        <span class="badge bg-secondary p-2">Remote</span>
+                                        <span class="badge bg-secondary p-2">Freelance</span>
+                                        <span class="badge bg-secondary p-2">1 – 3 tahun</span>
+                                        <span class="badge bg-secondary p-2">Minimal Diploma (D3)</span>
+                                        <span class="badge bg-secondary p-2">+8</span>
                                     </div>
                                     <!-- Company Info -->
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                        <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                            <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>
@@ -210,23 +222,26 @@
                                 <div class="card-body">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="card-title fw-bold mb-1">Frontend Developer (Remote)</h5>
-                                        <p class="text-primary fw-bold mb-1">Rp 8 jt - 10 jt</p>
+                                        <h5 class="card-title fw-bold mb-2">Frontend Developer (Remote)</h5>
+                                        <p class="text-primary fw-semibold mb-1">Rp 8 jt - 10 jt</p>
                                     </div>
                                     <!-- Job Tags -->
-                                    <div class="d-flex flex-wrap mb-2">
-                                        <span class="badge bg-secondary me-2">Remote</span>
-                                        <span class="badge bg-secondary me-2">Freelance</span>
-                                        <span class="badge bg-secondary me-2">1 – 3 tahun</span>
-                                        <span class="badge bg-secondary me-2">Minimal Diploma (D3)</span>
-                                        <span class="badge bg-secondary">+8</span>
+                                    <div class="d-flex flex-wrap mb-2 gap-2">
+                                        <span class="badge bg-secondary p-2">Remote</span>
+                                        <span class="badge bg-secondary p-2">Freelance</span>
+                                        <span class="badge bg-secondary p-2">1 – 3 tahun</span>
+                                        <span class="badge bg-secondary p-2">Minimal Diploma (D3)</span>
+                                        <span class="badge bg-secondary p-2">+8</span>
                                     </div>
                                     <!-- Company Info -->
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="https://via.placeholder.com/30" alt="Company Logo" class="rounded me-2">
+                                        <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">PT Teknologi Nusantara</p>
-                                            <p class="mb-0 text-muted">Bandung, Jawa Barat</p>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                            </div>
                                         </div>
                                     </div>
                                     <hr>

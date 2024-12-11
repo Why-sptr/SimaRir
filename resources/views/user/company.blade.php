@@ -20,17 +20,14 @@
 </head>
 
 <body>
-    <header class="p-3">
-        <nav class="navbar bg-light">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24">
-                </a>
-            </div>
-        </nav>
-    </header>
     <section>
         <div class="container py-5">
+            <div class="d-flex justify-content-center ">
+                <div class="input-group mb-3 w-75">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Cari</button>
+                </div>
+            </div>
             <div class="row g-4">
                 <!-- Card 1 -->
                 <div class="col-md-4">
@@ -40,18 +37,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -63,18 +64,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -86,18 +91,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -109,18 +118,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -132,18 +145,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -155,18 +172,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -178,18 +199,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -201,18 +226,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -224,18 +253,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -247,18 +280,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -270,18 +307,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
@@ -293,18 +334,22 @@
                                 <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
                                 <div>
                                     <h5 class="card-title">Deborah Tech</h5>
-                                    <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-building"></i>
+                                <i class="fa-solid fa-building text-center" style="width: 24px;"></i>
                                 <p class="card-text"><strong>Information Technology and Services</strong></p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-briefcase"></i>
+                                <i class="fa-solid fa-briefcase text-center" style="width: 24px;"></i>
                                 <p class="card-text">5 lowongan</p>
                             </div>
-                            <p class="card-text text-muted">10 Kandidat melamar</p>
+                            <hr>
+                            <p class="card-text text-muted">Jumlah Karyawan</p>
                         </div>
                     </div>
                 </div>
