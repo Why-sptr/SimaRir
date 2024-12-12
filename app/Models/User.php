@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -21,6 +20,20 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
+        'google_id',
+        'role',
+        'phone',
+        'location',
+        'date_birth',
+        'gender',
+        'work_experience',
+        'description',
+        'moto',
+        'education_id',
+        'social_media_id',
+        'attachment_id',
+        'job_role_id',
     ];
 
     /**
@@ -44,5 +57,60 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function education()
+    {
+        return $this->belongsTo(Education::class);
+    }
+
+    public function socialMedia()
+    {
+        return $this->belongsTo(SocialMedia::class);
+    }
+
+    public function attachment()
+    {
+        return $this->belongsTo(Attachment::class);
+    }
+
+    public function jobRole()
+    {
+        return $this->belongsTo(JobRole::class);
+    }
+
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
+    }
+
+    public function companies()
+    {
+        return $this->hasMany(Company::class);
+    }
+
+    public function recentWorkExperiences()
+    {
+        return $this->hasMany(RecentWorkExperience::class);
+    }
+
+    public function organizations()
+    {
+        return $this->hasMany(Organization::class);
+    }
+
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
     }
 }
