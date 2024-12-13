@@ -6,6 +6,10 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Socialite\Contracts\User as SocialiteUser;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Str;
+
 
 class User extends Authenticatable
 {
@@ -57,6 +61,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function createOrUpdateFromGoogle(SocialiteUser $socialiteUser)
+    {
+        $this->google_id = $socialiteUser->getId();
+        $this->name = $socialiteUser->getName();
+        $this->email = $socialiteUser->getEmail();
+        $this->avatar = $socialiteUser->getAvatar();
+        $this->password = bcrypt(Str::random(24)); // Menghasilkan password acak
+        $this->save();
+
+        // Assign role, misalnya user baru dapat role 'user'
+        $this->assignRole('user');
     }
 
     public function education()
