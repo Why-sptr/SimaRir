@@ -4,12 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Company extends Model
 {
     use HasFactory;
     protected $table = 'companies';
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = ['user_id', 'corporate_field_id', 'employee', 'verification_file', 'status_verification'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($education) {
+            if (!$education->id) {
+                $education->id = (string) Str::uuid();
+            }
+        });
+    }
 
     public function user()
     {

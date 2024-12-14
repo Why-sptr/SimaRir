@@ -4,12 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Certification extends Model
 {
     use HasFactory;
     protected $table = 'certifications';
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = ['user_id', 'name', 'publisher', 'start_date', 'end_date'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($education) {
+            if (!$education->id) {
+                $education->id = (string) Str::uuid();
+            }
+        });
+    }
 
     public function user()
     {
