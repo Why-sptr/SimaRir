@@ -4,67 +4,118 @@
 @section('title')
 
 @section('content')
-    <div class="pagetitle">
-        <h1>{{$title}}</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}">Perusahaan</a></li>
-                <li class="breadcrumb-item active">{{$title}}</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+<div class="pagetitle">
+  <h1>{{$title}}</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{{ url('/') }}">Perusahaan</a></li>
+      <li class="breadcrumb-item active">{{$title}}</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
 
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
+<section class="section">
+  <div class="row">
+    <div class="col-lg-12">
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Datatables</h5>
-
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th>
-                      <b>N</b>ame
-                    </th>
-                    <th>Ext.</th>
-                    <th>City</th>
-                    <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                    <th>Completion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Unity Pugh</td>
-                    <td>9958</td>
-                    <td>Curicó</td>
-                    <td>2005/02/11</td>
-                    <td>37%</td>
-                  </tr>
-                  <tr>
-                    <td>Theodore Duran</td>
-                    <td>8971</td>
-                    <td>Dhanbad</td>
-                    <td>1999/04/07</td>
-                    <td>97%</td>
-                  </tr>
-                  <tr>
-                    <td>Kylie Bishop</td>
-                    <td>3147</td>
-                    <td>Norman</td>
-                    <td>2005/09/08</td>
-                    <td>63%</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
-
-            </div>
-          </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Datatables</h5>
+          <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal" onclick="clearForm()">
+            Add Role
+          </button>
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($jobRoles as $role)
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $role->name }}</td>
+                <td>
+                  <form id="roleForm{{ $role->id }}" action="{{ url('admin/job-role/'.$role->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#roleModal" data-id="{{ $role->id }}" data-name="{{ $role->name }}">
+                      Edit
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pendidikan ini?')">
+                      Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
 
         </div>
       </div>
-    </section>
+
+    </div>
+  </div>
+  <!-- Modal Add and Delete -->
+  <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="roleModalLabel">Tambah Role Pekerjaan</h5>
+          <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="roleForm" method="POST" action="{{ url('admin/job-role') }}">
+          @csrf
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nama Role</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 @endsection
+@push('scripts')
+<script>
+    const roleModal = document.getElementById('roleModal');
+    roleModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
+        var name = button.getAttribute('data-name');
+
+        var form = roleModal.querySelector('form');
+        var modalTitle = roleModal.querySelector('.modal-title');
+
+        if (id) {
+            modalTitle.innerText = 'Edit Role Pekerjaan';
+            form.action = '/admin/job-role/' + id;
+            form.method = 'POST';
+
+            var inputMethod = document.createElement('input');
+            inputMethod.setAttribute('name', '_method');
+            inputMethod.setAttribute('type', 'hidden');
+            inputMethod.setAttribute('value', 'PUT');
+            form.appendChild(inputMethod);
+
+            form.querySelector('#name').value = name;
+        } else {
+            modalTitle.innerText = 'Tambah Role Pekerjaan';
+            form.action = '/admin/job-role';
+            form.method = 'POST';
+            form.querySelector('#name').value = '';
+        }
+    });
+</script>
+@endpush

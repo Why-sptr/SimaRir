@@ -10,7 +10,8 @@ class JobRoleController extends Controller
 {
     public function index()
     {
-        return view('admin.job-role.index', ['title' => 'Role Pekerjaan']);
+        $jobRoles = JobRole::all();
+        return view('admin.job-role.index', compact('jobRoles'))->with('title', 'Role Pekerjaan');
     }
 
     public function store(Request $request)
