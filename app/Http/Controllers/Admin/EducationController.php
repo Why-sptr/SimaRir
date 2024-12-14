@@ -23,7 +23,7 @@ class EducationController extends Controller
         Education::create($request->all());
 
         return redirect()->route('education.index')
-            ->with('success', 'Pendidiakan berhasil ditambah.');
+            ->with('success', 'Pendidikan berhasil ditambah.');
     }
 
     public function edit(Education $education)
