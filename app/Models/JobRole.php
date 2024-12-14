@@ -11,7 +11,6 @@ class JobRole extends Model
     use HasFactory;
     protected $table = 'job_roles';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['name'];
 
     protected static function boot()

@@ -11,7 +11,6 @@ class Certification extends Model
     use HasFactory;
     protected $table = 'certifications';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['user_id', 'name', 'publisher', 'start_date', 'end_date'];
 
     protected static function boot()

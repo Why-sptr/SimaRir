@@ -11,7 +11,6 @@ class Skill extends Model
     use HasFactory;
     protected $table = 'skills';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['name'];
 
     protected static function boot()

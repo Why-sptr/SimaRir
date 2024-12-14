@@ -11,7 +11,6 @@ class SocialMedia extends Model
     use HasFactory;
     protected $table = 'social_media';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['instagram', 'github', 'youtube', 'website', 'linkedin', 'tiktok'];
 
     protected static function boot()

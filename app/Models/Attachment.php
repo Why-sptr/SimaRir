@@ -11,7 +11,6 @@ class Attachment extends Model
     use HasFactory;
     protected $table = 'attachments';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['cv', 'portfolio'];
 
     protected static function boot()

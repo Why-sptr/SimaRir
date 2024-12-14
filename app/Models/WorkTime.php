@@ -11,7 +11,6 @@ class WorkTime extends Model
     use HasFactory;
     protected $table = 'work_times';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = [
         'company_id', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
     ];

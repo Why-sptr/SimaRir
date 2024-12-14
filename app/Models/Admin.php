@@ -11,7 +11,6 @@ class Admin extends Model
     use HasFactory;
     protected $table = 'admins';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['user_id'];
 
     protected static function boot()

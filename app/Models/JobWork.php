@@ -11,7 +11,6 @@ class JobWork extends Model
     use HasFactory;
     protected $table = 'job_works';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = [
         'name', 'salary', 'description', 'location', 'start_date', 'end_date', 
         'company_id', 'work_type_id', 'work_method_id', 'skill_job_id', 'job_role_id', 'qualification_id'

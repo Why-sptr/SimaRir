@@ -11,7 +11,6 @@ class Bookmark extends Model
     use HasFactory;
     protected $table = 'bookmarks';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['job_id', 'user_id'];
 
     protected static function boot()

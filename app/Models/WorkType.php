@@ -11,7 +11,6 @@ class WorkType extends Model
     use HasFactory;
     protected $table = 'work_types';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['name'];
 
     protected static function boot()

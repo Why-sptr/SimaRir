@@ -11,7 +11,6 @@ class WorkMethod extends Model
     use HasFactory;
     protected $table = 'work_methods';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['name'];
 
     protected static function boot()

@@ -11,7 +11,6 @@ class Organization extends Model
     use HasFactory;
     protected $table = 'organizations';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['user_id', 'name', 'department', 'description'];
 
     protected static function boot()

@@ -11,7 +11,6 @@ class Candidate extends Model
     use HasFactory;
     protected $table = 'candidates';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['user_id', 'job_id', 'status', 'cv'];
 
     protected static function boot()

@@ -11,7 +11,6 @@ class Company extends Model
     use HasFactory;
     protected $table = 'companies';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['user_id', 'corporate_field_id', 'employee', 'verification_file', 'status_verification'];
 
     protected static function boot()

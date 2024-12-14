@@ -11,7 +11,6 @@ class Education extends Model
     use HasFactory;
     protected $table = 'educations';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['name'];
 
     protected static function boot()

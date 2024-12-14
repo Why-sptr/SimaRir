@@ -11,7 +11,6 @@ class SkillJob extends Model
     use HasFactory;
     protected $table = 'skill_jobs';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['skill_id'];
 
     protected static function boot()

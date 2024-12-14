@@ -11,7 +11,6 @@ class Qualification extends Model
     use HasFactory;
     protected $table = 'qualifications';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['work_experience', 'education_id', 'major', 'ipk', 'toefl'];
 
     protected static function boot()

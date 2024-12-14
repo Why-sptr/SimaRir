@@ -11,7 +11,6 @@ class Gallery extends Model
     use HasFactory;
     protected $table = 'galeries';
     protected $keyType = 'string';
-    public $incrementing = false;
     protected $fillable = ['image', 'company_id'];
 
     protected static function boot()
