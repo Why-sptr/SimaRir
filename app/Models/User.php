@@ -13,13 +13,26 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (!$user->id) {
+                $user->id = (string) Str::uuid();
+            }
+        });
+    }
     protected $fillable = [
         'name',
         'email',
@@ -76,6 +89,11 @@ class User extends Authenticatable
         $this->assignRole('user');
     }
 
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+
     public function education()
     {
         return $this->belongsTo(Education::class);
@@ -83,7 +101,7 @@ class User extends Authenticatable
 
     public function socialMedia()
     {
-        return $this->belongsTo(SocialMedia::class);
+        return $this->hasOne(SocialMedia::class);
     }
 
     public function attachment()

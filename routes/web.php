@@ -38,6 +38,8 @@ Route::get('register', [AuthController::class, 'showRegisterForm'])->name('regis
 Route::post('register', [AuthController::class, 'register']);
 Route::get('login/google', [AuthController::class, 'redirectToGoogle']);
 Route::get('login/google/callback', [AuthController::class, 'handleGoogleCallback']);
+Route::get('/register/company', [AuthController::class, 'showRegisterFormCompany'])->name('register.company');
+Route::post('/register/company', [AuthController::class, 'registerCompany'])->name('register.company');
 
 // Admin
 Route::prefix('admin')->group(function () {

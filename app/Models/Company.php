@@ -17,9 +17,9 @@ class Company extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($company) {
+            if (!$company->id) {
+                $company->id = (string) Str::uuid();
             }
         });
     }

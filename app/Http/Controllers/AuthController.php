@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use App\Models\CorporateField;
+use App\Models\Education;
+use App\Models\JobRole;
+use App\Models\SocialMedia;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,19 +18,31 @@ use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Menampilkan form pendaftaran
     public function showRegisterForm()
     {
-        return view('auth.register');
+        $educations = Education::all();
+        $jobRoles = JobRole::all();
+
+        return view('auth.register', [
+            'name' => session('name', ''),
+            'email' => session('email', ''),
+            'phone' => '',
+            'location' => '',
+            'date_birth' => '',
+            'gender' => '',
+            'work_experience' => '',
+            'description' => '',
+            'moto' => '',
+            'educations' => $educations,
+            'jobRoles' => $jobRoles
+        ]);
     }
 
-    // Proses login
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,89 +54,191 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors($validator)->withInput();
         }
 
-        // Cek apakah admin, company, atau user
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
-            // Jika user adalah admin, langsung redirect ke dashboard admin
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             }
 
-            // Jika user adalah company, langsung redirect ke dashboard company
             if ($user->hasRole('company')) {
                 return redirect()->route('company.dashboard');
             }
 
-            // Jika user adalah customer, redirect ke dashboard user
             return redirect()->route('user.loker');
         }
 
         return back()->with('error', 'Email atau password salah.');
     }
 
-    // Proses registrasi user
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        Log::info('Proses pendaftaran dimulai.');
 
-        if ($validator->fails()) {
-            return redirect()->route('register')->withErrors($validator)->withInput();
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'education' => 'required|exists:educations,id',
+                'job_role' => 'required|exists:job_roles,id',
+                'google_id' => 'required|string|unique:users,google_id',
+            ]);
+
+            Log::info('Validasi berhasil.', $validated);
+
+            $password = Str::random(12);
+
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $request->input('phone'),
+                'gender' => $request->input('gender'),
+                'moto' => $request->input('moto'),
+                'location' => $request->input('location'),
+                'date_birth' => $request->input('date_birth'),
+                'password' => bcrypt($password),
+                'education_id' => $validated['education'],
+                'job_role_id' => $validated['job_role'],
+                'google_id' => $validated['google_id'],
+            ]);
+
+            Log::info('User berhasil dibuat.', ['user_id' => $user->id]);
+            $user->assignRole('user');
+            auth()->login($user);
+
+            return redirect()->route('user.loker')->with('password', $password);
+        } catch (\Exception $e) {
+            Log::error('Error pada saat pendaftaran:', [
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+
+            return back()->withErrors(['error' => 'Terjadi kesalahan. Silakan coba lagi.'])->withInput();
         }
-
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        // Assign role user secara otomatis
-        $user->assignRole('user');
-
-        Auth::login($user);
-
-        return redirect()->route('user.loker');
     }
 
-    // Proses login dengan Google
-    public function redirectToGoogle()
+    public function showRegisterFormCompany()
     {
+        $corporateFields = CorporateField::all();
+        return view('auth.register-company', [
+            'name' => session('name', ''),
+            'email' => session('email', ''),
+            'phone' => '',
+            'name' => '',
+            'location' => '',
+            'description' => '',
+            'google_id' => session('google_id', ''),
+            'corporateFields' => $corporateFields,
+        ]);
+    }
+
+    public function registerCompany(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'phone' => 'required|string|max:15',
+                'location' => 'required|string|max:255',
+                'google_id' => 'required|string|unique:users,google_id',
+                'corporate_field_id' => 'required|exists:corporate_fields,id',
+                'employee' => 'required|integer|min:1',
+            ]);
+
+            $password = Str::random(12);
+
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'location' => $validated['location'],
+                'password' => bcrypt($password),
+                'google_id' => $validated['google_id'],
+            ]);
+
+            $user->assignRole('company');
+            $user->role = 'company';
+            $user->save();
+
+            Company::create([
+                'user_id' => $user->id,
+                'corporate_field_id' => $validated['corporate_field_id'],
+                'employee' => $validated['employee'],
+                'verification_file' => null,
+                'status_verification' => false,
+            ]);
+
+            auth()->login($user);
+
+            return redirect()->route('company.dashboard')->with('password', $password);
+        } catch (\Exception $e) {
+            // Log error
+            Log::error('Error during Company Registration:', [
+                'error_message' => $e->getMessage(),
+                'stack_trace' => $e->getTraceAsString(),
+            ]);
+
+            return back()->withErrors(['error' => 'Terjadi kesalahan. Silakan coba lagi.'])->withInput();
+        }
+    }
+
+
+    public function redirectToGoogle(Request $request)
+    {
+        $role = $request->query('role', 'user');
+        Log::info('Redirecting to Google dengan role:', ['role' => $role]);
+
+        session(['role' => $role]);
+
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
-{
-    try {
-        $googleUser = Socialite::driver('google')->user();
 
-        // Cek apakah user sudah ada
-        $user = User::where('google_id', $googleUser->getId())->first();
+    public function handleGoogleCallback(Request $request)
+    {
+        try {
+            $role = $request->query('role', session('role', 'user'));
+            Log::info('Role yang diterima setelah login:', ['role' => $role]);
 
-        if (!$user) {
-            // Buat user baru jika belum terdaftar
-            $user = new User();
-            $user->id = Str::uuid(); // Generate UUID untuk kolom 'id'
-            $user->google_id = $googleUser->getId();
-            $user->name = $googleUser->getName();
-            $user->email = $googleUser->getEmail();
-            $user->avatar = $googleUser->getAvatar();
-            $user->password = bcrypt(Str::random(24)); // Password acak
-            $user->save();
+            $googleUser = Socialite::driver('google')->user();
 
-            // Assign role default
-            $user->assignRole('user');
+            $user = User::where('google_id', $googleUser->getId())->first();
+
+            if (!$user) {
+                if ($role === 'company') {
+                    return redirect()->route('register.company')->with([
+                        'google_id' => $googleUser->getId(),
+                        'name' => $googleUser->getName(),
+                        'email' => $googleUser->getEmail(),
+                        'avatar' => $googleUser->getAvatar(),
+                    ]);
+                }
+
+                return redirect()->route('register')->with([
+                    'google_id' => $googleUser->getId(),
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'avatar' => $googleUser->getAvatar(),
+                ]);
+            }
+
+            Auth::login($user);
+
+            if (!$user->role) {
+                if ($role === 'company') {
+                    return redirect()->route('register.company');
+                }
+                return redirect()->route('register');
+            }
+
+            if ($user->hasRole('company')) {
+                return redirect()->route('company.dashboard');
+            }
+
+            return redirect()->route('user.loker');
+        } catch (\Exception $e) {
+            Log::error('Error during Google Login: ' . $e->getMessage());
+            return redirect('/login')->withErrors(['msg' => 'Terjadi masalah saat login']);
         }
-
-        Auth::login($user);
-
-        return redirect()->route('user.loker');
-    } catch (\Exception $e) {
-        \Log::error('Error during Google Login: ' . $e->getMessage());
-        return redirect('/login')->withErrors(['msg' => 'Terjadi masalah saat login']);
     }
-}
 }

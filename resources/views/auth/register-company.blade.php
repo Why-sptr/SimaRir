@@ -20,11 +20,11 @@
   <div class="stepper-container mt-5">
     <div class="card">
       <div class="card-header">
-        <h5 class="mb-0">Register Stepper</h5>
+        <h5 class="mb-0">Register</h5>
       </div>
       <div class="card-body">
         <!-- Stepper Form -->
-        <form id="registerForm" action="{{ route('register') }}" method="POST">
+        <form id="registerForm" action="{{ route('register.company') }}" method="POST">
           @csrf
           <!-- Step 1 -->
           <div class="step" id="step-1">
@@ -39,19 +39,6 @@
               <label for="phone" class="form-label">Telepon</label>
               <input type="text" class="form-control" id="phone" name="phone" required>
             </div>
-            <div class="mb-3">
-              <label for="gender" class="form-label">Jenis Kelamin</label>
-              <select class="form-control" id="gender" name="gender" required>
-                <option value="">-- Pilih --</option>
-                <option value="male">Laki-laki</option>
-                <option value="female">Perempuan</option>
-                <option value="other">Lainnya</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="dateBirth" class="form-label">Tanggal Lahir</label>
-              <input type="date" class="form-control" id="dateBirth" name="date_birth" required>
-            </div>
             <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
           </div>
           <!-- Step 2 -->
@@ -62,27 +49,16 @@
               <input type="text" class="form-control" id="location" name="location" required>
             </div>
             <div class="mb-3">
-              <label for="education" class="form-label">Pendidikan</label>
-              <select class="form-control" id="education" name="education" required>
-                <option value="">-- Pilih --</option>
-                @foreach ($educations as $education)
-                <option value="{{ $education->id }}">{{ $education->name }}</option>
-                @endforeach
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label for="jobRole" class="form-label">Bidang Pekerjaan</label>
-              <select class="form-control" id="jobRole" name="job_role" required>
-                <option value="">-- Pilih --</option>
-                @foreach ($jobRoles as $role)
-                <option value="{{ $role->id }}">{{ $role->name }}</option>
+              <label for="corporate_field_id">Bidang Perusahaan</label>
+              <select name="corporate_field_id" id="corporate_field_id" required>
+                @foreach ($corporateFields as $field)
+                <option value="{{ $field->id }}">{{ $field->name }}</option>
                 @endforeach
               </select>
             </div>
             <div class="mb-3">
-              <label for="moto" class="form-label">Moto</label>
-              <textarea class="form-control" id="moto" name="moto" rows="3" required></textarea>
+              <label for="employee">Jumlah Karyawan</label>
+              <input type="number" name="employee" id="employee" required>
             </div>
             <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
             <button type="submit" class="btn btn-success">Submit</button>

@@ -32,25 +32,8 @@
                                     <img src="../assets/images/logos/logo-pilar-interior.svg" width="180" alt="">
                                 </a>
                                 <p class="text-center">Mahasiswa Berkarir</p>
-                                <form method="POST" action="{{ route('login') }}">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email">
-                                        @error('email')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-4">
-                                        <label for="password" class="form-label">Password</label>
-                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
-                                        @error('password')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100 py-2 fs-4 mb-4 rounded-2">Masuk</button>
-                                    <a class="btn btn-secondary w-100 py-2 fs-4 mb-4 rounded-2" href="{{ url('login/google') }}">Login dengan Google</a>
-                                </form>
+                                <a class="btn btn-secondary w-100 py-2 fs-4 mb-4 rounded-2" href="{{ url('login/google?role=user') }}">Cari Kerja</a>
+                                <a class="btn btn-secondary w-100 py-2 fs-4 mb-4 rounded-2" href="{{ url('login/google?role=company') }}">Pasang Lowongan</a>
                             </div>
                         </div>
                     </div>

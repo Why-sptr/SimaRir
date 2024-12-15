@@ -17,9 +17,9 @@ class SocialMedia extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($socialMedia) {
+            if (!$socialMedia->id) {
+                $socialMedia->id = (string) Str::uuid();
             }
         });
     }
