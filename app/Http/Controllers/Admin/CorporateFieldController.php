@@ -10,7 +10,8 @@ class CorporateFieldController extends Controller
 {
     public function index()
     {
-        return view('admin.corporate-field.index', ['title' => 'Bidang Perusahaan']);
+        $corporatefields = CorporateField::all();
+        return view('admin.corporate-field.index', compact('corporatefields'))->with('title', 'Bidang Perusahaan');
     }
 
     public function store(Request $request)

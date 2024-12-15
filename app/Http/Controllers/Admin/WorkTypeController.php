@@ -10,7 +10,8 @@ class WorkTypeController extends Controller
 {
     public function index()
     {
-        return view('admin.work-type.index', ['title' => 'Tipe Pekerjaan']);
+        $worktypes = WorkType::all();
+        return view('admin.work-type.index', compact('worktypes'))->with('title', 'tipe Pekerjaan');
     }
 
     public function store(Request $request)

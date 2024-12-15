@@ -10,7 +10,8 @@ class WorkMethodController extends Controller
 {
     public function index()
     {
-        return view('admin.work-method.index', ['title' => 'Metode Pekerjaan']);
+        $workmethods = WorkMethod::all();
+        return view('admin.work-method.index', compact('workmethods'))->with('title', 'Metode Pekerjaan');
     }
 
     public function store(Request $request)
