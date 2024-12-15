@@ -17,9 +17,9 @@ class CorporateField extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($corporateField) {
+            if (!$corporateField->id) {
+                $corporateField->id = (string) Str::uuid();
             }
         });
     }

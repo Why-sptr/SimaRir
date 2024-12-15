@@ -17,9 +17,9 @@ class Qualification extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($qualification) {
+            if (!$qualification->id) {
+                $qualification->id = (string) Str::uuid();
             }
         });
     }

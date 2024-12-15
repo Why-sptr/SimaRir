@@ -17,9 +17,9 @@ class Organization extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($organization) {
+            if (!$organization->id) {
+                $organization->id = (string) Str::uuid();
             }
         });
     }

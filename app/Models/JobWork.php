@@ -20,9 +20,9 @@ class JobWork extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($jobWork) {
+            if (!$jobWork->id) {
+                $jobWork->id = (string) Str::uuid();
             }
         });
     }

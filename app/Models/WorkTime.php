@@ -19,9 +19,9 @@ class WorkTime extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($workTime) {
+            if (!$workTime->id) {
+                $workTime->id = (string) Str::uuid();
             }
         });
     }

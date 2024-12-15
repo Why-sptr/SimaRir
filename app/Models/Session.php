@@ -6,16 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Session extends Model
 {
-    // Tentukan nama tabel jika tidak mengikuti konvensi
     protected $table = 'sessions';
-
-    // Tentukan kolom yang boleh diisi
     protected $fillable = ['user_id', 'payload', 'last_activity', 'ip_address', 'user_agent'];
-
-    // Tentukan UUID sebagai primary key
     protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';  // Karena menggunakan UUID
+    protected $keyType = 'string';
 
     // Relasi dengan model User
     public function user()

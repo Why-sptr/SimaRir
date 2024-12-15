@@ -17,9 +17,9 @@ class Certification extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($certification) {
+            if (!$certification->id) {
+                $certification->id = (string) Str::uuid();
             }
         });
     }

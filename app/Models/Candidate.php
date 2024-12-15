@@ -17,9 +17,9 @@ class Candidate extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($candidate) {
+            if (!$candidate->id) {
+                $candidate->id = (string) Str::uuid();
             }
         });
     }

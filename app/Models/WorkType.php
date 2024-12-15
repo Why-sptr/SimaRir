@@ -17,9 +17,9 @@ class WorkType extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($workType) {
+            if (!$workType->id) {
+                $workType->id = (string) Str::uuid();
             }
         });
     }

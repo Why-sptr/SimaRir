@@ -17,9 +17,9 @@ class Attachment extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($attachment) {
+            if (!$attachment->id) {
+                $attachment->id = (string) Str::uuid();
             }
         });
     }

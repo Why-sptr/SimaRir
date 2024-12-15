@@ -17,9 +17,9 @@ class SkillJob extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($skillJob) {
+            if (!$skillJob->id) {
+                $skillJob->id = (string) Str::uuid();
             }
         });
     }

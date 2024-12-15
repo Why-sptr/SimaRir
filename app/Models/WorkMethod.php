@@ -17,9 +17,9 @@ class WorkMethod extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($workMethod) {
+            if (!$workMethod->id) {
+                $workMethod->id = (string) Str::uuid();
             }
         });
     }

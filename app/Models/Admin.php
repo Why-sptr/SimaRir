@@ -17,9 +17,9 @@ class Admin extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($admin) {
+            if (!$admin->id) {
+                $admin->id = (string) Str::uuid();
             }
         });
     }

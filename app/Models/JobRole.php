@@ -17,9 +17,9 @@ class JobRole extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($jobRole) {
+            if (!$jobRole->id) {
+                $jobRole->id = (string) Str::uuid();
             }
         });
     }

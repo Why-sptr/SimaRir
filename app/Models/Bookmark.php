@@ -17,9 +17,9 @@ class Bookmark extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($bookmark) {
+            if (!$bookmark->id) {
+                $bookmark->id = (string) Str::uuid();
             }
         });
     }

@@ -17,9 +17,9 @@ class RecentWorkExperience extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($recentWorkExperience) {
+            if (!$recentWorkExperience->id) {
+                $recentWorkExperience->id = (string) Str::uuid();
             }
         });
     }

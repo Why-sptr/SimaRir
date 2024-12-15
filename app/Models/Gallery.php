@@ -17,9 +17,9 @@ class Gallery extends Model
     {
         parent::boot();
 
-        static::creating(function ($education) {
-            if (!$education->id) {
-                $education->id = (string) Str::uuid();
+        static::creating(function ($galery) {
+            if (!$galery->id) {
+                $galery->id = (string) Str::uuid();
             }
         });
     }

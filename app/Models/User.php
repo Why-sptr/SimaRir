@@ -21,18 +21,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $keyType = 'string';
-    public $incrementing = false;
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($user) {
-            if (!$user->id) {
-                $user->id = (string) Str::uuid();
-            }
-        });
-    }
     protected $fillable = [
         'name',
         'email',
@@ -58,6 +46,18 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (!$user->id) {
+                $user->id = (string) Str::uuid();
+            }
+        });
+    }
+
     protected $hidden = [
         'password',
         'remember_token',
