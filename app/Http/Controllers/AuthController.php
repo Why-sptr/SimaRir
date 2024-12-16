@@ -10,6 +10,7 @@ use App\Models\SocialMedia;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -57,6 +58,9 @@ class AuthController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
 
+            // Log roles for debugging
+            Log::info('User roles after login:', ['roles' => $user->getRoleNames()]);
+
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             }
@@ -103,6 +107,7 @@ class AuthController extends Controller
             ]);
 
             Log::info('User berhasil dibuat.', ['user_id' => $user->id]);
+
             $user->assignRole('user');
             auth()->login($user);
 
@@ -133,54 +138,87 @@ class AuthController extends Controller
     }
 
     public function registerCompany(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'phone' => 'required|string|max:15',
-                'location' => 'required|string|max:255',
-                'google_id' => 'required|string|unique:users,google_id',
-                'corporate_field_id' => 'required|exists:corporate_fields,id',
-                'employee' => 'required|integer|min:1',
-            ]);
+{
+    try {
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:15',
+            'location' => 'required|string|max:255',
+            'google_id' => 'required|string|unique:users,google_id',
+            'corporate_field_id' => 'required|exists:corporate_fields,id',
+            'employee' => 'required|integer|min:1',
+        ]);
 
-            $password = Str::random(12);
+        $password = Str::random(12);
 
-            $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'phone' => $validated['phone'],
-                'location' => $validated['location'],
-                'password' => bcrypt($password),
-                'google_id' => $validated['google_id'],
-            ]);
+        // Mulai transaksi
+        \DB::beginTransaction();
 
-            $user->assignRole('company');
-            $user->role = 'company';
-            $user->save();
+        // Membuat user
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'location' => $validated['location'],
+            'password' => bcrypt($password),
+            'google_id' => $validated['google_id'],
+            'role' => 'company',
+        ]);
 
-            Company::create([
-                'user_id' => $user->id,
-                'corporate_field_id' => $validated['corporate_field_id'],
-                'employee' => $validated['employee'],
-                'verification_file' => null,
-                'status_verification' => false,
-            ]);
+        // Log pembuatan user
+        Log::info('User created:', ['user' => $user]);
 
-            auth()->login($user);
-
-            return redirect()->route('company.dashboard')->with('password', $password);
-        } catch (\Exception $e) {
-            // Log error
-            Log::error('Error during Company Registration:', [
-                'error_message' => $e->getMessage(),
-                'stack_trace' => $e->getTraceAsString(),
-            ]);
-
-            return back()->withErrors(['error' => 'Terjadi kesalahan. Silakan coba lagi.'])->withInput();
+        if (!$user->id) {
+            // Jika pembuatan user gagal, rollback dan kembali ke halaman sebelumnya
+            \DB::rollBack();
+            return back()->withErrors(['error' => 'User creation failed.'])->withInput();
         }
+
+        // Menetapkan role untuk user
+        $user->assignRole('company');
+
+        // Membuat company
+        $company = Company::create([
+            'user_id' => $user->id,
+            'corporate_field_id' => $validated['corporate_field_id'],
+            'employee' => $validated['employee'],
+            'verification_file' => null,
+            'status_verification' => false,
+        ]);
+
+        // Jika company gagal dibuat, rollback
+        if (!$company->id) {
+            \DB::rollBack();
+            return back()->withErrors(['error' => 'Company creation failed.'])->withInput();
+        }
+
+        // Commit transaksi
+        \DB::commit();
+
+        // Log sukses
+        Log::info('User company berhasil dibuat.', ['user_id' => $user->id]);
+
+        // Login user
+        auth()->login($user);
+
+        // Redirect ke dashboard company
+        return redirect()->route('company.dashboard')->with('password', $password);
+    } catch (\Exception $e) {
+        // Rollback transaksi jika ada error
+        \DB::rollback();
+
+        // Log error
+        Log::error('Error during Company Registration:', [
+            'error_message' => $e->getMessage(),
+            'stack_trace' => $e->getTraceAsString(),
+        ]);
+
+        return back()->withErrors(['error' => 'Terjadi kesalahan. Silakan coba lagi.'])->withInput();
     }
+}
+
 
 
     public function redirectToGoogle(Request $request)
@@ -193,7 +231,6 @@ class AuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-
     public function handleGoogleCallback(Request $request)
     {
         try {
@@ -205,6 +242,7 @@ class AuthController extends Controller
             $user = User::where('google_id', $googleUser->getId())->first();
 
             if (!$user) {
+                // Redirect to register form based on role
                 if ($role === 'company') {
                     return redirect()->route('register.company')->with([
                         'google_id' => $googleUser->getId(),
@@ -224,15 +262,22 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            if (!$user->role) {
+            // If the user doesn't have a role, assign one
+            if (!$user->hasRole('company') && !$user->hasRole('admin')) {
                 if ($role === 'company') {
-                    return redirect()->route('register.company');
+                    $user->assignRole('company');
+                } else {
+                    $user->assignRole('user');
                 }
-                return redirect()->route('register');
             }
 
+            // Redirect based on the user's role
             if ($user->hasRole('company')) {
                 return redirect()->route('company.dashboard');
+            }
+
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
             }
 
             return redirect()->route('user.loker');

@@ -20,6 +20,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $primaryKey = 'id';
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
         'name',
@@ -87,11 +89,6 @@ class User extends Authenticatable
 
         // Assign role, misalnya user baru dapat role 'user'
         $this->assignRole('user');
-    }
-
-    public function hasRole($role)
-    {
-        return $this->role === $role;
     }
 
     public function education()

@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 class Company extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'id'; // Primary key
+    public $incrementing = false;
     protected $table = 'companies';
     protected $keyType = 'string';
     protected $fillable = ['user_id', 'corporate_field_id', 'employee', 'verification_file', 'status_verification'];

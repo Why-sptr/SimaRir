@@ -16,22 +16,28 @@ use App\Http\Controllers\Admin\WorkTypeController;
 use App\Http\Controllers\ViewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use Spatie\Permission\Models\Role;
 
 Route::get('/', function () {
     return view('user.loker');
 });
+Route::middleware(['auth', 'role:company'])->group(function () {
+    Route::get('/company', [ViewsController::class, 'company'])->name('company.dashboard');
+    Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
+    Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
+});
 
-Route::get('/company', [ViewsController::class, 'company'])->name('company.dashboard');
-Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
-Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
-Route::get('/user/company', [ViewsController::class, 'userCompany']);
-Route::get('/user/detail-company', [ViewsController::class, 'userDetailCompany']);
-Route::get('/user/loker', [ViewsController::class, 'userLoker'])->name('user.loker');
-Route::get('/user/detail-loker', [ViewsController::class, 'detailLoker']);
-Route::get('/user/lamaran-saya', [ViewsController::class, 'lamaranSaya']);
-Route::get('/user/disimpan', [ViewsController::class, 'disimpan']);
-Route::get('/user/profile', [ViewsController::class, 'profile']);
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/user/loker', [ViewsController::class, 'userLoker'])->name('user.loker');
+    Route::get('/user/company', [ViewsController::class, 'userCompany']);
+    Route::get('/user/detail-company', [ViewsController::class, 'userDetailCompany']);
+    Route::get('/user/detail-loker', [ViewsController::class, 'detailLoker']);
+    Route::get('/user/lamaran-saya', [ViewsController::class, 'lamaranSaya']);
+    Route::get('/user/disimpan', [ViewsController::class, 'disimpan']);
+    Route::get('/user/profile', [ViewsController::class, 'profile']);
+});
 
+// Auth
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -43,7 +49,7 @@ Route::post('/register/company', [AuthController::class, 'registerCompany'])->na
 
 // Admin
 Route::prefix('admin')->group(function () {
-    Route::get('/', [DashboardController::class,'index']);
+    Route::get('/', [DashboardController::class, 'index']);
     Route::resource('company', CompanyController::class);
     Route::resource('verification', VerificationController::class);
     Route::resource('corporate-field', CorporateFieldController::class);
