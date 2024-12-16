@@ -20,7 +20,7 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Datatables</h5>
+          <h5 class="card-title">Role Pekerjaan</h5>
           <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal" onclick="clearForm()">
             Add Role
           </button>

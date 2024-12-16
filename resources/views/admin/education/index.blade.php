@@ -18,7 +18,7 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Datatables</h5>
+          <h5 class="card-title">Pendidikan</h5>
           <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#educationModal" onclick="clearForm()">
             Add Education
           </button>

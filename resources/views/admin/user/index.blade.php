@@ -20,42 +20,56 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Datatables</h5>
+                    <h5 class="card-title">List User</h5>
 
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
                         <thead>
                             <tr>
-                                <th>
-                                    <b>N</b>ame
-                                </th>
-                                <th>Ext.</th>
-                                <th>City</th>
-                                <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                                <th>Completion</th>
+                                <th>NO</th>
+                                <th>Avatar</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Telepon</th>
+                                <th>Lokasi</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Bidang Pekerjaan</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Unity Pugh</td>
-                                <td>9958</td>
+                                <td>1</td>
+                                <td>-</td>
                                 <td>Curicó</td>
-                                <td>2005/02/11</td>
-                                <td>37%</td>
+                                <td>Unity@gmail.com</td>
+                                <td>098098098</td>
+                                <td>JL.pkpkopko</td>
+                                <td>Laki-Laki</td>
+                                <td>Web Devloper</td>
+                                <td><span class="badge rounded-pill bg-warning text-dark">Menunggu Verifikasi</span></td>
                             </tr>
                             <tr>
-                                <td>Theodore Duran</td>
-                                <td>8971</td>
-                                <td>Dhanbad</td>
-                                <td>1999/04/07</td>
-                                <td>97%</td>
+                                <td>2</td>
+                                <td>-</td>
+                                <td>Curicó</td>
+                                <td>Unity@gmail.com</td>
+                                <td>098098098</td>
+                                <td>JL.pkpkopko</td>
+                                <td>Laki-Laki</td>
+                                <td>Web Devloper</td>
+                                <td><span class="badge rounded-pill bg-warning text-dark">Menunggu Verifikasi</span></td>
                             </tr>
                             <tr>
-                                <td>Kylie Bishop</td>
-                                <td>3147</td>
-                                <td>Norman</td>
-                                <td>2005/09/08</td>
-                                <td>63%</td>
+                                <td>3</td>
+                                <td>-</td>
+                                <td>Curicó</td>
+                                <td>Unity@gmail.com</td>
+                                <td>098098098</td>
+                                <td>JL.pkpkopko</td>
+                                <td>Laki-Laki</td>
+                                <td>Web Devloper</td>
+                                <td><span class="badge rounded-pill bg-warning text-dark">Menunggu Verifikasi</span></td>
                             </tr>
                         </tbody>
                     </table>

@@ -10,7 +10,8 @@ class SkillController extends Controller
 {
     public function index()
     {
-        return view('admin.skill.index', ['title' => 'Skill']);
+        $skills = Skill::all();
+        return view('admin.skill.index', compact('skills'))->with('title', 'skill');
     }
 
     public function store(Request $request)
