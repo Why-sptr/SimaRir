@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Company\CompanyController as CompanyCompanyController;
 use App\Http\Controllers\Company\SocialMediaController;
+use App\Http\Controllers\Company\WorkTimeController;
 use Spatie\Permission\Models\Role;
 
 Route::get('/', function () {
@@ -26,6 +27,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('company', CompanyCompanyController::class);
     Route::resource('social-media', SocialMediaController::class);
+    Route::resource('work-time', WorkTimeController::class);
     Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
     Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
 });

@@ -153,7 +153,9 @@
                         <div class="card shadow-sm border-0 h-100 p-3">
                             <div class="d-flex justify-content-between">
                                 <h6 class="mb-3">Hari dan Jam Kerja</h6>
-                                <a href=""><i class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#workTimeModal">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
                             </div>
                             <ul class="list-unstyled">
                                 <li class="row">
@@ -222,52 +224,51 @@
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#addEditModal"><i class="fa-solid fa-pen-to-square"></i></a>
                             </div>
                             <ul class="list-unstyled">
-    {{-- Menampilkan Email Pengguna --}}
-    <li>
-        <p>
-            <span class="badge bg-light text-dark">
-                <i class="fa-solid fa-envelope"></i>
-            </span> {{ $company->user->email }}
-        </p>
-    </li>
+                                {{-- Menampilkan Email Pengguna --}}
+                                <li>
+                                    <p>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </span> {{ $company->user->email }}
+                                    </p>
+                                </li>
 
-    {{-- Periksa Media Sosial --}}
-    @if ($company->user && $company->user->socialMedia)
-        @php
-            $socialLinks = [
-                'instagram' => $company->user->socialMedia->instagram,
-                'github'    => $company->user->socialMedia->github,
-                'youtube'   => $company->user->socialMedia->youtube,
-                'website'   => $company->user->socialMedia->website,
-                'linkedin'  => $company->user->socialMedia->linkedin,
-                'tiktok'    => $company->user->socialMedia->tiktok,
-            ];
-        @endphp
+                                {{-- Periksa Media Sosial --}}
+                                @if ($company->user && $company->user->socialMedia)
+                                @php
+                                $socialLinks = [
+                                'instagram' => $company->user->socialMedia->instagram,
+                                'github' => $company->user->socialMedia->github,
+                                'youtube' => $company->user->socialMedia->youtube,
+                                'website' => $company->user->socialMedia->website,
+                                'linkedin' => $company->user->socialMedia->linkedin,
+                                'tiktok' => $company->user->socialMedia->tiktok,
+                                ];
+                                @endphp
 
-        {{-- Looping untuk Media Sosial --}}
-        @foreach ($socialLinks as $platform => $link)
-            @if ($link)
-                <li>
-                    <p>
-                        <span class="badge bg-light text-dark">
-                            @if ($platform === 'website')
-                                <i class="fa-solid fa-globe"></i> {{-- Ikon untuk Website --}}
-                            @else
-                                <i class="fa-brands fa-{{ $platform }}"></i> {{-- Ikon untuk Platform Lain --}}
-                            @endif
-                        </span>
-                        <a href="{{ $link }}" target="_blank">
-                            {{ ucfirst($platform) }}
-                        </a>
-                    </p>
-                </li>
-            @endif
-        @endforeach
-    @else
-        <p>Media sosial belum ditambahkan.</p>
-    @endif
-</ul>
-
+                                {{-- Looping untuk Media Sosial --}}
+                                @foreach ($socialLinks as $platform => $link)
+                                @if ($link)
+                                <li>
+                                    <p>
+                                        <span class="badge bg-light text-dark">
+                                            @if ($platform === 'website')
+                                            <i class="fa-solid fa-globe"></i> {{-- Ikon untuk Website --}}
+                                            @else
+                                            <i class="fa-brands fa-{{ $platform }}"></i> {{-- Ikon untuk Platform Lain --}}
+                                            @endif
+                                        </span>
+                                        <a href="{{ $link }}" target="_blank">
+                                            {{ ucfirst($platform) }}
+                                        </a>
+                                    </p>
+                                </li>
+                                @endif
+                                @endforeach
+                                @else
+                                <p>Media sosial belum ditambahkan.</p>
+                                @endif
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -276,7 +277,10 @@
 
         <div class="container mt-4">
             <div class="card shadow-sm border-0 p-3">
-                <h5 class="fw-bold">Galeri Perusahaan</h5>
+                <div class="d-flex justify-content-between w-100">
+                    <h5 class="fw-bold">Galeri Perusahaan</h5>
+                    <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                </div>
                 <div class="row g-4">
                     <div class="col-4">
                         <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
@@ -301,15 +305,15 @@
         </div>
         @endforeach
 
+        <!-- Sosmed Modal -->
         <div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addEditModalLabel">Add/Edit Social Media</h5>
+                        <h5 class="modal-title" id="addEditModalLabel">Tambah/Edit Sosial Media</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Form untuk menambahkan atau mengedit media sosial -->
                         <form action="{{ route('social-media.store') }}" method="POST">
                             @csrf
                             <div class="mb-3">
@@ -339,6 +343,98 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Work Time Modal -->
+        <div class="modal fade" id="workTimeModal" tabindex="-1" aria-labelledby="workTimeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="workTimeModalLabel">Tambah/Edit Jam Kerja</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="workTimeForm" method="POST" action="{{ route('work-time.store') }}">
+                            @csrf
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                            <!-- Senin -->
+                            <div class="mb-3">
+                                <label for="monday" class="form-label">Senin</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="monday_in" name="monday_in" value="{{ old('monday_in', substr($company->workTimes->monday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="monday_out" name="monday_out" value="{{ old('monday_out', substr($company->workTimes->monday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Selasa -->
+                            <div class="mb-3">
+                                <label for="tuesday" class="form-label">Selasa</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="tuesday_in" name="tuesday_in" value="{{ old('tuesday_in', substr($company->workTimes->tuesday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="tuesday_out" name="tuesday_out" value="{{ old('tuesday_out', substr($company->workTimes->tuesday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Rabu -->
+                            <div class="mb-3">
+                                <label for="wednesday" class="form-label">Rabu</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="wednesday_in" name="wednesday_in" value="{{ old('wednesday_in', substr($company->workTimes->wednesday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="wednesday_out" name="wednesday_out" value="{{ old('wednesday_out', substr($company->workTimes->wednesday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Kamis -->
+                            <div class="mb-3">
+                                <label for="thursday" class="form-label">Kamis</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="thursday_in" name="thursday_in" value="{{ old('thursday_in', substr($company->workTimes->thursday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="thursday_out" name="thursday_out" value="{{ old('thursday_out', substr($company->workTimes->thursday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Jumat -->
+                            <div class="mb-3">
+                                <label for="friday" class="form-label">Jumat</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="friday_in" name="friday_in" value="{{ old('friday_in', substr($company->workTimes->friday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="friday_out" name="friday_out" value="{{ old('friday_out', substr($company->workTimes->friday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Sabtu -->
+                            <div class="mb-3">
+                                <label for="saturday" class="form-label">Sabtu</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="saturday_in" name="saturday_in" value="{{ old('saturday_in', substr($company->workTimes->saturday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="saturday_out" name="saturday_out" value="{{ old('saturday_out', substr($company->workTimes->saturday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Minggu -->
+                            <div class="mb-3">
+                                <label for="sunday" class="form-label">Minggu</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="sunday_in" name="sunday_in" value="{{ old('sunday_in', substr($company->workTimes->sunday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="sunday_out" name="sunday_out" value="{{ old('sunday_out', substr($company->workTimes->sunday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </form>
                     </div>
