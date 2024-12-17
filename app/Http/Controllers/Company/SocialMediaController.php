@@ -29,7 +29,6 @@ class SocialMediaController extends Controller
         
         $user->social_media_id = $socialMedia->id;
         $user->save();
-
         return redirect()->route('company.index');
     }
 }
