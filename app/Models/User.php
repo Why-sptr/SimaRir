@@ -98,7 +98,7 @@ class User extends Authenticatable
 
     public function socialMedia()
     {
-        return $this->hasOne(SocialMedia::class);
+        return $this->hasOne(SocialMedia::class, 'id', 'social_media_id');
     }
 
     public function attachment()

@@ -21,6 +21,7 @@
 
 <body>
     <section>
+        @foreach ($companies as $company)
         <div class="container mt-4">
             <div class="card p-3 shadow-sm border-0">
                 <div class="row align-items-center">
@@ -32,27 +33,29 @@
                     </div>
                     <!-- Text and Details Section -->
                     <div class="col-md-8">
-                        <h3 class="fw-bold">Nama Perusahaan</h3>
-                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <h3 class="fw-bold">{{$company->user->name}}</h3>
+                        <p>{{$company->user->description}}</p>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-location-dot" style="width: 24px;"></i>
-                                    <p class="card-text fw-semibold">Lokasi Perusahaan</p>
+                                    <p class="card-text fw-semibold">{{$company->user->location}}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-building" style="width: 24px;"></i>
-                                    <p class="card-text">Bidang Perusahaan</p>
+                                    <p class="card-text">
+                                        {{ $company->corporateField->name }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-users" style="width: 24px;"></i>
-                                    <p class="card-text">Karyawan Perusahaan</p>
+                                    <p class="card-text">{{$company->employee}}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-check" style="width: 24px;"></i>
-                                    <p class="card-text">Verifikasi Perusahaan</p>
+                                    <p class="card-text">{{$company->status_verification}}</p>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +140,7 @@
             <div class="card shadow-sm border-0 p-3">
                 <h5 class="fw-bold">Deskripsi Perusahaan</h5>
                 <p>
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                    {{$company->user->description}}
                 </p>
             </div>
         </div>
@@ -148,14 +151,17 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card shadow-sm border-0 h-100 p-3">
-                            <h6 class="mb-3">Hari dan Jam Kerja</h6>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-3">Hari dan Jam Kerja</h6>
+                                <a href=""><i class="fa-solid fa-pen-to-square"></i></a>
+                            </div>
                             <ul class="list-unstyled">
                                 <li class="row">
                                     <div class="col-4 col-md-4">
                                         <span>Senin</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->monday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -163,7 +169,7 @@
                                         <span>Selasa</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->tuesday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -171,7 +177,7 @@
                                         <span>Rabu</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->wednesday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -179,7 +185,7 @@
                                         <span>Kamis</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->thursday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -187,7 +193,7 @@
                                         <span>Jumat</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->friday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -195,7 +201,7 @@
                                         <span>Sabtu</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->saturday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -203,7 +209,7 @@
                                         <span>Minggu</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->sunday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                             </ul>
@@ -211,21 +217,57 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card shadow-sm border-0 h-100 p-3">
-                            <h6 class="mb-3">Informasi Lainnya</h6>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-3">Informasi Lainnya</h6>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#addEditModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                            </div>
                             <ul class="list-unstyled">
-                                <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Email Perusahaan</p>
-                                </li>
-                                <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
-                                </li>
-                                <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
-                                </li>
-                                <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
-                                </li>
-                            </ul>
+    {{-- Menampilkan Email Pengguna --}}
+    <li>
+        <p>
+            <span class="badge bg-light text-dark">
+                <i class="fa-solid fa-envelope"></i>
+            </span> {{ $company->user->email }}
+        </p>
+    </li>
+
+    {{-- Periksa Media Sosial --}}
+    @if ($company->user && $company->user->socialMedia)
+        @php
+            $socialLinks = [
+                'instagram' => $company->user->socialMedia->instagram,
+                'github'    => $company->user->socialMedia->github,
+                'youtube'   => $company->user->socialMedia->youtube,
+                'website'   => $company->user->socialMedia->website,
+                'linkedin'  => $company->user->socialMedia->linkedin,
+                'tiktok'    => $company->user->socialMedia->tiktok,
+            ];
+        @endphp
+
+        {{-- Looping untuk Media Sosial --}}
+        @foreach ($socialLinks as $platform => $link)
+            @if ($link)
+                <li>
+                    <p>
+                        <span class="badge bg-light text-dark">
+                            @if ($platform === 'website')
+                                <i class="fa-solid fa-globe"></i> {{-- Ikon untuk Website --}}
+                            @else
+                                <i class="fa-brands fa-{{ $platform }}"></i> {{-- Ikon untuk Platform Lain --}}
+                            @endif
+                        </span>
+                        <a href="{{ $link }}" target="_blank">
+                            {{ ucfirst($platform) }}
+                        </a>
+                    </p>
+                </li>
+            @endif
+        @endforeach
+    @else
+        <p>Media sosial belum ditambahkan.</p>
+    @endif
+</ul>
+
                         </div>
                     </div>
                 </div>
@@ -257,6 +299,53 @@
                 </div>
             </div>
         </div>
+        @endforeach
+
+        <div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEditModalLabel">Add/Edit Social Media</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form untuk menambahkan atau mengedit media sosial -->
+                        <form action="{{ route('social-media.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="instagram" class="form-label">Instagram</label>
+                                <input type="text" class="form-control" id="instagram" name="instagram" value="{{ old('instagram', $company->user->socialMedia->instagram ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="github" class="form-label">GitHub</label>
+                                <input type="text" class="form-control" id="github" name="github" value="{{ old('github', $company->user->socialMedia->github ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="youtube" class="form-label">YouTube</label>
+                                <input type="text" class="form-control" id="youtube" name="youtube" value="{{ old('youtube', $company->user->socialMedia->youtube ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Website</label>
+                                <input type="text" class="form-control" id="website" name="website" value="{{ old('website', $company->user->socialMedia->website ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="linkedin" class="form-label">LinkedIn</label>
+                                <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin', $company->user->socialMedia->linkedin ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tiktok" class="form-label">TikTok</label>
+                                <input type="text" class="form-control" id="tiktok" name="tiktok" value="{{ old('tiktok', $company->user->socialMedia->tiktok ?? '') }}">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 </body>
 

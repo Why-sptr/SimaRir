@@ -10,6 +10,8 @@ class SocialMedia extends Model
 {
     use HasFactory;
     protected $table = 'social_media';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = ['instagram', 'github', 'youtube', 'website', 'linkedin', 'tiktok'];
 
@@ -26,7 +28,6 @@ class SocialMedia extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'id', 'social_media_id');
     }
 }
-
