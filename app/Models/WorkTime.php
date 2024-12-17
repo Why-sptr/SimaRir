@@ -10,6 +10,8 @@ class WorkTime extends Model
 {
     use HasFactory;
     protected $table = 'work_times';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
     protected $keyType = 'string';
     protected $fillable = [
         'company_id', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
