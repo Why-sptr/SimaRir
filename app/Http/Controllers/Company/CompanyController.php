@@ -11,7 +11,7 @@ class CompanyController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $companies = $user->companies()->with('user.socialMedia', 'workTimes')->get();
+        $companies = $user->companies()->with('galleries', 'user.socialMedia', 'workTimes')->get();
 
         return view('company.index', compact('companies'));
     }

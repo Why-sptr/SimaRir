@@ -10,8 +10,10 @@ class Gallery extends Model
 {
     use HasFactory;
     protected $table = 'galeries';
+    protected $primaryKey = 'id'; // Primary key
+    public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['image', 'company_id'];
+    protected $fillable = ['image1','image2'.'image3','image4','image5'.'image6', 'company_id'];
 
     protected static function boot()
     {

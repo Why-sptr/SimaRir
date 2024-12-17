@@ -276,33 +276,35 @@
         </div>
 
         <div class="container mt-4">
-            <div class="card shadow-sm border-0 p-3">
-                <div class="d-flex justify-content-between w-100">
-                    <h5 class="fw-bold">Galeri Perusahaan</h5>
-                    <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+            <div class="card shadow-sm h-100 border-0 p-3">
+                <div class="d-flex justify-content-between">
+                    <h5 class="fw-bold mb-3">Galeri Perusahaan</h5>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
                 </div>
                 <div class="row g-4">
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
-                    </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
-                    </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
-                    </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
-                    </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
-                    </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
-                    </div>
+                    @foreach ($company->galleries as $gallery)
+                    @for ($i = 1; $i <= 6; $i++)
+                        @php
+                        $column='image' . $i;
+                        $imagePath=$gallery->$column ? asset('storage/gallery_images/' . $gallery->$column) : null;
+                        @endphp
+
+                        @if ($imagePath)
+                        <div class="col-4">
+                            <img src="{{ $imagePath }}"
+                                alt="Company Galeri {{ $i }}"
+                                style="max-height: 500px; max-width: 500px; width: 100%; height: 100%; object-fit: cover;"
+                                class="rounded w-100">
+                        </div>
+                        @endif
+                        @endfor
+                        @endforeach
                 </div>
             </div>
         </div>
+
         @endforeach
 
         <!-- Sosmed Modal -->
@@ -442,7 +444,109 @@
             </div>
         </div>
 
+        <!-- Modal Galery -->
+        <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="galleryModalLabel">Edit Galeri Perusahaan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+
+                            <div class="row">
+                                @for ($i = 1; $i <= 6; $i++)
+                                    @php
+                                    $column='image' . $i;
+                                    // Ambil path gambar dari gallery yang aktif jika tersedia
+                                    $imagePath=isset($company->galleries[0]) && $company->galleries[0]->$column
+                                    ? Storage::url('gallery_images/' . $company->galleries[0]->$column)
+                                    : '';
+                                    @endphp
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="image{{ $i }}" class="form-label">Gambar {{ $i }}</label>
+                                        <input type="file" class="form-control" id="image{{ $i }}" name="images[]" accept="image/*">
+                                        <!-- Preview gambar -->
+                                        <div class="mt-2 position-relative">
+                                            <img id="preview{{ $i }}"
+                                                src="{{ $imagePath }}"
+                                                data-default="{{ $imagePath }}"
+                                                alt="Preview"
+                                                class="image-preview"
+                                                style="width: 100%; height: 150px; object-fit: cover; border: 1px solid #ccc;">
+
+                                            <!-- Tombol Hapus -->
+                                            <button type="button"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-image"
+                                                data-preview="preview{{ $i }}"
+                                                data-input="image{{ $i }}"
+                                                data-hidden="deleted{{ $i }}">
+                                                &times;
+                                            </button>
+                                            <input type="hidden" name="deleted_images[]" id="deleted{{ $i }}" value="false">
+                                        </div>
+                                    </div>
+                                    @endfor
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function setupImagePreview() {
+            for (let i = 1; i <= 6; i++) {
+                const inputFile = document.getElementById(`image${i}`);
+                const previewImage = document.getElementById(`preview${i}`);
+                const deleteButton = document.querySelector(`[data-preview="preview${i}"]`);
+                const hiddenInput = document.getElementById(`deleted${i}`);
+                const defaultSrc = previewImage.getAttribute('data-default');
+
+                // Tampilkan atau sembunyikan gambar dan tombol hapus berdasarkan defaultSrc
+                if (!defaultSrc) {
+                    previewImage.style.display = 'none';
+                    deleteButton.style.display = 'none';
+                }
+
+                // Event saat file dipilih
+                inputFile.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                            previewImage.style.display = 'block';
+                            deleteButton.style.display = 'block';
+                            hiddenInput.value = 'false';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Event untuk tombol hapus
+                deleteButton.addEventListener('click', function() {
+                    inputFile.value = '';
+                    previewImage.src = '';
+                    previewImage.style.display = 'none';
+                    deleteButton.style.display = 'none';
+                    hiddenInput.value = 'true';
+                });
+            }
+        }
+
+        const galleryModal = document.getElementById('galleryModal');
+
+        galleryModal.addEventListener('shown.bs.modal', setupImagePreview);
+    });
+</script>
 
 </html>
