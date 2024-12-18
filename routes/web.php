@@ -59,6 +59,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('company', CompanyController::class)->names([
         'index' => 'admin.company.index',
+        'store' => 'admin.company.store',
     ]);
     Route::resource('verification', VerificationController::class);
     Route::resource('corporate-field', CorporateFieldController::class);

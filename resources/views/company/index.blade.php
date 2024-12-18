@@ -27,14 +27,17 @@
                 <div class="row align-items-center">
                     <!-- Image Section -->
                     <div class="col-md-4">
-                        <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-                            <img src="https://via.placeholder.com/50" alt="Placeholder Image" class="img-fluid">
+                        <div class="d-flex justify-content-center align-items-center bg-light">
+                            <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Profile Avatar" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
                         </div>
                     </div>
                     <!-- Text and Details Section -->
                     <div class="col-md-8">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
                         <h3 class="fw-bold">{{$company->user->name}}</h3>
-                        <p>{{$company->user->description}}</p>
+                        <p>{{$company->user->moto}}</p>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
@@ -138,7 +141,12 @@
 
         <div class="container mt-4">
             <div class="card shadow-sm border-0 p-3">
-                <h5 class="fw-bold">Deskripsi Perusahaan</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="fw-bold">Deskripsi Perusahaan</h5>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#descriptionModal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </div>
                 <p>
                     {{$company->user->description}}
                 </p>
@@ -306,6 +314,103 @@
         </div>
 
         @endforeach
+        <!-- Modal User Company -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form to edit the user's details -->
+                        <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+
+                            <!-- Location Field -->
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}">
+                            </div>
+
+                            <!-- Corporate Field -->
+                            <div class="mb-3">
+                                <label for="corporateField" class="form-label">Corporate Field</label>
+                                <select class="form-control" id="corporateField" name="corporateField">
+                                    <option value="" disabled selected>Select Corporate Field</option>
+                                    @foreach ($corporateFields as $field)
+                                    <option value="{{ $field->id }}"
+                                        {{ $field->id == $company->corporate_field_id ? 'selected' : '' }}>
+                                        {{ $field->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <!-- Employee Field -->
+                            <div class="mb-3">
+                                <label for="employee" class="form-label">Employee</label>
+                                <input type="number" class="form-control" id="employee" name="employee"
+                                    value="{{ $company->employee ?? '' }}">
+                            </div>
+
+
+                            <!-- Upload File for Verification -->
+                            <div class="mb-3">
+                                <label for="attachment" class="form-label">Upload Verification</label>
+                                <input type="file" class="form-control" id="attachment" name="attachment">
+                            </div>
+
+                            <!-- Moto Field -->
+                            <div class="mb-3">
+                                <label for="moto" class="form-label">Moto</label>
+                                <input type="text" class="form-control" id="moto" name="moto" value="{{ auth()->user()->moto }}">
+                            </div>
+
+                            <!-- Avatar Field -->
+                            <div class="mb-3">
+                                <label for="avatar" class="form-label">Avatar</label>
+                                <input type="file" class="form-control" id="avatar" name="avatar">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Description -->
+        <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="descriptionModalLabel">Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="5">{{ auth()->user()->description }}</textarea>
+                            </div>
+                            <input type="hidden" name="corporateField" value="{{ $company->corporate_field_id }}">
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Sosmed Modal -->
         <div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
