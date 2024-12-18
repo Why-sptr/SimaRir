@@ -21,38 +21,44 @@
 
 <body>
     <section>
+        @foreach ($companies as $company)
         <div class="container mt-4">
             <div class="card p-3 shadow-sm border-0">
                 <div class="row align-items-center">
                     <!-- Image Section -->
                     <div class="col-md-4">
-                        <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-                            <img src="https://via.placeholder.com/50" alt="Placeholder Image" class="img-fluid">
+                        <div class="d-flex justify-content-center align-items-center bg-light">
+                            <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Profile Avatar" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
                         </div>
                     </div>
                     <!-- Text and Details Section -->
                     <div class="col-md-8">
-                        <h3 class="fw-bold">Nama Perusahaan</h3>
-                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#editModal">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <h3 class="fw-bold">{{$company->user->name}}</h3>
+                        <p>{{$company->user->moto}}</p>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-location-dot" style="width: 24px;"></i>
-                                    <p class="card-text fw-semibold">Lokasi Perusahaan</p>
+                                    <p class="card-text fw-semibold">{{$company->user->location}}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-building" style="width: 24px;"></i>
-                                    <p class="card-text">Bidang Perusahaan</p>
+                                    <p class="card-text">
+                                        {{ $company->corporateField->name }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-users" style="width: 24px;"></i>
-                                    <p class="card-text">Karyawan Perusahaan</p>
+                                    <p class="card-text">{{$company->employee}}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-check" style="width: 24px;"></i>
-                                    <p class="card-text">Verifikasi Perusahaan</p>
+                                    <p class="card-text">{{$company->status_verification}}</p>
                                 </div>
                             </div>
                         </div>
@@ -135,9 +141,14 @@
 
         <div class="container mt-4">
             <div class="card shadow-sm border-0 p-3">
-                <h5 class="fw-bold">Deskripsi Perusahaan</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="fw-bold">Deskripsi Perusahaan</h5>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#descriptionModal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </div>
                 <p>
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type
+                    {{$company->user->description}}
                 </p>
             </div>
         </div>
@@ -148,14 +159,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card shadow-sm border-0 h-100 p-3">
-                            <h6 class="mb-3">Hari dan Jam Kerja</h6>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-3">Hari dan Jam Kerja</h6>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#workTimeModal">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </div>
                             <ul class="list-unstyled">
                                 <li class="row">
                                     <div class="col-4 col-md-4">
                                         <span>Senin</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->monday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -163,7 +179,7 @@
                                         <span>Selasa</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->tuesday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -171,7 +187,7 @@
                                         <span>Rabu</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->wednesday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -179,7 +195,7 @@
                                         <span>Kamis</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->thursday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -187,7 +203,7 @@
                                         <span>Jumat</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->friday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -195,7 +211,7 @@
                                         <span>Sabtu</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->saturday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -203,7 +219,7 @@
                                         <span>Minggu</span>
                                     </div>
                                     <div class="col-8 col-md-8">
-                                        <span class="ms-auto">: 08.00–16.00</span>
+                                        <span class="ms-auto">: {{ $company->workTimes->sunday ?? 'Tidak ada data' }}</span>
                                     </div>
                                 </li>
                             </ul>
@@ -211,20 +227,55 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card shadow-sm border-0 h-100 p-3">
-                            <h6 class="mb-3">Informasi Lainnya</h6>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-3">Informasi Lainnya</h6>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#addEditModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                            </div>
                             <ul class="list-unstyled">
+                                {{-- Menampilkan Email Pengguna --}}
                                 <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Email Perusahaan</p>
+                                    <p>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </span> {{ $company->user->email }}
+                                    </p>
                                 </li>
+
+                                {{-- Periksa Media Sosial --}}
+                                @if ($company->user && $company->user->socialMedia)
+                                @php
+                                $socialLinks = [
+                                'instagram' => $company->user->socialMedia->instagram,
+                                'github' => $company->user->socialMedia->github,
+                                'youtube' => $company->user->socialMedia->youtube,
+                                'website' => $company->user->socialMedia->website,
+                                'linkedin' => $company->user->socialMedia->linkedin,
+                                'tiktok' => $company->user->socialMedia->tiktok,
+                                ];
+                                @endphp
+
+                                {{-- Looping untuk Media Sosial --}}
+                                @foreach ($socialLinks as $platform => $link)
+                                @if ($link)
                                 <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
+                                    <p>
+                                        <span class="badge bg-light text-dark">
+                                            @if ($platform === 'website')
+                                            <i class="fa-solid fa-globe"></i> {{-- Ikon untuk Website --}}
+                                            @else
+                                            <i class="fa-brands fa-{{ $platform }}"></i> {{-- Ikon untuk Platform Lain --}}
+                                            @endif
+                                        </span>
+                                        <a href="{{ $link }}" target="_blank">
+                                            {{ ucfirst($platform) }}
+                                        </a>
+                                    </p>
                                 </li>
-                                <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
-                                </li>
-                                <li>
-                                    <p><span class="badge bg-light text-dark"><i class="fa-solid fa-building"></i></span>Perusahaan</p>
-                                </li>
+                                @endif
+                                @endforeach
+                                @else
+                                <p>Media sosial belum ditambahkan.</p>
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -233,31 +284,374 @@
         </div>
 
         <div class="container mt-4">
-            <div class="card shadow-sm border-0 p-3">
-                <h5 class="fw-bold">Galeri Perusahaan</h5>
+            <div class="card shadow-sm h-100 border-0 p-3">
+                <div class="d-flex justify-content-between">
+                    <h5 class="fw-bold mb-3">Galeri Perusahaan</h5>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#galleryModal">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </div>
                 <div class="row g-4">
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
+                    @foreach ($company->galleries as $gallery)
+                    @for ($i = 1; $i <= 6; $i++)
+                        @php
+                        $column='image' . $i;
+                        $imagePath=$gallery->$column ? asset('storage/gallery_images/' . $gallery->$column) : null;
+                        @endphp
+
+                        @if ($imagePath)
+                        <div class="col-4">
+                            <img src="{{ $imagePath }}"
+                                alt="Company Galeri {{ $i }}"
+                                style="max-height: 500px; max-width: 500px; width: 100%; height: 100%; object-fit: cover;"
+                                class="rounded w-100">
+                        </div>
+                        @endif
+                        @endfor
+                        @endforeach
+                </div>
+            </div>
+        </div>
+
+        @endforeach
+        <!-- Modal User Company -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
+                    <div class="modal-body">
+                        <!-- Form to edit the user's details -->
+                        <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+
+                            <!-- Location Field -->
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}">
+                            </div>
+
+                            <!-- Corporate Field -->
+                            <div class="mb-3">
+                                <label for="corporateField" class="form-label">Corporate Field</label>
+                                <select class="form-control" id="corporateField" name="corporateField">
+                                    <option value="" disabled selected>Select Corporate Field</option>
+                                    @foreach ($corporateFields as $field)
+                                    <option value="{{ $field->id }}"
+                                        {{ $field->id == $company->corporate_field_id ? 'selected' : '' }}>
+                                        {{ $field->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <!-- Employee Field -->
+                            <div class="mb-3">
+                                <label for="employee" class="form-label">Employee</label>
+                                <input type="number" class="form-control" id="employee" name="employee"
+                                    value="{{ $company->employee ?? '' }}">
+                            </div>
+
+
+                            <!-- Upload File for Verification -->
+                            <div class="mb-3">
+                                <label for="attachment" class="form-label">Upload Verification</label>
+                                <input type="file" class="form-control" id="attachment" name="attachment">
+                            </div>
+
+                            <!-- Moto Field -->
+                            <div class="mb-3">
+                                <label for="moto" class="form-label">Moto</label>
+                                <input type="text" class="form-control" id="moto" name="moto" value="{{ auth()->user()->moto }}">
+                            </div>
+
+                            <!-- Avatar Field -->
+                            <div class="mb-3">
+                                <label for="avatar" class="form-label">Avatar</label>
+                                <input type="file" class="form-control" id="avatar" name="avatar">
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
+                </div>
+            </div>
+        </div>
+        <!-- Modal Description -->
+        <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="descriptionModalLabel">Edit Profile</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
+                    <div class="modal-body">
+                        <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('POST')
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="5">{{ auth()->user()->description }}</textarea>
+                            </div>
+                            <input type="hidden" name="corporateField" value="{{ $company->corporate_field_id }}">
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
+                </div>
+            </div>
+        </div>
+
+        <!-- Sosmed Modal -->
+        <div class="modal fade" id="addEditModal" tabindex="-1" aria-labelledby="addEditModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEditModalLabel">Tambah/Edit Sosial Media</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="col-4">
-                        <img src="https://via.placeholder.com/500" alt="Company Galeri" class="rounded w-100">
+                    <div class="modal-body">
+                        <form action="{{ route('social-media.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="instagram" class="form-label">Instagram</label>
+                                <input type="text" class="form-control" id="instagram" name="instagram" value="{{ old('instagram', $company->user->socialMedia->instagram ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="github" class="form-label">GitHub</label>
+                                <input type="text" class="form-control" id="github" name="github" value="{{ old('github', $company->user->socialMedia->github ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="youtube" class="form-label">YouTube</label>
+                                <input type="text" class="form-control" id="youtube" name="youtube" value="{{ old('youtube', $company->user->socialMedia->youtube ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="website" class="form-label">Website</label>
+                                <input type="text" class="form-control" id="website" name="website" value="{{ old('website', $company->user->socialMedia->website ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="linkedin" class="form-label">LinkedIn</label>
+                                <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin', $company->user->socialMedia->linkedin ?? '') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tiktok" class="form-label">TikTok</label>
+                                <input type="text" class="form-control" id="tiktok" name="tiktok" value="{{ old('tiktok', $company->user->socialMedia->tiktok ?? '') }}">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Work Time Modal -->
+        <div class="modal fade" id="workTimeModal" tabindex="-1" aria-labelledby="workTimeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="workTimeModalLabel">Tambah/Edit Jam Kerja</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="workTimeForm" method="POST" action="{{ route('work-time.store') }}">
+                            @csrf
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+                            <!-- Senin -->
+                            <div class="mb-3">
+                                <label for="monday" class="form-label">Senin</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="monday_in" name="monday_in" value="{{ old('monday_in', substr($company->workTimes->monday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="monday_out" name="monday_out" value="{{ old('monday_out', substr($company->workTimes->monday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Selasa -->
+                            <div class="mb-3">
+                                <label for="tuesday" class="form-label">Selasa</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="tuesday_in" name="tuesday_in" value="{{ old('tuesday_in', substr($company->workTimes->tuesday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="tuesday_out" name="tuesday_out" value="{{ old('tuesday_out', substr($company->workTimes->tuesday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Rabu -->
+                            <div class="mb-3">
+                                <label for="wednesday" class="form-label">Rabu</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="wednesday_in" name="wednesday_in" value="{{ old('wednesday_in', substr($company->workTimes->wednesday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="wednesday_out" name="wednesday_out" value="{{ old('wednesday_out', substr($company->workTimes->wednesday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Kamis -->
+                            <div class="mb-3">
+                                <label for="thursday" class="form-label">Kamis</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="thursday_in" name="thursday_in" value="{{ old('thursday_in', substr($company->workTimes->thursday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="thursday_out" name="thursday_out" value="{{ old('thursday_out', substr($company->workTimes->thursday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Jumat -->
+                            <div class="mb-3">
+                                <label for="friday" class="form-label">Jumat</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="friday_in" name="friday_in" value="{{ old('friday_in', substr($company->workTimes->friday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="friday_out" name="friday_out" value="{{ old('friday_out', substr($company->workTimes->friday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Sabtu -->
+                            <div class="mb-3">
+                                <label for="saturday" class="form-label">Sabtu</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="saturday_in" name="saturday_in" value="{{ old('saturday_in', substr($company->workTimes->saturday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="saturday_out" name="saturday_out" value="{{ old('saturday_out', substr($company->workTimes->saturday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <!-- Minggu -->
+                            <div class="mb-3">
+                                <label for="sunday" class="form-label">Minggu</label>
+                                <div class="input-group">
+                                    <input type="time" class="form-control" id="sunday_in" name="sunday_in" value="{{ old('sunday_in', substr($company->workTimes->sunday ?? '', 0, 5)) }}">
+                                    <span class="input-group-text">-</span>
+                                    <input type="time" class="form-control" id="sunday_out" name="sunday_out" value="{{ old('sunday_out', substr($company->workTimes->sunday ?? '', 6)) }}">
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Galery -->
+        <div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="galleryModalLabel">Edit Galeri Perusahaan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="company_id" value="{{ $company->id }}">
+
+                            <div class="row">
+                                @for ($i = 1; $i <= 6; $i++)
+                                    @php
+                                    $column='image' . $i;
+                                    // Ambil path gambar dari gallery yang aktif jika tersedia
+                                    $imagePath=isset($company->galleries[0]) && $company->galleries[0]->$column
+                                    ? Storage::url('gallery_images/' . $company->galleries[0]->$column)
+                                    : '';
+                                    @endphp
+
+                                    <div class="col-md-4 mb-3">
+                                        <label for="image{{ $i }}" class="form-label">Gambar {{ $i }}</label>
+                                        <input type="file" class="form-control" id="image{{ $i }}" name="images[]" accept="image/*">
+                                        <!-- Preview gambar -->
+                                        <div class="mt-2 position-relative">
+                                            <img id="preview{{ $i }}"
+                                                src="{{ $imagePath }}"
+                                                data-default="{{ $imagePath }}"
+                                                alt="Preview"
+                                                class="image-preview"
+                                                style="width: 100%; height: 150px; object-fit: cover; border: 1px solid #ccc;">
+
+                                            <!-- Tombol Hapus -->
+                                            <button type="button"
+                                                class="btn btn-danger btn-sm position-absolute top-0 end-0 delete-image"
+                                                data-preview="preview{{ $i }}"
+                                                data-input="image{{ $i }}"
+                                                data-hidden="deleted{{ $i }}">
+                                                &times;
+                                            </button>
+                                            <input type="hidden" name="deleted_images[]" id="deleted{{ $i }}" value="false">
+                                        </div>
+                                    </div>
+                                    @endfor
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function setupImagePreview() {
+            for (let i = 1; i <= 6; i++) {
+                const inputFile = document.getElementById(`image${i}`);
+                const previewImage = document.getElementById(`preview${i}`);
+                const deleteButton = document.querySelector(`[data-preview="preview${i}"]`);
+                const hiddenInput = document.getElementById(`deleted${i}`);
+                const defaultSrc = previewImage.getAttribute('data-default');
+
+                // Tampilkan atau sembunyikan gambar dan tombol hapus berdasarkan defaultSrc
+                if (!defaultSrc) {
+                    previewImage.style.display = 'none';
+                    deleteButton.style.display = 'none';
+                }
+
+                // Event saat file dipilih
+                inputFile.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            previewImage.src = e.target.result;
+                            previewImage.style.display = 'block';
+                            deleteButton.style.display = 'block';
+                            hiddenInput.value = 'false';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Event untuk tombol hapus
+                deleteButton.addEventListener('click', function() {
+                    inputFile.value = '';
+                    previewImage.src = '';
+                    previewImage.style.display = 'none';
+                    deleteButton.style.display = 'none';
+                    hiddenInput.value = 'true';
+                });
+            }
+        }
+
+        const galleryModal = document.getElementById('galleryModal');
+
+        galleryModal.addEventListener('shown.bs.modal', setupImagePreview);
+    });
+</script>
 
 </html>

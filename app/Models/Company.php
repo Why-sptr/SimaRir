@@ -47,7 +47,8 @@ class Company extends Model
     }
 
     public function workTimes()
-    {
-        return $this->hasOne(WorkTime::class);
-    }
+{
+    return $this->hasOne(WorkTime::class);
+}
+
 }
