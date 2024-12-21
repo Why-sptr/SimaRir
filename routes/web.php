@@ -17,6 +17,7 @@ use App\Http\Controllers\ViewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Company\CompanyController as CompanyCompanyController;
+use App\Http\Controllers\Company\CompanyJobWorkController;
 use App\Http\Controllers\Company\GalleryController;
 use App\Http\Controllers\Company\SocialMediaController;
 use App\Http\Controllers\Company\WorkTimeController;
@@ -30,6 +31,7 @@ Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('social-media', SocialMediaController::class);
     Route::resource('work-time', WorkTimeController::class);
     Route::resource('gallery', GalleryController::class);
+    Route::resource('company-job-work', CompanyJobWorkController::class);
     Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
     Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
 });

@@ -17,6 +17,8 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body>
@@ -69,7 +71,12 @@
 
         <div class="container mt-4">
             <div class="card p-3 shadow-sm border-0">
-                <h5 class="fw-bold">Lowongan Pekerjaan</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="fw-bold">Lowongan Pekerjaan</h5>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                        <i class="fa-solid fa-plus"></i>
+                    </a>
+                </div>
                 <div class="row g-4">
                     <div class="col-md-6 d-flex">
                         <div class="card shadow-sm border-0 flex-grow-1">
@@ -384,6 +391,85 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Job -->
+        <div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addJobModalLabel">Tambah Lowongan Pekerjaan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('company-job-work.store') }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Pekerjaan</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="salary" class="form-label">Gaji</label>
+                                <input type="number" class="form-control" id="salary" name="salary" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Deskripsi</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Lokasi</label>
+                                <input type="text" class="form-control" id="location" name="location" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="start_date" class="form-label">Tanggal Mulai</label>
+                                <input type="date" class="form-control" id="start_date" name="start_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="end_date" class="form-label">Tanggal Berakhir</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="work_type_id" class="form-label">Tipe Pekerjaan</label>
+                                <select class="form-select" id="work_type_id" name="work_type_id" required>
+                                    @foreach($workTypes as $workType)
+                                    <option value="{{ $workType->id }}">{{ $workType->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="work_method_id" class="form-label">Metode Pekerjaan</label>
+                                <select class="form-select" id="work_method_id" name="work_method_id" required>
+                                    @foreach($workMethods as $workMethod)
+                                    <option value="{{ $workMethod->id }}">{{ $workMethod->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="job_role_id" class="form-label">Peran Pekerjaan</label>
+                                <select class="form-select" id="job_role_id" name="job_role_id" required>
+                                    @foreach($jobRoles as $jobRole)
+                                    <option value="{{ $jobRole->id }}">{{ $jobRole->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="skill_job_id" class="form-label">Keahlian</label>
+                                <select class="form-select skill-select" id="skill_job_id" name="skill_job_id[]" multiple="multiple" required>
+                                    @foreach($skills as $skill)
+                                    <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        
         <!-- Modal Description -->
         <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -606,6 +692,15 @@
         </div>
     </section>
 </body>
+<script>
+    // Inisialisasi Select2
+    document.addEventListener("DOMContentLoaded", function() {
+        $('.skill-select').select2({
+            placeholder: "Pilih Keahlian",
+            allowClear: true
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function setupImagePreview() {

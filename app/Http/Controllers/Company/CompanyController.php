@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CorporateField;
+use App\Models\JobRole;
+use App\Models\Skill;
+use App\Models\SkillJob;
 use App\Models\User;
+use App\Models\WorkMethod;
+use App\Models\WorkType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -17,9 +22,24 @@ class CompanyController extends Controller
     {
         $user = Auth::user();
         $corporateFields = CorporateField::all();
-        $companies = $user->companies()->with('galleries', 'user.socialMedia', 'workTimes')->get();
+        $workTypes = WorkType::all();
+        $workMethods = WorkMethod::all();
+        $jobRoles = JobRole::all();
+        $skills = Skill::all();
+        $companies = $user->companies()->with([
+            'galleries',
+            'user.socialMedia',
+            'workTimes',
+            'jobWorks.workType',
+            'jobWorks.workMethod',
+            'jobWorks.skillJob',
+            'jobWorks.jobRole',
+            'jobWorks.qualification',
+            'jobWorks.candidates',
+            'jobWorks.bookmarks'
+        ])->get();
 
-        return view('company.index', compact('companies', 'corporateFields'));
+        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills'));
     }
 
     public function store(Request $request)
