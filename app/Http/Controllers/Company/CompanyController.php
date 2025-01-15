@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CorporateField;
 use App\Models\JobRole;
+use App\Models\JobWork;
 use App\Models\Skill;
 use App\Models\SkillJob;
 use App\Models\User;
@@ -26,7 +27,17 @@ class CompanyController extends Controller
         $workMethods = WorkMethod::all();
         $jobRoles = JobRole::all();
         $skills = Skill::all();
-        $companies = $user->companies()->with([
+        $jobWorks = JobWork::with([
+            'workType',
+            'workMethod',
+            'jobRole',
+            'qualification',
+            'candidates',
+            'bookmarks',
+            'skillJobs'
+        ])->paginate(2);
+
+        $companies = Company::where('user_id', $user->id)->with([
             'galleries',
             'user.socialMedia',
             'workTimes',
@@ -38,7 +49,7 @@ class CompanyController extends Controller
             'jobWorks.bookmarks'
         ])->get();
 
-        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills'));
+        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'jobWorks'));
     }
 
     public function store(Request $request)

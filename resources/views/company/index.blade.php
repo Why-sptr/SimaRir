@@ -17,8 +17,6 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body>
@@ -56,11 +54,15 @@
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-users" style="width: 24px;"></i>
-                                    <p class="card-text">{{$company->employee}}</p>
+                                    <p class="card-text">{{$company->employee}} Karyawan</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-check" style="width: 24px;"></i>
-                                    <p class="card-text">{{$company->status_verification}}</p>
+                                    @if ($company->status_verification == 0)
+                                    <span class="badge bg-warning p-2">Belum Terverifikasi</span>
+                                    @elseif ($company->status_verification == 1)
+                                    <span class="badge bg-success p-2">Terverifikasi</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -77,70 +79,46 @@
                         <i class="fa-solid fa-plus"></i>
                     </a>
                 </div>
-                <div class="row g-4">
-                    <div class="col-md-6 d-flex">
-                        <div class="card shadow-sm border-0 flex-grow-1">
-                            <div class="card-body">
-                                <!-- Job Title and Salary -->
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
-                                </div>
-                                <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2 gap-1">
-                                    <span class="badge bg-secondary p-2">Hybrid</span>
-                                    <span class="badge bg-secondary p-2">Kontrak</span>
-                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary p-2">+13</span>
-                                </div>
-                                <!-- Company Info -->
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
-                                    <div>
-                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
+                <div class="row g-4" id="job-list">
+                        @foreach ($jobWorks as $jobWork)
+                        <div class="col-md-6 d-flex">
+                            <div class="card shadow-sm border-0 flex-grow-1">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-2">{{ $jobWork->name }}</h5>
+                                        <p class="text-primary fw-semibold mb-1">Rp {{ number_format($jobWork->salary, 0, ',', '.') }}</p>
                                     </div>
-                                </div>
-                                <hr>
-                                <!-- Footer -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">Kandidat Pelamar</small>
+                                    <div class="d-flex flex-wrap mb-2 gap-1">
+                                        <span class="badge bg-secondary p-2">{{ $jobWork->workMethod->name }}</span>
+                                        <span class="badge bg-secondary p-2">{{ $jobWork->workType->name }}</span>
+                                        <span class="badge bg-secondary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
+                                        <span class="badge bg-secondary p-2">{{ $jobWork->qualification->education->name }}</span>
+                                        @if ($jobWork->qualification->major)
+                                        <span class="badge bg-secondary p-2">{{ $jobWork->qualification->major }}</span>
+                                        @endif
+                                        @if ($jobWork->qualification->ipk)
+                                        <span class="badge bg-secondary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
+                                        @endif
+                                        <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <div>
+                                            <p class="mb-0 text-primary fw-semibold">{{ $company->user->name }}</p>
+                                            <p class="mb-0 text-muted">{{ $jobWork->location }} </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Kandidat Pelamar</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 d-flex">
-                        <div class="card shadow-sm border-0 flex-grow-1">
-                            <div class="card-body">
-                                <!-- Job Title and Salary -->
-                                <div class="d-flex justify-content-between">
-                                    <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
-                                    <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
-                                </div>
-                                <!-- Job Tags -->
-                                <div class="d-flex flex-wrap mb-2 gap-1">
-                                    <span class="badge bg-secondary p-2">Hybrid</span>
-                                    <span class="badge bg-secondary p-2">Kontrak</span>
-                                    <span class="badge bg-secondary p-2">3 – 5 tahun</span>
-                                    <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
-                                    <span class="badge bg-secondary p-2">+13</span>
-                                </div>
-                                <!-- Company Info -->
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
-                                    <div>
-                                        <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                                        <p class="mb-0 text-muted">Menteng, Jakarta Pusat, DKI Jakarta</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <!-- Footer -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">Kandidat Pelamar</small>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+
+                    <div class="d-flex justify-content-center mt-4" id="pagination">
+                        {!! $jobWorks->onEachSide(1)->links('pagination::bootstrap-5') !!}
                     </div>
                 </div>
             </div>
@@ -469,7 +447,7 @@
                 </div>
             </div>
         </div> -->
-        
+
         <!-- Modal Description -->
         <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -693,15 +671,6 @@
     </section>
 </body>
 <script>
-    // Inisialisasi Select2
-    document.addEventListener("DOMContentLoaded", function() {
-        $('.skill-select').select2({
-            placeholder: "Pilih Keahlian",
-            allowClear: true
-        });
-    });
-</script>
-<script>
     document.addEventListener('DOMContentLoaded', function() {
         function setupImagePreview() {
             for (let i = 1; i <= 6; i++) {
@@ -747,6 +716,28 @@
 
         galleryModal.addEventListener('shown.bs.modal', setupImagePreview);
     });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        fetchJobWorks(url);
+    });
+
+    function fetchJobWorks(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                $('#job-list').html($(response).find('#job-list').html());
+                $('#pagination').html($(response).find('#pagination').html());
+            },
+            error: function(xhr) {
+                console.error(xhr);
+            }
+        });
+    }
 </script>
 
 </html>
