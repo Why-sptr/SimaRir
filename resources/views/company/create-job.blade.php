@@ -17,6 +17,9 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -75,7 +78,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="skill_job_id" class="form-label">Keahlian</label>
-                    <select class="form-select" id="skill_job_id" name="skill_job_id[]" multiple="multiple" required>
+                    <select class="form-select select2" id="skill_job_id" name="skill_job_id[]" multiple="multiple" required>
                         @foreach($skills as $skill)
                         <option value="{{ $skill->id }}">{{ $skill->name }}</option>
                         @endforeach
@@ -117,6 +120,17 @@
         </div>
 
     </section>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Pilih Keahlian",
+            allowClear: false,
+            theme: "bootstrap-5"
+        });
+    });
+</script>
 
 </html>
