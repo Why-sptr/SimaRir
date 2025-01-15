@@ -49,6 +49,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 // Auth
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('register', [AuthController::class, 'register']);
 Route::get('login/google', [AuthController::class, 'redirectToGoogle']);

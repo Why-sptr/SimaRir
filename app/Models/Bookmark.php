@@ -24,9 +24,9 @@ class Bookmark extends Model
         });
     }
 
-    public function job()
+    public function jobWork()
     {
-        return $this->belongsTo(JobWork::class);
+        return $this->belongsTo(JobWork::class, 'job_id');
     }
 
     public function user()

@@ -29,8 +29,9 @@ class Candidate extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function job()
+    // Pada model Candidate
+    public function jobWork()
     {
-        return $this->belongsTo(JobWork::class);
+        return $this->belongsTo(JobWork::class, 'job_id');
     }
 }

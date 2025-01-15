@@ -11,7 +11,8 @@ class SkillJob extends Model
     use HasFactory;
     protected $table = 'skill_jobs';
     protected $keyType = 'string';
-    protected $fillable = ['skill_id'];
+    public $incrementing = false;
+    protected $fillable = ['skill_id','job_id'];
 
     protected static function boot()
     {
@@ -29,8 +30,8 @@ class SkillJob extends Model
         return $this->belongsTo(Skill::class);
     }
 
-    public function jobWorks()
+    public function jobWork()
     {
-        return $this->hasMany(JobWork::class);
+        return $this->belongsTo(JobWork::class, 'job_id');
     }
 }

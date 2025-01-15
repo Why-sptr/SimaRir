@@ -11,22 +11,26 @@ class Qualification extends Model
     use HasFactory;
     protected $table = 'qualifications';
     protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = ['work_experience', 'education_id', 'major', 'ipk', 'toefl'];
 
-    protected static function boot()
+    public static function boot()
     {
         parent::boot();
 
-        static::creating(function ($qualification) {
-            if (!$qualification->id) {
-                $qualification->id = (string) Str::uuid();
+        static::creating(function ($model) {
+            if (empty($model->id)) {
+                $model->id = (string) Str::uuid();
             }
         });
     }
-
     public function education()
     {
         return $this->belongsTo(Education::class);
     }
-}
 
+    public function jobWork()
+    {
+        return $this->hasOne(JobWork::class);
+    }
+}

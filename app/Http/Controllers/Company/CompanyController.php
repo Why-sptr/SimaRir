@@ -32,7 +32,6 @@ class CompanyController extends Controller
             'workTimes',
             'jobWorks.workType',
             'jobWorks.workMethod',
-            'jobWorks.skillJob',
             'jobWorks.jobRole',
             'jobWorks.qualification',
             'jobWorks.candidates',

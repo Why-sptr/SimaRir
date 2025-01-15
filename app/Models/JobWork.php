@@ -11,9 +11,19 @@ class JobWork extends Model
     use HasFactory;
     protected $table = 'job_works';
     protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
-        'name', 'salary', 'description', 'location', 'start_date', 'end_date', 
-        'company_id', 'work_type_id', 'work_method_id', 'skill_job_id', 'job_role_id', 'qualification_id'
+        'name',
+        'salary',
+        'description',
+        'location',
+        'start_date',
+        'end_date',
+        'company_id',
+        'work_type_id',
+        'work_method_id',
+        'job_role_id',
+        'qualification_id'
     ];
 
     protected static function boot()
@@ -42,11 +52,6 @@ class JobWork extends Model
         return $this->belongsTo(WorkMethod::class);
     }
 
-    public function skillJob()
-    {
-        return $this->belongsTo(SkillJob::class);
-    }
-
     public function jobRole()
     {
         return $this->belongsTo(JobRole::class);
@@ -59,11 +64,17 @@ class JobWork extends Model
 
     public function candidates()
     {
-        return $this->hasMany(Candidate::class);
+        return $this->hasMany(Candidate::class, 'job_id');
     }
 
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class);
+        return $this->hasMany(Bookmark::class, 'job_id');
     }
+
+    public function skillJobs()
+    {
+        return $this->hasMany(SkillJob::class, 'job_id');
+    }
+
 }

@@ -73,7 +73,7 @@
             <div class="card p-3 shadow-sm border-0">
                 <div class="d-flex justify-content-between">
                     <h5 class="fw-bold">Lowongan Pekerjaan</h5>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                    <a href="{{ route('company-job-work.create') }}">
                         <i class="fa-solid fa-plus"></i>
                     </a>
                 </div>
@@ -393,7 +393,7 @@
         </div>
 
         <!-- Modal Job -->
-        <div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
+        <!-- <div class="modal fade" id="addJobModal" tabindex="-1" aria-labelledby="addJobModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -468,7 +468,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
         
         <!-- Modal Description -->
         <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
