@@ -23,6 +23,7 @@ use App\Http\Controllers\Company\SocialMediaController;
 use App\Http\Controllers\Company\WorkTimeController;
 use App\Http\Controllers\User\UserCompanyController;
 use App\Http\Controllers\User\UserJobWorkController;
+use App\Http\Controllers\User\UserProfileController;
 use Spatie\Permission\Models\Role;
 
 Route::get('/', function () {
@@ -41,13 +42,14 @@ Route::middleware(['auth', 'role:company'])->group(function () {
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('user-job-work', UserJobWorkController::class);
     Route::resource('user-company', UserCompanyController::class);
+    Route::resource('user-profile', UserProfileController::class);
     // Route::get('/user/loker', [ViewsController::class, 'userLoker'])->name('user.loker');
     Route::get('/user/company', [ViewsController::class, 'userCompany']);
     Route::get('/user/detail-company', [ViewsController::class, 'userDetailCompany']);
     // Route::get('/user/detail-loker', [ViewsController::class, 'detailLoker']);
     Route::get('/user/lamaran-saya', [ViewsController::class, 'lamaranSaya']);
     Route::get('/user/disimpan', [ViewsController::class, 'disimpan']);
-    Route::get('/user/profile', [ViewsController::class, 'profile']);
+    // Route::get('/user/profile', [ViewsController::class, 'profile']);
 });
 
 // Auth

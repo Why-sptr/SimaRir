@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section>
+        <div class="container mt-4">
+            <div class="row g-4">
+                <!-- Left Column -->
+                <div class="col-lg-3">
+                    <div class="card shadow-sm border-0 text-center p-3 h-100">
+                        <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="rounded-circle mb-3 align-self-center border border-2">
+                        <div class="d-flex justify-content-center gap-2">
+                            <h5 class="mb-3 fw-bold">{{ $user->name }}</h5>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <p class="fw-semibold">{{ $user->jobRole->name }}</p>
+                        <p>{{ $user->moto }}</p>
+                        <div class="card shadow-sm border-0 p-2 mt-3 h-100">
+                            <ul class="list-unstyled text-start">
+                                <li>
+                                    <p class="fw-semibold mb-0">Whatsapp:</p>
+                                </li>
+                                <li><span>{{ $user->phone }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Email:</p>
+                                </li>
+                                <li><span>{{ $user->email }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Lokasi:</p>
+                                </li>
+                                <li><span>{{ $user->location }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Pendidikan Terakhir:</p>
+                                </li>
+                                <li><span>{{ $user->education->name }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Pengalaman Kerja:</p>
+                                </li>
+                                <li><span>{{ $user->work_experience ?? '-'}}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Jenis Kelamin:</p>
+                                </li>
+                                <li><span>{{ $user->gender }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Center Column -->
+                <div class="col-lg-6 d-flex flex-column">
+                    <div class="card shadow-sm border-0 p-3 mb-3 flex-fill">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Tentang Saya</h5>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#descriptionModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <div class="text">
+                            {!! $user->description !!}
+                        </div>
+                    </div>
+                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                        <h5 class="fw-bold">Pengalaman Kerja</h5>
+                        <div>
+                            <h6 class="card-title">Jobdesk</h6>
+                            <p class="fw-semibold text-muted mb-1">Perusahaan</p>
+                            <p class="fw-semibold mb-1">Lama Bekerja</p>
+                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        </div>
+                        <hr>
+                        <div>
+                            <h6 class="card-title">Jobdesk</h6>
+                            <p class="fw-semibold text-muted mb-1">Perusahaan</p>
+                            <p class="fw-semibold mb-1">Lama Bekerja</p>
+                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column -->
+                <div class="col-lg-3 d-flex flex-column gap-3">
+                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                        <h5 class="fw-bold">Skill</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-secondary p-2">Skill 1</span>
+                            <span class="badge bg-secondary p-2">Skill 2</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge bg-secondary p-2">Skill 3</span>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Sosial Media</h5>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#socialMediaModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <ul class="list-unstyled">
+                            {{-- Periksa Media Sosial --}}
+                            @if ($user && $user->socialMedia)
+                            @php
+                            $socialLinks = [
+                            'instagram' => $user->socialMedia->instagram,
+                            'github' => $user->socialMedia->github,
+                            'youtube' => $user->socialMedia->youtube,
+                            'website' => $user->socialMedia->website,
+                            'linkedin' => $user->socialMedia->linkedin,
+                            'tiktok' => $user->socialMedia->tiktok,
+                            ];
+                            @endphp
+
+                            {{-- Looping untuk Media Sosial --}}
+                            @foreach ($socialLinks as $platform => $link)
+                            @if ($link)
+                            <li>
+                                <p>
+                                    <span class="badge bg-light text-dark">
+                                        @if ($platform === 'website')
+                                        <i class="fa-solid fa-globe"></i> {{-- Ikon untuk Website --}}
+                                        @else
+                                        <i class="fa-brands fa-{{ $platform }}"></i> {{-- Ikon untuk Platform Lain --}}
+                                        @endif
+                                    </span>
+                                    <a href="{{ $link }}" target="_blank">
+                                        {{ ucfirst($platform) }}
+                                    </a>
+                                </p>
+                            </li>
+                            @endif
+                            @endforeach
+                            @else
+                            <p>Media sosial belum ditambahkan.</p>
+                            @endif
+                        </ul>
+                    </div>
+                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Lampiran</h5>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#attachmentModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+                        <ul class="list-unstyled">
+                            <div class="d-flex gap-2 align-items-center">
+                                <i class="fa-solid fa-file" style="width: 24px;"></i>
+                                <p class="card-text fw-semibold">{{ $user->attachment->cv }}</p>
+                            </div>
+                            <div class="d-flex gap-2 align-items-center">
+                                <i class="fa-solid fa-paperclip" style="width: 24px;"></i>
+                                <a href="{{ asset($user->attachment->portfolio) }}" class="card-text fw-semibold">{{ $user->attachment->portfolio }}</a>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4">
+            <div class="row">
+                <!-- Kolom Kiri: Sertifikasi -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 p-3 h-100">
+                        <h5 class="fw-bold">Serfitikasi</h5>
+                        <ul class="list-unstyled text-start">
+                            <li>
+                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">Penerbit</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                            </li>
+                            <li>
+                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">Penerbit</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                            </li>
+                            <li>
+                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">Penerbit</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                            </li>
+                            <li>
+                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">Penerbit</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                            </li>
+                            <li>
+                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">Penerbit</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                            </li>
+                            <li>
+                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">Penerbit</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Pengalaman Kerja -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm border-0 p-3 h-100">
+                        <h5 class="fw-bold">Pengalaman Organisasi</h5>
+                        <div>
+                            <h6 class="card-title">Nama Organisasi</h6>
+                            <p class="fw-semibold text-muted mb-1">Jabatan</p>
+                            <p class="fw-semibold mb-1">Masa Jabatan</p>
+                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        </div>
+                        <div>
+                            <h6 class="card-title">Nama Organisasi</h6>
+                            <p class="fw-semibold text-muted mb-1">Jabatan</p>
+                            <p class="fw-semibold mb-1">Masa Jabatan</p>
+                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Modal User -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Form to edit the user's details -->
+                    <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+
+                        <!-- Location Field -->
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}">
+                        </div>
+
+                        <!-- Corporate Field -->
+                        <div class="mb-3">
+                            <label for="education" class="form-label">Pendidikan</label>
+                            <select class="form-control" id="education" name="education">
+                                <option value="" disabled selected>Pilih Pendidikan</option>
+                                @foreach ($educations as $edu)
+                                <option value="{{ $edu->id }}"
+                                    {{ $edu->id == $user->education_id ? 'selected' : '' }}>
+                                    {{ $edu->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Moto Field -->
+                        <div class="mb-3">
+                            <label for="moto" class="form-label">Moto</label>
+                            <input type="text" class="form-control" id="moto" name="moto" value="{{ auth()->user()->moto }}">
+                        </div>
+
+                        <!-- Work Experience -->
+                        <div class="mb-3">
+                            <label for="work_experience" class="form-label">Pengalaman Kerja</label>
+                            <input type="number" class="form-control" id="work_experience" name="work_experience" value="{{ auth()->user()->work_experience }}">
+                        </div>
+
+                        <!-- Gender Field -->
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Jenis Kelamin</label>
+                            <select class="form-control" id="gender" name="gender" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="male" {{ auth()->user()->gender == 'male' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="female" {{ auth()->user()->gender == 'female' ? 'selected' : '' }}>Perempuan</option>
+                                <option value="other" {{ auth()->user()->gender == 'other' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+                        </div>
+
+                        <!-- Avatar Field -->
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Avatar</label>
+                            <input type="file" class="form-control" id="avatar" name="avatar">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Description -->
+    <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="descriptionModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="5">{{ auth()->user()->description }}</textarea>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Attachment -->
+    <div class="modal fade" id="attachmentModal" tabindex="-1" aria-labelledby="attachmentModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="attachmentModalLabel">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <div class="mb-3">
+                            <label for="cv" class="form-label">CV</label>
+                            <input class="form-control" type="file" id="cv" name="cv" onchange="previewFile('cv')">
+                            <p id="cv-preview" class="mt-2">File: {{ $user->attachment->cv ?? '-' }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="portfolio" class="form-label">Portfolio</label>
+                            <input class="form-control" type="file" id="portfolio" name="portfolio" value="{{ old('portfolio', auth()->user()->attachment->portfolio) }}" onchange="previewFile('portfolio')">
+                            <p id="portfolio-preview" class="mt-2">File: {{ $user->attachment->portfolio ?? '-' }}</p>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sosmed Modal -->
+    <div class="modal fade" id="socialMediaModal" tabindex="-1" aria-labelledby="socialMediaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="socialMediaModalLabel">Tambah/Edit Sosial Media</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('social-media.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="instagram" class="form-label">Instagram</label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" value="{{ old('instagram', $user->socialMedia->instagram ?? '') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="github" class="form-label">GitHub</label>
+                            <input type="text" class="form-control" id="github" name="github" value="{{ old('github', $user->socialMedia->github ?? '') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="youtube" class="form-label">YouTube</label>
+                            <input type="text" class="form-control" id="youtube" name="youtube" value="{{ old('youtube', $user->socialMedia->youtube ?? '') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="website" class="form-label">Website</label>
+                            <input type="text" class="form-control" id="website" name="website" value="{{ old('website', $user->socialMedia->website ?? '') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="linkedin" class="form-label">LinkedIn</label>
+                            <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin', $user->socialMedia->linkedin ?? '') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="tiktok" class="form-label">TikTok</label>
+                            <input type="text" class="form-control" id="tiktok" name="tiktok" value="{{ old('tiktok', $user->socialMedia->tiktok ?? '') }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function previewFile(id) {
+        const file = document.getElementById(id).files[0];
+        const fileName = file.name;
+        document.getElementById(`${id}-preview`).innerHTML = `File: ${fileName}`;
+    }
+</script>
+
+</html>
