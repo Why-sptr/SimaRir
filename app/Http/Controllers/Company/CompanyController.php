@@ -27,15 +27,20 @@ class CompanyController extends Controller
         $workMethods = WorkMethod::all();
         $jobRoles = JobRole::all();
         $skills = Skill::all();
-        $jobWorks = JobWork::with([
+        $jobWorks = JobWork::whereHas('company', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->with([
             'workType',
             'workMethod',
             'jobRole',
-            'qualification',
-            'candidates',
-            'bookmarks',
-            'skillJobs'
-        ])->paginate(2);
+            'qualification.education',
+            'skillJobs',
+            'company.user',
+        ])
+        ->paginate(2);
+    
+
 
         $companies = Company::where('user_id', $user->id)->with([
             'galleries',

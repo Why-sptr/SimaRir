@@ -80,9 +80,9 @@
                     </a>
                 </div>
                 <div class="row g-4" id="job-list">
-                        @foreach ($jobWorks as $jobWork)
-                        <div class="col-md-6 d-flex">
-                            <div class="card shadow-sm border-0 flex-grow-1">
+                    @foreach ($jobWorks as $jobWork)
+                    <div class="col-md-6 d-flex">
+                        <div class="card shadow-sm border-0 flex-grow-1">
                             <a href="{{ route('company-job-work.show', $jobWork->id) }}">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
@@ -103,10 +103,10 @@
                                         <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
                                     </div>
                                     <div class="d-flex align-items-center mb-2">
-                                        <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
                                         <div>
-                                            <p class="mb-0 text-primary fw-semibold">{{ $company->user->name }}</p>
-                                            <p class="mb-0 text-muted">{{ $jobWork->location }} </p>
+                                            <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
+                                            <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -115,13 +115,14 @@
                                     </div>
                                 </div>
                             </a>
-                            </div>
                         </div>
-                        @endforeach
+                    </div>
+                    @endforeach
 
                     <div class="d-flex justify-content-center mt-4" id="pagination">
-                        {!! $jobWorks->onEachSide(1)->links('pagination::bootstrap-5') !!}
+                        {{ $jobWorks->links('pagination::bootstrap-5') }}
                     </div>
+
                 </div>
             </div>
         </div>
