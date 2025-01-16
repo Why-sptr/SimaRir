@@ -75,19 +75,37 @@
                         </div>
                     </div>
                     <div class="card shadow-sm border-0 p-3 flex-fill">
-                        <h5 class="fw-bold">Pengalaman Kerja</h5>
-                        <div>
-                            <h6 class="card-title">Jobdesk</h6>
-                            <p class="fw-semibold text-muted mb-1">Perusahaan</p>
-                            <p class="fw-semibold mb-1">Lama Bekerja</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Pengalaman Kerja</h5>
+                            <a href="#" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
                         </div>
-                        <hr>
                         <div>
-                            <h6 class="card-title">Jobdesk</h6>
-                            <p class="fw-semibold text-muted mb-1">Perusahaan</p>
-                            <p class="fw-semibold mb-1">Lama Bekerja</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                            @forelse ($workExperiences as $experience)
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title">{{ $experience->jobdesk }}</h6>
+                                    <a href="#"
+                                        class="edit-experience"
+                                        data-id="{{ $experience->id }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#workExperienceModal">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </div>
+                                <p class="fw-semibold text-muted mb-1">{{ $experience->name }}</p>
+                                <p class="fw-semibold mb-1">
+                                    {{ $experience->start_date ? date('M Y', strtotime($experience->start_date)) : '-' }}
+                                    -
+                                    {{ $experience->end_date ? date('M Y', strtotime($experience->end_date)) : 'Sekarang' }}
+                                </p>
+                                <p class="text-secondary">{{ $experience->description }}</p>
+                            </div>
+                            <hr>
+                            @empty
+                            <p class="text-muted">Belum ada pengalaman kerja yang ditambahkan.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -331,7 +349,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal Description -->
     <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -436,13 +453,152 @@
             </div>
         </div>
     </div>
+    <!-- Modal Work Experience -->
+    <div class="modal fade" id="workExperienceModal" tabindex="-1" aria-labelledby="workExperienceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="workExperienceModalLabel">Tambah/Edit Pengalaman Kerja</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="workExperienceForm" action="{{ route('work-experience.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="_method" id="formMethod" value="POST">
+                        <input type="hidden" name="id" id="experienceId" value="">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Perusahaan</label>
+                            <input type="text" class="form-control" id="name" name="name" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="jobdesk" class="form-label">Jobdesk</label>
+                            <input type="text" class="form-control" id="jobdesk" name="jobdesk" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">Tanggal Selesai</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button"
+                                class="btn btn-danger delete-experience"
+                                data-id=""
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                                Hapus
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Kerja</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin ingin menghapus pengalaman kerja ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function previewFile(id) {
         const file = document.getElementById(id).files[0];
         const fileName = file.name;
         document.getElementById(`${id}-preview`).innerHTML = `File: ${fileName}`;
     }
+
+    $(document).ready(function() {
+        const modal = $('#workExperienceModal');
+        const form = $('#workExperienceForm');
+        const methodField = $('#formMethod');
+        const idField = $('#experienceId');
+
+        $('.add-experience, .edit-experience').on('click', function() {
+            const isEdit = $(this).hasClass('edit-experience');
+            const actionUrl = isEdit ? `/work-experience/${$(this).data('id')}` : `/work-experience`;
+            const method = isEdit ? 'PUT' : 'POST';
+
+            form.attr('action', actionUrl);
+            methodField.val(method);
+            idField.val(isEdit ? $(this).data('id') : '');
+
+            if (isEdit) {
+                $.ajax({
+                    url: `/work-experience/${$(this).data('id')}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#name').val(data.name || '');
+                        $('#jobdesk').val(data.jobdesk || '');
+                        $('#description').val(data.description || '');
+                        $('#start_date').val(data.start_date || '');
+                        $('#end_date').val(data.end_date || '');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            } else {
+                form.trigger('reset');
+                $('#description').val('');
+            }
+        });
+
+        modal.on('hidden.bs.modal', function() {
+            form.trigger('reset');
+            $('#description').val('');
+        });
+    });
+
+    $(document).ready(function() {
+        const deleteModal = $('#deleteModal');
+        const deleteForm = $('#deleteForm');
+
+        // Ketika tombol "Hapus" di modal edit diklik
+        $('.delete-experience').on('click', function() {
+            const experienceId = $('#experienceId').val(); // Ambil ID dari input hidden
+            const deleteUrl = `/work-experience/${experienceId}`; // URL delete berdasarkan ID
+
+            deleteForm.attr('action', deleteUrl); // Set action form delete
+            deleteModal.modal('show'); // Tampilkan modal delete
+        });
+
+        // Reset action form saat modal delete ditutup
+        deleteModal.on('hidden.bs.modal', function() {
+            deleteForm.attr('action', ''); // Kosongkan action form
+        });
+    });
 </script>
 
 </html>

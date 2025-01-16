@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Models\Education;
+use App\Models\RecentWorkExperience;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,9 +13,10 @@ class UserProfileController extends Controller
 {
     public function index()
     {
-        $educations = Education::all();
         $user = Auth::user();
-        return view('user.profile.index', compact('user','educations'));
+        $educations = Education::all();
+        $workExperiences = RecentWorkExperience::where('user_id', $user->id)->get();
+        return view('user.profile.index', compact('user','educations','workExperiences'));
     }
 
     public function store(Request $request)
