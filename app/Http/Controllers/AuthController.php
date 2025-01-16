@@ -68,7 +68,11 @@ class AuthController extends Controller
                 return redirect()->route('company.index');
             }
 
-            return redirect()->route('user.loker');
+            if ($user->hasRole('user')) {
+                return redirect()->route('user-job-work.index');
+            }
+
+            return redirect()->route('user-job-work.index');
         }
 
         return back()->with('error', 'Email atau password salah.');
@@ -244,36 +248,42 @@ class AuthController extends Controller
 
             Auth::login($user);
 
-            if (!$user->hasRole('company') && !$user->hasRole('admin')) {
-                if ($role === 'company') {
-                    $user->assignRole('company');
-                } else {
-                    $user->assignRole('user');
-                }
+            $roles = $user->getRoleNames();
+            Log::info('Role pengguna setelah login:', ['roles' => $roles]);
+
+            if ($roles->contains('user')) {
+                Log::info('Pengguna dengan role user diarahkan ke halaman user-job-work.index', ['user_id' => $user->id]);
+                return redirect()->route('user-job-work.index');
             }
 
-            if ($user->hasRole('company')) {
+            if ($roles->contains('company')) {
+                Log::info('Pengguna dengan role company diarahkan ke halaman company.index', ['user_id' => $user->id]);
                 return redirect()->route('company.index');
             }
 
-            if ($user->hasRole('admin')) {
+            if ($roles->contains('admin')) {
+                Log::info('Pengguna dengan role admin diarahkan ke halaman admin.dashboard', ['user_id' => $user->id]);
                 return redirect()->route('admin.dashboard');
             }
+            Log::info('Role pengguna setelah login:', [
+                'user_id' => $user->id,
+                'roles' => $roles->toArray(),
+            ]);
 
-            return redirect()->route('user.loker');
+            Log::warning('Role pengguna tidak dikenali.', ['user_id' => $user->id, 'roles' => $roles]);
+            return redirect('/login')->withErrors(['msg' => 'Peran tidak valid. Hubungi admin.']);
         } catch (\Exception $e) {
             Log::error('Error during Google Login: ' . $e->getMessage());
             return redirect('/login')->withErrors(['msg' => 'Terjadi masalah saat login']);
         }
     }
 
-public function logout(Request $request)
-{
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    return redirect('/login')->with('status', 'Successfully logged out.');
-}
-
+        return redirect('/login')->with('status', 'Successfully logged out.');
+    }
 }
