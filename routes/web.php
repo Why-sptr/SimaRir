@@ -21,6 +21,7 @@ use App\Http\Controllers\Company\CompanyJobWorkController;
 use App\Http\Controllers\Company\GalleryController;
 use App\Http\Controllers\Company\SocialMediaController;
 use App\Http\Controllers\Company\WorkTimeController;
+use App\Http\Controllers\User\UserJobWorkController;
 use Spatie\Permission\Models\Role;
 
 Route::get('/', function () {
@@ -32,11 +33,12 @@ Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('work-time', WorkTimeController::class);
     Route::resource('gallery', GalleryController::class);
     Route::resource('company-job-work', CompanyJobWorkController::class);
-    Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
+    // Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
     Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::resource('user-job-work', UserJobWorkController::class);
     Route::get('/user/loker', [ViewsController::class, 'userLoker'])->name('user.loker');
     Route::get('/user/company', [ViewsController::class, 'userCompany']);
     Route::get('/user/detail-company', [ViewsController::class, 'userDetailCompany']);

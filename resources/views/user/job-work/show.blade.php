@@ -27,39 +27,55 @@
           <!-- Image Section -->
           <div class="col-md-4">
             <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-              <img src="https://via.placeholder.com/50" alt="Placeholder Image" class="img-fluid">
+              <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
             </div>
           </div>
           <!-- Text and Details Section -->
           <div class="col-md-8">
-            <h3 class="fw-bold">Nama Lowongan</h3>
+            <h3 class="fw-bold">{{ $jobWork->name }}</h3>
             <div class="row">
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-building" style="width: 24px;"></i>
-                  <p class="card-text fw-semibold">Perusahaan</p>
+                  <p class="card-text fw-semibold">{{ $jobWork->company->user->name }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-building" style="width: 24px;"></i>
-                  <p class="card-text">Bidang Perusahaan - Bidang Pekerjaan</p>
+                  <p class="card-text">{{ $jobWork->company->corporateField->name}} - {{ $jobWork->jobRole->name}}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-money-bill" style="width: 24px;"></i>
-                  <p class="card-text">Salary</p>
+                  <p class="card-text">
+                    @php
+                    $salary = $jobWork->salary;
+                    if ($salary >= 1000000000) {
+                    $salary = number_format($salary / 1000000000, 1) . ' m';
+                    } elseif ($salary >= 1000000) {
+                    $salary = number_format($salary / 1000000, 1) . ' jt';
+                    } else {
+                    $salary = number_format($salary / 1000, 1) . ' rb';
+                    }
+                    @endphp
+                    {{ $salary }}
+                  </p>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-clock" style="width: 24px;"></i>
-                  <p class="card-text">Tipe Pekerjaan</p>
+                  <p class="card-text">{{ $jobWork->workType->name }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-briefcase" style="width: 24px;"></i>
-                  <p class="card-text">Metode Pekerjaan</p>
+                  <p class="card-text">{{ $jobWork->workMethod->name }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-check" style="width: 24px;"></i>
-                  <p class="card-text">Verifikasi Perusahaan</p>
+                  @if ($jobWork->company->status_verification == 0)
+                  <span class="badge bg-warning p-2">Belum Terverifikasi</span>
+                  @elseif ($jobWork->company->status_verification == 1)
+                  <span class="badge bg-success p-2">Terverifikasi</span>
+                  @endif
                 </div>
               </div>
             </div>
@@ -74,21 +90,17 @@
         <hr>
         <!-- Skills Section -->
         <div class="d-flex flex-wrap gap-2 justify-content-center text-center">
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-          <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+          @foreach($jobWork->skillJobs as $skill)
+          <span class="badge bg-secondary text-light p-2">{{ $skill->skill->name }}</span>
+          @endforeach
         </div>
       </div>
     </div>
 
     <div class="container mt-4">
-      <div class="card p-3 shadow-sm border-0">
+      <div class="card shadow-sm border-0 p-3 shadow-sm border-0">
         <h5 class="fw-bold">Informasi Pekerjaan</h5>
-        <div class="card p-3 shadow-sm border-0">
+        <div class="card shadow-sm border-0 p-3 shadow-sm border-0">
           <!-- Syarat/Kualifikasi Section -->
           <h5 class="card-title">Syarat / Kualifikasi</h5>
           <div class="row">
@@ -102,7 +114,7 @@
                     </div>
                   </div>
                   <div class="col-auto col-md-auto">
-                    <span class="ms-auto">: 3-5 Tahun</span>
+                    <span class="ms-auto">: {{ $jobWork->qualification->work_experience}} Tahun</span>
                   </div>
                 </li>
                 <li class="row">
@@ -113,7 +125,7 @@
                     </div>
                   </div>
                   <div class="col-auto col-md-auto">
-                    <span class="ms-auto">: 3-5 Tahun</span>
+                    <span class="ms-auto">: {{ $jobWork->qualification->education->name}}</span>
                   </div>
                 </li>
                 <li class="row">
@@ -124,7 +136,7 @@
                     </div>
                   </div>
                   <div class="col-auto col-md-auto">
-                    <span class="ms-auto">: 3-5 Tahun</span>
+                    <span class="ms-auto">: {{ $jobWork->qualification->major}}</span>
                   </div>
                 </li>
                 <li class="row">
@@ -135,7 +147,7 @@
                     </div>
                   </div>
                   <div class="col-auto col-md-auto">
-                    <span class="ms-auto">: 3-5 Tahun</span>
+                    <span class="ms-auto">: {{ $jobWork->qualification->ipk}}</span>
                   </div>
                 </li>
                 <li class="row">
@@ -146,35 +158,21 @@
                     </div>
                   </div>
                   <div class="col-auto col-md-auto">
-                    <span class="ms-auto">: 3-5 Tahun</span>
+                    <span class="ms-auto">: {{ $jobWork->qualification->toefl}}</span>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="card p-3 shadow-sm border-0 mt-3">
+        <div class="card shadow-sm border-0 p-3 shadow-sm border-0 mt-3">
           <!-- Deskripsi Pekerjaan Section -->
           <h5 class="card-title">Deskripsi Pekerjaan</h5>
           <div class="row">
             <div class="col-12">
-              <p>
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                a galley of type and scrambled it to make a type.
-              </p>
-              <ul>
-                <li>when an unknown printer took a galley</li>
-                <li>when an unknown printer took a galley</li>
-                <li>when an unknown printer took a galley</li>
-                <li>when an unknown printer took a galley</li>
-                <li>when an unknown printer took a galley</li>
-              </ul>
-              <p>
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text
-                ever since the 1500s.
-              </p>
+              <div class="text">
+                {!! $jobWork->description !!}
+              </div>
             </div>
           </div>
         </div>
@@ -187,32 +185,36 @@
           <!-- Image Section -->
           <div class="col-md-4">
             <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-              <img src="https://via.placeholder.com/50" alt="Placeholder Image" class="img-fluid">
+              <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
             </div>
           </div>
           <!-- Text and Details Section -->
           <div class="col-md-8">
-            <h3 class="fw-bold">Nama Perusahaan</h3>
-            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+            <h3 class="fw-bold">{{ $jobWork->company->user->name }}</h3>
+            <p>{{ $jobWork->company->user->moto }}</p>
             <div class="row">
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-location-dot" style="width: 24px;"></i>
-                  <p class="card-text fw-semibold">Lokasi Perusahaan</p>
+                  <p class="card-text fw-semibold">{{ $jobWork->company->user->location }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-building" style="width: 24px;"></i>
-                  <p class="card-text">Bidang Perusahaan</p>
+                  <p class="card-text">{{ $jobWork->company->corporateField->name }}</p>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-users" style="width: 24px;"></i>
-                  <p class="card-text">Karyawan Perusahaan</p>
+                  <p class="card-text">{{ $jobWork->company->employee }} Karyawan</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
                   <i class="fa-solid fa-check" style="width: 24px;"></i>
-                  <p class="card-text">Verifikasi Perusahaan</p>
+                  @if ($jobWork->company->status_verification == 0)
+                  <span class="badge bg-warning p-2">Belum Terverifikasi</span>
+                  @elseif ($jobWork->company->status_verification == 1)
+                  <span class="badge bg-success p-2">Terverifikasi</span>
+                  @endif
                 </div>
               </div>
             </div>
@@ -225,82 +227,61 @@
       <div class="card p-3 shadow-sm border-0">
         <h5 class="fw-bold">Rekomendasi Pekerjaan</h5>
         <div class="row g-4">
-          <div class="col-md-6 d-flex">
-            <div class="card shadow-sm border-0 flex-grow-1">
-              <div class="card-body">
-                <!-- Job Title and Salary -->
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
-                  <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
+          @foreach ($jobWorks as $jobWork)
+          <div class="col-md-6 mb-4 d-flex">
+            <div class="card shadow-sm border-0 w-100 h-100">
+              <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
+
+                <div class="d-flex justify-content-between gap-2">
+                  <h5 class="card-title text-truncate">
+                    {{ $jobWork->name }}
+                  </h5>
+                  <p class="text-primary fw-semibold text-end">
+                    @php
+                    $salary = $jobWork->salary;
+                    if ($salary >= 1000000000) {
+                    $salary = number_format($salary / 1000000000, 1) . ' m';
+                    } elseif ($salary >= 1000000) {
+                    $salary = number_format($salary / 1000000, 1) . ' jt';
+                    } else {
+                    $salary = number_format($salary / 1000, 1) . ' rb';
+                    }
+                    @endphp
+                    {{ $salary }}
+                  </p>
                 </div>
-                <!-- Job Tags -->
-                <div class="d-flex flex-wrap mb-2 gap-1">
-                  <span class="badge bg-secondary p-2">Hybrid</span>
-                  <span class="badge bg-secondary p-2">Kontrak</span>
-                  <span class="badge bg-secondary p-2">3 – 5 tahun</span>
-                  <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
-                  <span class="badge bg-secondary p-2">+13</span>
-                </div>
-                <!-- Company Info -->
-                <div class="d-flex align-items-center mb-2">
-                  <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
-                  <div>
-                    <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                    <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-location-dot"></i>
-                      <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
+                <div class="d-flex flex-column flex-grow-1">
+                  <div class="d-flex flex-wrap mb-3 gap-1">
+                    <span class="badge bg-secondary p-2">{{ $jobWork->workMethod->name }}</span>
+                    <span class="badge bg-secondary p-2">{{ $jobWork->workType->name }}</span>
+                    <span class="badge bg-secondary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
+                    <span class="badge bg-secondary p-2">{{ $jobWork->qualification->education->name }}</span>
+                    @if ($jobWork->qualification->major)
+                    <span class="badge bg-secondary p-2">{{ $jobWork->qualification->major }}</span>
+                    @endif
+                    @if ($jobWork->qualification->ipk)
+                    <span class="badge bg-secondary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
+                    @endif
+                    <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
+                  </div>
+                  <div class="mt-auto">
+                    <div class="d-flex align-items-center mb-2">
+                      <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo"
+                        class="rounded me-2 border border-1"
+                        style="width: 50px; height: 50px; object-fit: cover;">
+                      <div>
+                        <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
+                        <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
+                      </div>
                     </div>
+                    <hr>
+                    <small class="text-muted">Kandidat Pelamar</small>
                   </div>
                 </div>
-                <hr>
-                <!-- Footer -->
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">Kandidat Pelamar</small>
-                  <button class="btn btn-sm">
-                    <i class="fa-regular fa-bookmark"></i>
-                  </button>
-                </div>
-              </div>
+              </a>
             </div>
           </div>
-          <div class="col-md-6 d-flex">
-            <div class="card shadow-sm border-0 flex-grow-1">
-              <div class="card-body">
-                <!-- Job Title and Salary -->
-                <div class="d-flex justify-content-between">
-                  <h5 class="card-title mb-2">Full Stack Developer (Project Based)</h5>
-                  <p class="text-primary fw-semibold mb-1">Rp 10 jt - 11 jt</p>
-                </div>
-                <!-- Job Tags -->
-                <div class="d-flex flex-wrap mb-2 gap-1">
-                  <span class="badge bg-secondary p-2">Hybrid</span>
-                  <span class="badge bg-secondary p-2">Kontrak</span>
-                  <span class="badge bg-secondary p-2">3 – 5 tahun</span>
-                  <span class="badge bg-secondary p-2">Minimal Sarjana (S1)</span>
-                  <span class="badge bg-secondary p-2">+13</span>
-                </div>
-                <!-- Company Info -->
-                <div class="d-flex align-items-center mb-2">
-                  <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded me-2">
-                  <div>
-                    <p class="mb-0 text-primary fw-semibold">PT Eureka Merdeka Indonesia (SMKDEV)</p>
-                    <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-location-dot"></i>
-                      <p class="card-text text-muted">Tangerang, Banten, Indonesia</p>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <!-- Footer -->
-                <div class="d-flex justify-content-between align-items-center">
-                  <small class="text-muted">Kandidat Pelamar</small>
-                  <button class="btn btn-sm">
-                    <i class="fa-regular fa-bookmark"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endforeach
         </div>
       </div>
     </div>
