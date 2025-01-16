@@ -144,7 +144,7 @@
                                 <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
 
                                     <div class="d-flex justify-content-between gap-2">
-                                        <h5 class="card-title text-truncate">
+                                        <h5 class="card-title text-truncate" style="width: 85%;">
                                             {{ $jobWork->name }}
                                         </h5>
                                         <p class="text-primary fw-semibold text-end">

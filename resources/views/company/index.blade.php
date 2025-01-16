@@ -81,15 +81,29 @@
                 </div>
                 <div class="row g-4" id="job-list">
                     @foreach ($jobWorks as $jobWork)
-                    <div class="col-md-6 d-flex">
-                        <div class="card shadow-sm border-0 flex-grow-1">
-                            <a href="{{ route('company-job-work.show', $jobWork->id) }}">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between">
-                                        <h5 class="card-title mb-2">{{ $jobWork->name }}</h5>
-                                        <p class="text-primary fw-semibold mb-1">Rp {{ number_format($jobWork->salary, 0, ',', '.') }}</p>
-                                    </div>
-                                    <div class="d-flex flex-wrap mb-2 gap-1">
+                    <div class="col-md-6 mb-4 d-flex">
+                        <div class="card shadow-sm border-0 w-100 h-100">
+                            <a class="card-body d-flex flex-column" href="{{ route('company-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
+                                <div class="d-flex justify-content-between gap-2">
+                                    <h5 class="card-title text-truncate" style="width: 85%;">
+                                        {{ $jobWork->name }}
+                                    </h5>
+                                    <p class="text-primary fw-semibold text-end">
+                                        @php
+                                        $salary = $jobWork->salary;
+                                        if ($salary >= 1000000000) {
+                                        $salary = number_format($salary / 1000000000, 1) . ' m';
+                                        } elseif ($salary >= 1000000) {
+                                        $salary = number_format($salary / 1000000, 1) . ' jt';
+                                        } else {
+                                        $salary = number_format($salary / 1000, 1) . ' rb';
+                                        }
+                                        @endphp
+                                        {{ $salary }}
+                                    </p>
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1">
+                                    <div class="d-flex flex-wrap mb-3 gap-1">
                                         <span class="badge bg-secondary p-2">{{ $jobWork->workMethod->name }}</span>
                                         <span class="badge bg-secondary p-2">{{ $jobWork->workType->name }}</span>
                                         <span class="badge bg-secondary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
@@ -102,21 +116,19 @@
                                         @endif
                                         <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
                                     </div>
-                                    <div class="d-flex align-items-center mb-2">
-                                        <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="mt-auto">
                                         <div>
                                             <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
                                             <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <div class="d-flex justify-content-between align-items-center">
+                                        <hr>
                                         <small class="text-muted">Kandidat Pelamar</small>
                                     </div>
                                 </div>
                             </a>
                         </div>
                     </div>
+
                     @endforeach
 
                     <div class="d-flex justify-content-center mt-4" id="pagination">
