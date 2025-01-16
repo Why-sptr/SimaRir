@@ -27,60 +27,58 @@
                     <!-- Image Section -->
                     <div class="col-md-4">
                         <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-                            <img src="https://via.placeholder.com/50" alt="Placeholder Image" class="img-fluid">
+                            <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
                         </div>
                     </div>
                     <!-- Text and Details Section -->
                     <div class="col-md-8">
-                        <h3 class="fw-bold">Nama Lowongan</h3>
+                        <h3 class="fw-bold">{{ $jobWork->name }}</h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-building" style="width: 24px;"></i>
-                                    <p class="card-text fw-semibold">Perusahaan</p>
+                                    <p class="card-text fw-semibold">{{ $jobWork->company->user->name }}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-building" style="width: 24px;"></i>
-                                    <p class="card-text">Bidang Perusahaan - Bidang Pekerjaan</p>
+                                    <p class="card-text">{{ $jobWork->company->corporateField->name}} - {{ $jobWork->jobRole->name}}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-money-bill" style="width: 24px;"></i>
-                                    <p class="card-text">Salary</p>
+                                    <p class="card-text">Rp {{ number_format($jobWork->salary, 0, ',', '.') }}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-clock" style="width: 24px;"></i>
-                                    <p class="card-text">Tipe Pekerjaan</p>
+                                    <p class="card-text">{{ $jobWork->workType->name }}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-briefcase" style="width: 24px;"></i>
-                                    <p class="card-text">Metode Pekerjaan</p>
+                                    <p class="card-text">{{ $jobWork->workMethod->name }}</p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa-solid fa-check" style="width: 24px;"></i>
-                                    <p class="card-text">Verifikasi Perusahaan</p>
+                                    @if ($jobWork->company->status_verification == 0)
+                                    <span class="badge bg-warning p-2">Belum Terverifikasi</span>
+                                    @elseif ($jobWork->company->status_verification == 1)
+                                    <span class="badge bg-success p-2">Terverifikasi</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                         <!-- Buttons -->
                         <div class="mt-3">
-                            <button class="btn btn-primary fw-semibold">Lamar</button>
                             <button class="btn btn-outline-primary fw-semibold"><i class="fa-solid fa-share-from-square me-2"></i>Bagikan</button>
-                            <button class="btn btn-outline-primary fw-semibold"><i class="fa-regular fa-bookmark me-2"></i>Favorit</button>
                         </div>
                     </div>
                 </div>
                 <hr>
                 <!-- Skills Section -->
                 <div class="d-flex flex-wrap gap-2 justify-content-center text-center">
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
-                    <span class="badge bg-secondary text-light p-2">Skill Pekerjaan</span>
+                    @foreach($jobWork->skillJobs as $skill)
+                    <span class="badge bg-secondary text-light p-2">{{ $skill->skill->name }}</span>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -209,7 +207,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto col-md-auto">
-                                        <span class="ms-auto">: 3-5 Tahun</span>
+                                        <span class="ms-auto">: {{ $jobWork->qualification->work_experience}} Tahun</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -220,7 +218,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto col-md-auto">
-                                        <span class="ms-auto">: 3-5 Tahun</span>
+                                        <span class="ms-auto">: {{ $jobWork->qualification->education->name}}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -231,7 +229,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto col-md-auto">
-                                        <span class="ms-auto">: 3-5 Tahun</span>
+                                        <span class="ms-auto">: {{ $jobWork->qualification->major}}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -242,7 +240,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto col-md-auto">
-                                        <span class="ms-auto">: 3-5 Tahun</span>
+                                        <span class="ms-auto">: {{ $jobWork->qualification->ipk}}</span>
                                     </div>
                                 </li>
                                 <li class="row">
@@ -253,7 +251,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto col-md-auto">
-                                        <span class="ms-auto">: 3-5 Tahun</span>
+                                        <span class="ms-auto">: {{ $jobWork->qualification->toefl}}</span>
                                     </div>
                                 </li>
                             </ul>
@@ -265,23 +263,9 @@
                     <h5 class="card-title">Deskripsi Pekerjaan</h5>
                     <div class="row">
                         <div class="col-12">
-                            <p>
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                                a galley of type and scrambled it to make a type.
-                            </p>
-                            <ul>
-                                <li>when an unknown printer took a galley</li>
-                                <li>when an unknown printer took a galley</li>
-                                <li>when an unknown printer took a galley</li>
-                                <li>when an unknown printer took a galley</li>
-                                <li>when an unknown printer took a galley</li>
-                            </ul>
-                            <p>
-                                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                                a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text
-                                ever since the 1500s.
-                            </p>
+                            <div class="text">
+                                {!! $jobWork->description !!}
+                            </div>
                         </div>
                     </div>
                 </div>

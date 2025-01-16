@@ -83,6 +83,7 @@
                         @foreach ($jobWorks as $jobWork)
                         <div class="col-md-6 d-flex">
                             <div class="card shadow-sm border-0 flex-grow-1">
+                            <a href="{{ route('company-job-work.show', $jobWork->id) }}">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="card-title mb-2">{{ $jobWork->name }}</h5>
@@ -113,6 +114,7 @@
                                         <small class="text-muted">Kandidat Pelamar</small>
                                     </div>
                                 </div>
+                            </a>
                             </div>
                         </div>
                         @endforeach

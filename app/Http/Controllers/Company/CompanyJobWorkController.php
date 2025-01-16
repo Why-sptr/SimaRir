@@ -12,7 +12,7 @@ use App\Models\SkillJob;
 use App\Models\WorkMethod;
 use App\Models\WorkType;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class CompanyJobWorkController extends Controller
@@ -90,5 +90,20 @@ class CompanyJobWorkController extends Controller
         }
 
         return redirect()->route('company.index')->with('success', 'Lowongan pekerjaan berhasil ditambahkan.');
+    }
+
+    public function show($id)
+    {
+        $jobWork = JobWork::with([
+            'workType',
+            'workMethod',
+            'jobRole',
+            'qualification',
+            'candidates',
+            'bookmarks',
+            'skillJobs'
+        ])->findOrFail($id);
+
+        return view('company.detail-job', compact('jobWork'));
     }
 }
