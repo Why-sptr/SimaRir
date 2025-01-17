@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
+use App\Models\Certification;
 use App\Models\Education;
 use App\Models\RecentWorkExperience;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ class UserProfileController extends Controller
         $user = Auth::user();
         $educations = Education::all();
         $workExperiences = RecentWorkExperience::where('user_id', $user->id)->get();
-        return view('user.profile.index', compact('user','educations','workExperiences'));
+        $certificates = Certification::where('user_id', $user->id)->get();
+        return view('user.profile.index', compact('user','educations','workExperiences','certificates'));
     }
 
     public function store(Request $request)

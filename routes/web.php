@@ -21,6 +21,7 @@ use App\Http\Controllers\Company\CompanyJobWorkController;
 use App\Http\Controllers\Company\GalleryController;
 use App\Http\Controllers\Company\SocialMediaController;
 use App\Http\Controllers\Company\WorkTimeController;
+use App\Http\Controllers\User\CertificationController;
 use App\Http\Controllers\User\UserCompanyController;
 use App\Http\Controllers\User\UserJobWorkController;
 use App\Http\Controllers\User\UserProfileController;
@@ -36,7 +37,6 @@ Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('work-time', WorkTimeController::class);
     Route::resource('gallery', GalleryController::class);
     Route::resource('company-job-work', CompanyJobWorkController::class);
-    // Route::get('/company/detail-job', [ViewsController::class, 'detailJob']);
     Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
 });
 
@@ -45,13 +45,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('user-company', UserCompanyController::class);
     Route::resource('user-profile', UserProfileController::class);
     Route::resource('work-experience', WorkExperienceController::class);
-    // Route::get('/user/loker', [ViewsController::class, 'userLoker'])->name('user.loker');
-    Route::get('/user/company', [ViewsController::class, 'userCompany']);
-    Route::get('/user/detail-company', [ViewsController::class, 'userDetailCompany']);
-    // Route::get('/user/detail-loker', [ViewsController::class, 'detailLoker']);
+    Route::resource('certification', CertificationController::class);
     Route::get('/user/lamaran-saya', [ViewsController::class, 'lamaranSaya']);
     Route::get('/user/disimpan', [ViewsController::class, 'disimpan']);
-    // Route::get('/user/profile', [ViewsController::class, 'profile']);
 });
 
 // Auth

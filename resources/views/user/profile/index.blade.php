@@ -197,62 +197,39 @@
                 <!-- Kolom Kiri: Sertifikasi -->
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0 p-3 h-100">
-                        <h5 class="fw-bold">Serfitikasi</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Sertifikasi</h5>
+                            <a href="#" class="add-certificate" data-bs-toggle="modal" data-bs-target="#certificateModal">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
+                        </div>
                         <ul class="list-unstyled text-start">
+                            @forelse ($certificates as $certificate)
                             <li>
-                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
+                                <div class="d-flex justify-content-between">
+                                    <p class="fw-semibold mb-0">{{ $certificate->name }}</p>
+                                    <a href="#"
+                                        class="edit-certificate"
+                                        data-id="{{ $certificate->id }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#certificateModal">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </div>
                             </li>
                             <li>
-                                <p class="fw-normal mb-0">Penerbit</p>
+                                <p class="fw-normal mb-0">{{ $certificate->publisher }}</p>
                             </li>
                             <li>
-                                <p class="text-muted mb-2">Tanggal Berlaku</p>
+                                <p class="text-muted mb-2">
+                                    {{ $certificate->start_date ? date('M Y', strtotime($certificate->start_date)) : '-' }}
+                                    -
+                                    {{ $certificate->end_date ? date('M Y', strtotime($certificate->end_date)) : 'Sekarang' }}
+                                </p>
                             </li>
-                            <li>
-                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
-                            </li>
-                            <li>
-                                <p class="fw-normal mb-0">Penerbit</p>
-                            </li>
-                            <li>
-                                <p class="text-muted mb-2">Tanggal Berlaku</p>
-                            </li>
-                            <li>
-                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
-                            </li>
-                            <li>
-                                <p class="fw-normal mb-0">Penerbit</p>
-                            </li>
-                            <li>
-                                <p class="text-muted mb-2">Tanggal Berlaku</p>
-                            </li>
-                            <li>
-                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
-                            </li>
-                            <li>
-                                <p class="fw-normal mb-0">Penerbit</p>
-                            </li>
-                            <li>
-                                <p class="text-muted mb-2">Tanggal Berlaku</p>
-                            </li>
-                            <li>
-                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
-                            </li>
-                            <li>
-                                <p class="fw-normal mb-0">Penerbit</p>
-                            </li>
-                            <li>
-                                <p class="text-muted mb-2">Tanggal Berlaku</p>
-                            </li>
-                            <li>
-                                <p class="fw-semibold mb-0">Nama Sertifikat</p>
-                            </li>
-                            <li>
-                                <p class="fw-normal mb-0">Penerbit</p>
-                            </li>
-                            <li>
-                                <p class="text-muted mb-2">Tanggal Berlaku</p>
-                            </li>
+                            @empty
+                            <p class="text-muted">Belum ada sertifikasi yang ditambahkan.</p>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
@@ -507,7 +484,7 @@
             </div>
         </div>
     </div>
-    <!-- Delete Modal -->
+    <!-- Delete Modal Work Experience -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -521,6 +498,75 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     <form id="deleteForm" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Certificate -->
+    <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="certificateModalLabel">Tambah/Edit Pengalaman Kerja</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="certificateForm" action="{{ route('certification.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="_method" id="formCertificateMethod" value="POST">
+                        <input type="hidden" name="id" id="certificateId" value="">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Sertifikat</label>
+                            <input type="text" class="form-control" id="nameCertificate" name="name" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Penerbit</label>
+                            <input type="text" class="form-control" id="publisher" name="publisher" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="start_date" class="form-label">Tanggal Mulai</label>
+                            <input type="date" class="form-control" id="start_date_certificate" name="start_date" value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">Tanggal Selesai</label>
+                            <input type="date" class="form-control" id="end_date_certificate" name="end_date" value="">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button"
+                                class="btn btn-danger delete-certificate"
+                                data-id=""
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteCertificateModal">
+                                Hapus
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal Certificate -->
+    <div class="modal fade" id="deleteCertificateModal" tabindex="-1" aria-labelledby="deleteCertificateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCertificateModalLabel">Hapus Sertifikasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin ingin menghapus sertifikasi ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <form id="deleteCertificateForm" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Hapus</button>
@@ -591,6 +637,60 @@
         $('.delete-experience').on('click', function() {
             const experienceId = $('#experienceId').val();
             const deleteUrl = `/work-experience/${experienceId}`;
+            deleteForm.attr('action', deleteUrl);
+            deleteModal.modal('show');
+        });
+
+        deleteModal.on('hidden.bs.modal', function() {
+            deleteForm.attr('action', '');
+        });
+    });
+
+    $(document).ready(function() {
+        const modal = $('#certificateModal');
+        const form = $('#certificateForm');
+        const methodField = $('#formCertificateMethod');
+        const idField = $('#certificateId');
+
+        $('.add-certificate, .edit-certificate').on('click', function() {
+            const isEdit = $(this).hasClass('edit-certificate');
+            const actionUrl = isEdit ? `/certification/${$(this).data('id')}` : `/certification`;
+            const method = isEdit ? 'PUT' : 'POST';
+
+            form.attr('action', actionUrl);
+            methodField.val(method);
+            idField.val(isEdit ? $(this).data('id') : '');
+
+            if (isEdit) {
+                $.ajax({
+                    url: `/certification/${$(this).data('id')}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#nameCertificate').val(data.name || '');
+                        $('#publisher').val(data.publisher || '');
+                        $('#start_date_certificate').val(data.start_date || '');
+                        $('#end_date_certificate').val(data.end_date || '');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    },
+                });
+            } else {
+                form.trigger('reset');
+            }
+        });
+
+        modal.on('hidden.bs.modal', function() {
+            form.trigger('reset');
+        });
+
+        const deleteModal = $('#deleteCertificateModal');
+        const deleteForm = $('#deleteCertificateForm');
+
+        $('.delete-certificate').on('click', function() {
+            const certificateId = $('#certificateId').val();
+            const deleteUrl = `/certification/${certificateId}`;
             deleteForm.attr('action', deleteUrl);
             deleteModal.modal('show');
         });
