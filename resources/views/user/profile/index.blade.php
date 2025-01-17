@@ -17,6 +17,7 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -54,7 +55,7 @@
                                 <li>
                                     <p class="fw-semibold mb-0">Pengalaman Kerja:</p>
                                 </li>
-                                <li><span>{{ $user->work_experience ?? '-'}}</span></li>
+                                <li><span>{{ $user->work_experience ?? '-'}} Tahun</span></li>
                                 <li>
                                     <p class="fw-semibold mb-0">Jenis Kelamin:</p>
                                 </li>
@@ -100,7 +101,7 @@
                                     -
                                     {{ $experience->end_date ? date('M Y', strtotime($experience->end_date)) : 'Sekarang' }}
                                 </p>
-                                <p class="text-secondary">{{ $experience->description }}</p>
+                                <div class="text-secondary">{!! $experience->description !!}</div>
                             </div>
                             <hr>
                             @empty
@@ -477,7 +478,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi</label>
-                            <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+                            <div id="quill-editor" class="mb-3"></div>
+                            <textarea rows="3" class="mb-3 d-none" name="description" id="quill-editor-area"></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -530,19 +532,18 @@
 
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function previewFile(id) {
-        const file = document.getElementById(id).files[0];
-        const fileName = file.name;
-        document.getElementById(`${id}-preview`).innerHTML = `File: ${fileName}`;
-    }
-
     $(document).ready(function() {
         const modal = $('#workExperienceModal');
         const form = $('#workExperienceForm');
         const methodField = $('#formMethod');
         const idField = $('#experienceId');
+        const quillEditor = new Quill('#quill-editor', {
+            theme: 'snow'
+        });
+        const quillEditorArea = $('#quill-editor-area');
 
         $('.add-experience, .edit-experience').on('click', function() {
             const isEdit = $(this).hasClass('edit-experience');
@@ -561,7 +562,7 @@
                     success: function(data) {
                         $('#name').val(data.name || '');
                         $('#jobdesk').val(data.jobdesk || '');
-                        $('#description').val(data.description || '');
+                        quillEditor.root.innerHTML = data.description || '';
                         $('#start_date').val(data.start_date || '');
                         $('#end_date').val(data.end_date || '');
                     },
@@ -571,32 +572,31 @@
                 });
             } else {
                 form.trigger('reset');
-                $('#description').val('');
+                quillEditor.root.innerHTML = '';
             }
         });
 
         modal.on('hidden.bs.modal', function() {
             form.trigger('reset');
-            $('#description').val('');
+            quillEditor.root.innerHTML = '';
         });
-    });
 
-    $(document).ready(function() {
+        quillEditor.on('text-change', function() {
+            quillEditorArea.val(quillEditor.root.innerHTML);
+        });
+
         const deleteModal = $('#deleteModal');
         const deleteForm = $('#deleteForm');
 
-        // Ketika tombol "Hapus" di modal edit diklik
         $('.delete-experience').on('click', function() {
-            const experienceId = $('#experienceId').val(); // Ambil ID dari input hidden
-            const deleteUrl = `/work-experience/${experienceId}`; // URL delete berdasarkan ID
-
-            deleteForm.attr('action', deleteUrl); // Set action form delete
-            deleteModal.modal('show'); // Tampilkan modal delete
+            const experienceId = $('#experienceId').val();
+            const deleteUrl = `/work-experience/${experienceId}`;
+            deleteForm.attr('action', deleteUrl);
+            deleteModal.modal('show');
         });
 
-        // Reset action form saat modal delete ditutup
         deleteModal.on('hidden.bs.modal', function() {
-            deleteForm.attr('action', ''); // Kosongkan action form
+            deleteForm.attr('action', '');
         });
     });
 </script>

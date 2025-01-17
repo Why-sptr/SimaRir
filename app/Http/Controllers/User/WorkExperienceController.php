@@ -17,7 +17,7 @@ class WorkExperienceController extends Controller
         $validated = $request->validate([
             'name' => 'nullable|string|max:255',
             'jobdesk' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
         ]);

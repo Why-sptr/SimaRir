@@ -26,8 +26,8 @@ class UserProfileController extends Controller
             'moto' => 'nullable|string|max:255',
             'avatar' => 'nullable|file|mimes:jpg,jpeg,png',
             'description' => 'nullable|string|max:500',
-            'cv' => 'nullable|file|mimes:pdf,doc,docx', // Validasi untuk CV
-            'portfolio' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png', // Validasi untuk Portfolio
+            'cv' => 'nullable|file|mimes:pdf,doc,docx',
+            'portfolio' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png',
         ]);
 
         $user = auth()->user();
@@ -36,7 +36,6 @@ class UserProfileController extends Controller
             return redirect()->back()->with('error', 'User data not found!');
         }
 
-        // Update user profile
         $user->location = $request->location ?: $user->location;
         $user->moto = $request->moto ?: $user->moto;
         $user->work_experience = $request->work_experience ?: $user->work_experience;
@@ -45,7 +44,6 @@ class UserProfileController extends Controller
         $user->education_id = $request->education_id ?: $user->education_id;
         $user->description = $request->description ?: $user->description;
 
-        // Process avatar upload
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $avatarFileName = 'avatar_' . time() . '.' . $avatar->getClientOriginalExtension();
@@ -53,12 +51,10 @@ class UserProfileController extends Controller
             $user->avatar = basename($avatarPath);
         }
 
-        // Check or create attachment
         $attachment = $user->attachment_id
-            ? Attachment::find($user->attachment_id) // Use existing attachment
-            : new Attachment(); // Create a new attachment if none exists
+            ? Attachment::find($user->attachment_id)
+            : new Attachment();
 
-        // Update CV if uploaded
         if ($request->hasFile('cv')) {
             $cvFile = $request->file('cv');
             $cvFileName = 'cv_' . $user->name . '_' . time() . '.' . $cvFile->getClientOriginalExtension();
@@ -66,7 +62,6 @@ class UserProfileController extends Controller
             $attachment->cv = basename($cvPath);
         }
 
-        // Update Portfolio if uploaded
         if ($request->hasFile('portfolio')) {
             $portfolioFile = $request->file('portfolio');
             $portfolioFileName = 'portfolio_' . $user->name . '_' . time() . '.' . $portfolioFile->getClientOriginalExtension();
@@ -74,7 +69,6 @@ class UserProfileController extends Controller
             $attachment->portfolio = basename($portfolioPath);
         }
 
-        // Save the attachment and link it to the user if new
         $attachment->save();
         $user->attachment_id = $attachment->id;
 
