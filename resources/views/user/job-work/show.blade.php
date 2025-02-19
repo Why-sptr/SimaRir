@@ -81,7 +81,15 @@
             </div>
             <!-- Buttons -->
             <div class="mt-3">
-              <button class="btn btn-primary fw-semibold">Lamar</button>
+              @if($alreadyApplied)
+              <button class="btn btn-primary fw-semibold disabled" id="applyButton" data-job-id="{{ $jobWork->id }}">
+                <i class="fa-solid fa-check me-2"></i>Dilamar
+              </button>
+              @else
+              <button class="btn btn-primary fw-semibold" id="applyButton" data-job-id="{{ $jobWork->id }}"> 
+                Lamar
+              </button>
+              @endif
               <button class="btn btn-outline-primary fw-semibold" id="shareButton">
                 <i class="fa-solid fa-share-from-square me-2"></i>Bagikan
               </button>
@@ -290,6 +298,43 @@
       </div>
     </div>
 
+    <!-- Modal untuk upload CV -->
+    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="applyModalLabel">Upload CV</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="applyForm" enctype="multipart/form-data">
+              @csrf
+              <div class="mb-3">
+                <label for="cv" class="form-label">Upload CV (PDF)</label>
+                <div class="input-group">
+                  <input type="file" class="form-control" id="cv" name="cv" accept=".pdf">
+                  <button class="btn btn-outline-danger" type="button" id="clearCV">
+                    <i class="fa-solid fa-times"></i>
+                  </button>
+                </div>
+                <div id="cvHelp" class="form-text">
+                  @if(auth()->user()->attachment && auth()->user()->attachment->cv)
+                  CV default akan menggunakan CV profil Anda. Upload CV baru jika ingin menggunakan CV yang berbeda.
+                  @else
+                  Mohon upload CV Anda (Maksimal 2MB)
+                  @endif
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="button" class="btn btn-primary" id="submitApply">Kirim Lamaran</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast Container -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -420,6 +465,104 @@
         });
     });
   });
+</script>
+<script>
+$(document).ready(function() {
+    const $applyButton = $('#applyButton');
+    const $applyModal = $('#applyModal');
+    const $applyForm = $('#applyForm');
+    const $cvInput = $('#cv');
+    const jobId = $applyButton.data('job-id');
+    
+    // Check if already applied
+    function checkApplicationStatus() {
+        return $.ajax({
+            url: '{{ route("apply.check") }}',
+            method: 'GET',
+            data: {
+                job_id: jobId
+            }
+        }).then(function(response) {
+            if (response.applied) {
+                disableApplyButton();
+            }
+        });
+    }
+
+    // Disable apply button
+    function disableApplyButton() {
+        $applyButton
+            .prop('disabled', true)
+            .html('<i class="fa-solid fa-check me-2"></i>Dilamar')
+            .removeClass('btn-primary')
+            .addClass('btn-secondary');
+    }
+
+    // Clear CV input
+    $('#clearCV').on('click', function() {
+        $cvInput.val('');
+    });
+
+    // Show modal when apply button clicked
+    $applyButton.on('click', function() {
+        if (!$(this).prop('disabled')) {
+            $applyModal.modal('show');
+        }
+    });
+
+    // Handle form submission
+    $('#submitApply').on('click', function() {
+        const formData = new FormData($applyForm[0]);
+        formData.append('job_id', jobId);
+
+        // Show loading state
+        $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...');
+
+        $.ajax({
+            url: '{{ route("apply.store") }}',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+                    $applyModal.modal('hide');
+                    disableApplyButton();
+                    showToast('Lamaran berhasil dikirim!', 'success');
+                }
+            },
+            error: function(xhr) {
+                let message = 'Terjadi kesalahan saat mengirim lamaran!';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    message = xhr.responseJSON.message;
+                }
+                showToast(message, 'error');
+            },
+            complete: function() {
+                // Reset loading state
+                $('#submitApply').prop('disabled', false).html('Kirim Lamaran');
+            }
+        });
+    });
+
+    // File input validation
+    $cvInput.on('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const maxSize = 2 * 1024 * 1024; // 2MB
+            if (file.size > maxSize) {
+                showToast('Ukuran file terlalu besar. Maksimal 2MB', 'error');
+                this.value = '';
+            } else if (file.type !== 'application/pdf') {
+                showToast('Format file harus PDF', 'error');
+                this.value = '';
+            }
+        }
+    });
+
+    // Check initial application status
+    checkApplicationStatus();
+});
 </script>
 
 </html>

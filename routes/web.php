@@ -21,6 +21,7 @@ use App\Http\Controllers\Company\CompanyJobWorkController;
 use App\Http\Controllers\Company\GalleryController;
 use App\Http\Controllers\Company\SocialMediaController;
 use App\Http\Controllers\Company\WorkTimeController;
+use App\Http\Controllers\User\ApplyController;
 use App\Http\Controllers\User\CertificationController;
 use App\Http\Controllers\User\FavoriteController;
 use App\Http\Controllers\User\OrganizationController;
@@ -51,6 +52,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('organization', OrganizationController::class);
     Route::resource('favorite', FavoriteController::class);
     Route::get('favorite/check/{jobId}/{userId}', [FavoriteController::class, 'checkFavorite'])->name('favorite.check');
+    Route::resource('apply', ApplyController::class);
+    Route::get('apply/check', [ApplyController::class, 'check'])->name('apply.check');
     Route::get('/user/lamaran-saya', [ViewsController::class, 'lamaranSaya']);
     Route::get('/user/disimpan', [ViewsController::class, 'disimpan']);
 });
