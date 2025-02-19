@@ -142,11 +142,8 @@
                         <div class="col-md-6 mb-4 d-flex">
                             <div class="card shadow-sm border-0 w-100 h-100">
                                 <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
-
                                     <div class="d-flex justify-content-between gap-2">
-                                        <h5 class="card-title text-truncate" style="width: 85%;">
-                                            {{ $jobWork->name }}
-                                        </h5>
+                                        <h5 class="card-title text-truncate" style="width: 85%;">{{ $jobWork->name }}</h5>
                                         <p class="text-primary fw-semibold text-end">
                                             @php
                                             $salary = $jobWork->salary;
@@ -161,6 +158,7 @@
                                             {{ $salary }}
                                         </p>
                                     </div>
+
                                     <div class="d-flex flex-column flex-grow-1">
                                         <div class="d-flex flex-wrap mb-3 gap-1">
                                             <span class="badge bg-secondary p-2">{{ $jobWork->workMethod->name }}</span>
@@ -175,24 +173,28 @@
                                             @endif
                                             <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
                                         </div>
+
                                         <div class="mt-auto">
                                             <div class="d-flex align-items-center mb-2">
-                                                <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo"
-                                                    class="rounded me-2 border border-1"
-                                                    style="width: 50px; height: 50px; object-fit: cover;">
+                                                <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
                                                 <div>
                                                     <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
                                                     <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
                                                 </div>
                                             </div>
                                             <hr>
-                                            <small class="text-muted">Kandidat Pelamar</small>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Kandidat Pelamar</small>
+                                                <!-- Tombol favorit dengan ID unik berdasarkan job id -->
+                                                <a class="bookmarkButton" style="cursor: pointer;" id="bookmarkButton-{{ $jobWork->id }}" data-job-id="{{ $jobWork->id }}" data-favorite-id="{{ $jobWork->favorite_id }}">
+                                                    <i class="fa-regular fa-bookmark me-2"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
-
                         @endforeach
 
                         <!-- Pagination -->
@@ -212,9 +214,123 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Toast Container -->
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Favorit</strong>
+                        <small>Baru saja</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" id="toastMessage">
+                        <!-- Pesan akan dinamis diubah melalui JS -->
+                    </div>
+                </div>
+            </div>
     </section>
 
-    <script src="script.js"></script>
 </body>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function checkFavoriteStatus(jobId) {
+            var userId = '{{ auth()->user()->id }}';
+            return $.ajax({
+                url: '{{ route("favorite.check", ["jobId" => ":jobId", "userId" => ":userId"]) }}'
+                    .replace(':jobId', jobId)
+                    .replace(':userId', userId),
+                method: 'GET'
+            });
+        }
+
+        function updateButtonDisplay($button, exists, favoriteId = null) {
+            var $icon = $button.find('i');
+            if (exists) {
+                $icon.removeClass('fa-regular').addClass('fa-solid');
+                $button.data('favorite-id', favoriteId);
+            } else {
+                $icon.removeClass('fa-solid').addClass('fa-regular');
+                $button.data('favorite-id', null);
+            }
+        }
+
+        $('.bookmarkButton').each(function() {
+            var jobId = $(this).data('job-id');
+            var $button = $(this);
+
+            checkFavoriteStatus(jobId)
+                .done(function(response) {
+                    updateButtonDisplay($button, response.exists, response.favoriteId);
+                })
+                .fail(function() {
+                    showToast('Terjadi kesalahan saat memeriksa status favorit!', 'error');
+                });
+        });
+
+        $('.bookmarkButton').on('click', function() {
+            var $button = $(this);
+            var jobId = $button.data('job-id');
+            var userId = '{{ auth()->user()->id }}';
+
+            checkFavoriteStatus(jobId)
+                .done(function(response) {
+                    if (!response.exists) {
+                        $.ajax({
+                            url: '{{ route("favorite.store") }}',
+                            method: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                job_id: jobId,
+                                user_id: userId
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    updateButtonDisplay($button, true, response.favoriteId);
+                                    showToast('Pekerjaan berhasil ditambahkan ke favorit!', 'success');
+                                } else {
+                                    showToast('Gagal menambahkan pekerjaan ke favorit!', 'error');
+                                }
+                            },
+                            error: function() {
+                                showToast('Terjadi kesalahan!', 'error');
+                            }
+                        });
+                    } else {
+                        $.ajax({
+                            url: '{{ route("favorite.destroy", ":favoriteId") }}'.replace(':favoriteId', response.favoriteId),
+                            method: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                job_id: jobId,
+                                user_id: userId
+                            },
+                            success: function(deleteResponse) {
+                                if (deleteResponse.success) {
+                                    updateButtonDisplay($button, false);
+                                    showToast('Pekerjaan berhasil dihapus dari favorit!', 'success');
+                                } else {
+                                    showToast('Gagal menghapus pekerjaan dari favorit!', 'error');
+                                }
+                            },
+                            error: function() {
+                                showToast('Terjadi kesalahan saat menghapus favorit!', 'error');
+                            }
+                        });
+                    }
+                })
+                .fail(function() {
+                    showToast('Terjadi kesalahan saat memeriksa status favorit!', 'error');
+                });
+        });
+
+        function showToast(message) {
+            $('#toastMessage').text(message);
+            var toast = new bootstrap.Toast($('#liveToast')[0]);
+            toast.show();
+        }
+    });
+</script>
 
 </html>
