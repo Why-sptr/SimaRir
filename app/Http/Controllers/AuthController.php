@@ -114,7 +114,7 @@ class AuthController extends Controller
             $user->assignRole('user');
             auth()->login($user);
 
-            return redirect()->route('user.loker')->with('password', $password);
+            return redirect()->route('user.profile.index')->with('password', $password);
         } catch (\Exception $e) {
             Log::error('Error pada saat pendaftaran:', [
                 'error_message' => $e->getMessage(),

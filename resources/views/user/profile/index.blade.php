@@ -180,11 +180,11 @@
                         <ul class="list-unstyled">
                             <div class="d-flex gap-2 align-items-center">
                                 <i class="fa-solid fa-file" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">{{ $user->attachment->cv }}</p>
+                                <p class="card-text fw-semibold">{{ $user->attachment->cv ?? '-'}}</p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
                                 <i class="fa-solid fa-paperclip" style="width: 24px;"></i>
-                                <a href="{{ asset($user->attachment->portfolio) }}" class="card-text fw-semibold">{{ $user->attachment->portfolio }}</a>
+                                <a href="#" class="card-text fw-semibold">{{ $user->attachment->portfolio ?? '-'}}</a>
                             </div>
                         </ul>
                     </div>
@@ -233,18 +233,40 @@
                         </ul>
                     </div>
                 </div>
-
                 <!-- Kolom Kanan: Pengalaman Kerja -->
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0 p-3 h-100">
-                        <h5 class="fw-bold">Pengalaman Organisasi</h5>
-                        <div>
-                            <h6 class="card-title">Nama Organisasi</h6>
-                            <p class="fw-semibold text-muted mb-1">Jabatan</p>
-                            <p class="fw-semibold mb-1">Masa Jabatan</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Pengalaman Organisasi</h5>
+                            <a href="#" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
+                                <i class="fa-solid fa-plus"></i>
+                            </a>
                         </div>
                         <div>
+                            @forelse ($workExperiences as $experience)
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title">{{ $experience->name }}</h6>
+                                    <a href="#"
+                                        class="edit-experience"
+                                        data-id="{{ $experience->id }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#workExperienceModal">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                </div>
+                                <p class="fw-semibold text-muted mb-1">{{ $experience->departement }}</p>
+                                <p class="fw-semibold mb-1">
+                                    {{ $experience->start_date ? date('M Y', strtotime($experience->start_date)) : '-' }}
+                                    -
+                                    {{ $experience->end_date ? date('M Y', strtotime($experience->end_date)) : 'Sekarang' }}
+                                </p>
+                                <div class="text-secondary">{!! $experience->description !!}</div>
+                            </div>
+                            <hr>
+                            @empty
+                            <p class="text-muted">Belum ada pengalaman kerja yang ditambahkan.</p>
+                            @endforelse
                             <h6 class="card-title">Nama Organisasi</h6>
                             <p class="fw-semibold text-muted mb-1">Jabatan</p>
                             <p class="fw-semibold mb-1">Masa Jabatan</p>
@@ -368,12 +390,12 @@
                         @method('POST')
                         <div class="mb-3">
                             <label for="cv" class="form-label">CV</label>
-                            <input class="form-control" type="file" id="cv" name="cv" onchange="previewFile('cv')">
+                            <input class="form-control" type="file" id="cv" name="cv" value="{{ old('cv', $user->attachment->cv ?? '-') }}" onchange="previewFile('cv')">
                             <p id="cv-preview" class="mt-2">File: {{ $user->attachment->cv ?? '-' }}</p>
                         </div>
                         <div class="mb-3">
                             <label for="portfolio" class="form-label">Portfolio</label>
-                            <input class="form-control" type="file" id="portfolio" name="portfolio" value="{{ old('portfolio', auth()->user()->attachment->portfolio) }}" onchange="previewFile('portfolio')">
+                            <input class="form-control" type="file" id="portfolio" name="portfolio" value="{{ old('portfolio', $user->attachment->portfolio ?? '-') }}" onchange="previewFile('portfolio')">
                             <p id="portfolio-preview" class="mt-2">File: {{ $user->attachment->portfolio ?? '-' }}</p>
                         </div>
 
@@ -575,8 +597,6 @@
             </div>
         </div>
     </div>
-
-
 </body>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
