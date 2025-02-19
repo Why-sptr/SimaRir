@@ -82,7 +82,9 @@
             <!-- Buttons -->
             <div class="mt-3">
               <button class="btn btn-primary fw-semibold">Lamar</button>
-              <button class="btn btn-outline-primary fw-semibold"><i class="fa-solid fa-share-from-square me-2"></i>Bagikan</button>
+              <button class="btn btn-outline-primary fw-semibold" id="shareButton">
+                <i class="fa-solid fa-share-from-square me-2"></i>Bagikan
+              </button>
               <button id="bookmarkButton" class="btn btn-outline-primary fw-semibold" data-job-id="{{ $jobWork->id }}">
                 <i class="fa-regular fa-bookmark me-2"></i>Favorit
               </button>
@@ -292,7 +294,7 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-          <strong class="me-auto">Favorit</strong>
+          <strong id="toastTitle" class="me-auto">Aksi</strong>
           <small>Baru saja</small>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
@@ -333,7 +335,7 @@
         updateButtonDisplay(response.exists);
         return response;
       }).catch(function(error) {
-        showToast('Terjadi kesalahan saat mengecek status favorit!', 'error');
+        showToast('Terjadi kesalahan saat mengecek status favorit!', 'error', 'Kesalahan');
         console.error('Error checking favorite status:', error);
       });
     }
@@ -351,17 +353,17 @@
         if (response.success) {
           favoriteId = response.favoriteId;
           updateButtonDisplay(true);
-          showToast('Pekerjaan berhasil ditambahkan ke favorit!', 'success');
+          showToast('Pekerjaan berhasil ditambahkan ke favorit!', 'success', 'Favorit Ditambahkan');
         }
       }).catch(function(error) {
-        showToast('Gagal menambahkan ke favorit!', 'error');
+        showToast('Gagal menambahkan ke favorit!', 'error', 'Kesalahan');
         console.error('Error adding favorite:', error);
       });
     }
 
     function removeFromFavorites() {
       if (!favoriteId) {
-        showToast('ID Favorit tidak ditemukan!', 'error');
+        showToast('ID Favorit tidak ditemukan!', 'error', 'Kesalahan');
         return Promise.reject('Favorite ID not found');
       }
 
@@ -377,10 +379,10 @@
         if (response.success) {
           favoriteId = null;
           updateButtonDisplay(false);
-          showToast('Pekerjaan berhasil dihapus dari favorit!', 'success');
+          showToast('Pekerjaan berhasil dihapus dari favorit!', 'success', 'Favorit Dihapus');
         }
       }).catch(function(error) {
-        showToast('Gagal menghapus dari favorit!', 'error');
+        showToast('Gagal menghapus dari favorit!', 'error', 'Kesalahan');
         console.error('Error removing favorite:', error);
       });
     }
@@ -395,13 +397,28 @@
       });
     });
 
-    function showToast(message) {
+    function showToast(message, type, title) {
+      $('#toastTitle').text(title || 'Favorit');
       $('#toastMessage').text(message);
+
       var toast = new bootstrap.Toast($('#liveToast')[0]);
       toast.show();
     }
 
     checkFavoriteStatus();
+
+    document.getElementById('shareButton').addEventListener('click', function() {
+      const urlToCopy = window.location.href;
+
+      navigator.clipboard.writeText(urlToCopy)
+        .then(() => {
+          showToast('Link telah disalin ke clipboard!', 'success', 'Link Disalin');
+        })
+        .catch((error) => {
+          console.error('Gagal menyalin: ', error);
+          showToast('Gagal menyalin link', 'error', 'Kesalahan');
+        });
+    });
   });
 </script>
 
