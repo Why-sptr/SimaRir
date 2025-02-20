@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Models\Certification;
 use App\Models\Education;
+use App\Models\JobRole;
 use App\Models\RecentWorkExperience;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,9 @@ class UserProfileController extends Controller
         $educations = Education::all();
         $workExperiences = RecentWorkExperience::where('user_id', $user->id)->get();
         $certificates = Certification::where('user_id', $user->id)->get();
-        return view('user.profile.index', compact('user','educations','workExperiences','certificates'));
+        $jobRoles = JobRole::all();
+
+        return view('user.profile.index', compact('user', 'educations', 'workExperiences', 'certificates', 'jobRoles'));
     }
 
     public function store(Request $request)
@@ -27,9 +30,10 @@ class UserProfileController extends Controller
             'location' => 'nullable|string|max:255',
             'moto' => 'nullable|string|max:255',
             'avatar' => 'nullable|file|mimes:jpg,jpeg,png',
-            'description' => 'nullable|string|max:500',
+            'description' => 'nullable|string',
             'cv' => 'nullable|file|mimes:pdf,doc,docx',
             'portfolio' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png',
+            'job_role_id' => 'nullable|exists:job_roles,id',
         ]);
 
         $user = auth()->user();
@@ -44,6 +48,7 @@ class UserProfileController extends Controller
         $user->phone = $request->phone ?: $user->phone;
         $user->gender = $request->gender ?: $user->gender;
         $user->education_id = $request->education_id ?: $user->education_id;
+        $user->job_role_id = $request->job_role_id ?: $user->job_role_id;
         $user->description = $request->description ?: $user->description;
 
         if ($request->hasFile('avatar')) {

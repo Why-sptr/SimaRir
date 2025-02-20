@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,23 +18,60 @@
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
+
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container p-3">
+            <a class="navbar-brand" href="#" class="action"><i class="ph-duotone ph-book"></i></a>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link active text-primary fw-bold" href="/user-profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-job-work">Pekerjaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-company">Perusahaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/apply">Lamaran</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/favorite">Disimpan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
     <section>
         <div class="container mt-4">
             <div class="row g-4">
                 <!-- Left Column -->
                 <div class="col-lg-3">
-                    <div class="card shadow-sm border-0 text-center p-3 h-100">
-                        <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="rounded-circle mb-3 align-self-center border border-2">
-                        <div class="d-flex justify-content-center gap-2">
-                            <h5 class="mb-3 fw-bold">{{ $user->name }}</h5>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <div class="card border-1 border-primary text-center p-3 h-100">
+                        @if ($user->avatar)
+                        <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="border border-1 p-2 border-primary rounded-2 mb-3 align-self-center">
+                        @else
+                        <img src="{{ asset('assets/img/default-user.png') }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="border border-1 p-2 border-primary rounded-2 mb-3 align-self-center">
+                        @endif
+                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                            <h5 class="m-0 fw-bold">{{ $user->name }}</h5>
+                            <a href="#" class="action" class="action" data-bs-toggle="modal" data-bs-target="#editModal"><i class="ph-duotone ph-pen"></i></a>
                         </div>
-                        <p class="fw-semibold">{{ $user->jobRole->name }}</p>
+                        
                         <p>{{ $user->moto }}</p>
-                        <div class="card shadow-sm border-0 p-2 mt-3 h-100">
+                        <span class="badge badge-outline-primary p-2">{{ $user->jobRole->name }}</span>
+                        <div class="card border-0 p-2 mt-3 h-100">
                             <ul class="list-unstyled text-start">
                                 <li>
                                     <p class="fw-semibold mb-0">Whatsapp:</p>
@@ -55,7 +92,7 @@
                                 <li>
                                     <p class="fw-semibold mb-0">Pengalaman Kerja:</p>
                                 </li>
-                                <li><span>{{ $user->work_experience ?? '-'}} Tahun</span></li>
+                                <li><span>{{ $user->work_experience ?? '0'}} Tahun</span></li>
                                 <li>
                                     <p class="fw-semibold mb-0">Jenis Kelamin:</p>
                                 </li>
@@ -66,19 +103,25 @@
                 </div>
                 <!-- Center Column -->
                 <div class="col-lg-6 d-flex flex-column">
-                    <div class="card shadow-sm border-0 p-3 mb-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 mb-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Tentang Saya</h5>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#descriptionModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#" class="action" data-bs-toggle="modal" data-bs-target="#descriptionModal"><i class="ph-duotone ph-pen"></i></a>
                         </div>
                         <div class="text">
-                            {!! $user->description !!}
+                            @if($user->description)
+                                {!! $user->description !!}
+                            @else
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                            </div>
+                            @endif
                         </div>
                     </div>
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Pengalaman Kerja</h5>
-                            <a href="#" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
+                            <a href="#" class="action-add" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
@@ -87,12 +130,12 @@
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="card-title">{{ $experience->jobdesk }}</h6>
-                                    <a href="#"
+                                    <a href="#" class="action"
                                         class="edit-experience"
                                         data-id="{{ $experience->id }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#workExperienceModal">
-                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <i class="ph-duotone ph-pen"></i>
                                     </a>
                                 </div>
                                 <p class="fw-semibold text-muted mb-1">{{ $experience->name }}</p>
@@ -105,34 +148,36 @@
                             </div>
                             <hr>
                             @empty
-                            <p class="text-muted">Belum ada pengalaman kerja yang ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                            </div>
                             @endforelse
                         </div>
                     </div>
                 </div>
                 <!-- Right Column -->
                 <div class="col-lg-3 d-flex flex-column gap-3">
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <h5 class="fw-bold">Skill</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge bg-secondary p-2">Skill 1</span>
-                            <span class="badge bg-secondary p-2">Skill 2</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 1</span>
+                            <span class="badge badge-outline-primary p-2">Skill 2</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
                         </div>
                     </div>
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Sosial Media</h5>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#socialMediaModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#" class="action" data-bs-toggle="modal" data-bs-target="#socialMediaModal"><i class="ph-duotone ph-pen"></i></a>
                         </div>
                         <ul class="list-unstyled">
                             {{-- Periksa Media Sosial --}}
@@ -153,11 +198,11 @@
                             @if ($link)
                             <li>
                                 <p>
-                                    <span class="badge bg-light text-dark">
+                                    <span class="badge bg-primary rounded-pill p-2">
                                         @if ($platform === 'website')
-                                        <i class="fa-solid fa-globe"></i> {{-- Ikon untuk Website --}}
+                                        <i class="ph-duotone ph-globe"></i> {{-- Ikon untuk Website --}}
                                         @else
-                                        <i class="fa-brands fa-{{ $platform }}"></i> {{-- Ikon untuk Platform Lain --}}
+                                        <i class="ph-duotone ph-{{ $platform }}-logo"></i> {{-- Ikon untuk Platform Lain --}}
                                         @endif
                                     </span>
                                     <a href="{{ $link }}" target="_blank">
@@ -168,14 +213,16 @@
                             @endif
                             @endforeach
                             @else
-                            <p>Media sosial belum ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                            </div>
                             @endif
                         </ul>
                     </div>
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Lampiran</h5>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#attachmentModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#" class="action" data-bs-toggle="modal" data-bs-target="#attachmentModal"><i class="ph-duotone ph-pen"></i></a>
                         </div>
                         <ul class="list-unstyled">
                             <div class="d-flex gap-2 align-items-center">
@@ -196,10 +243,10 @@
             <div class="row">
                 <!-- Kolom Kiri: Sertifikasi -->
                 <div class="col-md-6">
-                    <div class="card shadow-sm border-0 p-3 h-100">
+                    <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Sertifikasi</h5>
-                            <a href="#" class="add-certificate" data-bs-toggle="modal" data-bs-target="#certificateModal">
+                            <a href="#" class="action-add" class="add-certificate" data-bs-toggle="modal" data-bs-target="#certificateModal">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
@@ -208,12 +255,12 @@
                             <li>
                                 <div class="d-flex justify-content-between">
                                     <p class="fw-semibold mb-0">{{ $certificate->name }}</p>
-                                    <a href="#"
+                                    <a href="#" class="action"
                                         class="edit-certificate"
                                         data-id="{{ $certificate->id }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#certificateModal">
-                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <i class="ph-duotone ph-pen"></i>
                                     </a>
                                 </div>
                             </li>
@@ -228,17 +275,19 @@
                                 </p>
                             </li>
                             @empty
-                            <p class="text-muted">Belum ada sertifikasi yang ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                            </div>
                             @endforelse
                         </ul>
                     </div>
                 </div>
                 <!-- Kolom Kanan: Pengalaman Kerja -->
                 <div class="col-md-6">
-                    <div class="card shadow-sm border-0 p-3 h-100">
+                    <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Pengalaman Organisasi</h5>
-                            <a href="#" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
+                            <a href="#" class="action-add" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
@@ -247,12 +296,12 @@
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="card-title">{{ $experience->name }}</h6>
-                                    <a href="#"
+                                    <a href="#" class="action"
                                         class="edit-experience"
                                         data-id="{{ $experience->id }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#workExperienceModal">
-                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        <i class="ph-duotone ph-pen"></i>
                                     </a>
                                 </div>
                                 <p class="fw-semibold text-muted mb-1">{{ $experience->departement }}</p>
@@ -270,7 +319,7 @@
                             <h6 class="card-title">Nama Organisasi</h6>
                             <p class="fw-semibold text-muted mb-1">Jabatan</p>
                             <p class="fw-semibold mb-1">Masa Jabatan</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                            <p class="text-secondary">-</p>
                         </div>
                     </div>
                 </div>
@@ -310,6 +359,20 @@
                                 @endforeach
                             </select>
                         </div>
+
+                        <!-- Job Role -->
+                        <div class="mb-3">
+                            <label for="job_role_id" class="form-label">Role</label>
+                            <select class="form-control" id="job_role_id" name="job_role_id">
+                                <option value="" disabled selected>Pilih Role</option>
+                                @foreach ($jobRoles as $job)
+                                <option value="{{ $job->id }}" {{ $job->id == $user->job_role_id ? 'selected' : '' }}>
+                                    {{ $job->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
 
                         <!-- Moto Field -->
                         <div class="mb-3">

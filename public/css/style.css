@@ -1,0 +1,113 @@
+*{
+    font-family: 'Poppins', sans-serif;
+}
+p {
+    font-size: 14px;
+}
+span {
+    font-size: 14px;
+}
+div {
+    font-size: 14px;
+}
+body {
+    background-color: #f5f7fb !important;
+}
+
+:root {
+    --bs-primary: #008081 !important;
+    --bs-primary-rgb: 0, 128, 129 !important;
+}
+
+.btn-primary {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
+.text-primary {
+    color: var(--bs-primary) !important;
+}
+
+a {
+    text-decoration: none !important;
+    color: var(--bs-primary) !important;
+}
+
+.nav-link {
+    color: #171a1783 !important;
+}
+
+.nav-link:hover {
+    color: var(--bs-primary) !important;
+    font-weight: bold;
+    transition: ease-in-out 0.1s;
+    background-color: #0081811c;
+    border-radius: 10px;
+    border: solid 1px #008081;
+}
+
+.nav-link.active {
+    color: var(--bs-primary) !important;
+    font-weight: bold;
+    transition: ease-in-out 0.1s;
+    background-color: #0081811c;
+    border-radius: 10px;
+    border: solid 1px #008081;
+}
+
+.badge-outline-primary {
+    background-color: #0080811c !important;
+    border: solid 1px #008081 !important;
+    color: var(--bs-primary) !important;
+}
+
+.action {
+    background-color: #0080811c !important;
+    border: solid 1px #008081 !important;
+    color: var(--bs-primary) !important;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+}
+
+.action:hover {
+    background-color: #008081 !important;
+    color: white !important;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+}
+
+.action-add {
+    background-color: #008081 !important;
+    color: white !important;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+}
+
+.action-add:hover {
+    background-color: #0080811c !important;
+    border: solid 1px #008081 !important;
+    color: var(--bs-primary) !important;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: ease-in-out 0.5s;
+}
+
