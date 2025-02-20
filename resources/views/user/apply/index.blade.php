@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lamaran Saya</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,9 +17,40 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container p-3">
+            <a class="navbar-brand" href="#" class="action"><i class="ph-duotone ph-book"></i></a>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-job-work">Pekerjaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-company">Perusahaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-primary fw-bold" href="/apply">Lamaran</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/favorite">Disimpan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
     <section>
         <div class="container mt-4 text-center">
             <h3 class="fw-bold">Lamaran Saya</h3>
@@ -31,7 +62,7 @@
                         data-bs-target="#sidebarContent" aria-expanded="false" aria-controls="sidebarContent">
                         Filter
                     </button>
-                    <div class="card shadow-sm border-0 p-3">
+                    <div class="card border-1 border-primary p-3">
                         <div class="collapse d-md-block sticky-sidebar" id="sidebarContent">
                             <!-- Jenis Section -->
                             <div class="mb-4">
@@ -81,47 +112,53 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row g-3">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Cari</button>
+                        <div class="container my-4">
+                            <div class="row justify-content-center">
+                                <div class="col">
+                                    <div class="search-container">
+                                        <input type="text" class="form-control search-input" placeholder="Search...">
+                                        <i class="ph-duotone ph-magnifying-glass search-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         @foreach ($candidates as $candidate)
                         <div class="col-12 d-flex">
-                            <div class="card shadow-sm border-0 flex-grow-1">
+                            <div class="card border-1 border-primary flex-grow-1">
                                 <a href="{{ route('user-job-work.show', $candidate->jobWork->id) }}" class="card-body" style="text-decoration: none; color: inherit;">
                                     <!-- Job Title and Salary -->
-                                    <div class="d-flex justify-content-between">
-                                        <h5 class="card-title fw-bold mb-2">{{ $candidate->jobWork->name }}</h5>
+                                    <div class="d-flex justify-content-between px-3 mt-3">
+                                        <h5 class="card-title fw-semibold mb-2 text-dark">{{ $candidate->jobWork->name }}</h5>
                                         <p class="text-primary fw-semibold mb-1">Rp {{ number_format($candidate->jobWork->salary, 0, ',', '.') }}</p>
                                     </div>
                                     <!-- Job Tags -->
-                                    <div class="d-flex flex-wrap mb-3 gap-1">
-                                        <span class="badge bg-secondary p-2">{{ $candidate->jobWork->workMethod->name }}</span>
-                                        <span class="badge bg-secondary p-2">{{ $candidate->jobWork->workType->name }}</span>
-                                        <span class="badge bg-secondary p-2">{{ $candidate->jobWork->qualification->work_experience }} Tahun</span>
-                                        <span class="badge bg-secondary p-2">{{ $candidate->jobWork->qualification->education->name }}</span>
+                                    <div class="d-flex flex-wrap mb-3 gap-1 px-3">
+                                        <span class="badge badge-outline-primary p-2">{{ $candidate->jobWork->workMethod->name }}</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $candidate->jobWork->workType->name }}</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $candidate->jobWork->qualification->work_experience }} Tahun</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $candidate->jobWork->qualification->education->name }}</span>
                                         @if ($candidate->jobWork->qualification->major)
-                                        <span class="badge bg-secondary p-2">{{ $candidate->jobWork->qualification->major }}</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $candidate->jobWork->qualification->major }}</span>
                                         @endif
                                         @if ($candidate->jobWork->qualification->ipk)
-                                        <span class="badge bg-secondary p-2">IPK {{ $candidate->jobWork->qualification->ipk }}</span>
+                                        <span class="badge badge-outline-primary p-2">IPK {{ $candidate->jobWork->qualification->ipk }}</span>
                                         @endif
-                                        <span class="badge bg-secondary p-2">+ {{ $candidate->jobWork->skillJobs->count() + 1 }}</span>
+                                        <span class="badge badge-outline-primary p-2">+ {{ $candidate->jobWork->skillJobs->count() + 1 }}</span>
                                     </div>
                                     <!-- Company Info -->
-                                    <div class="d-flex align-items-center mb-2">
+                                    <div class="d-flex align-items-center mb-2 px-3">
                                         <img src="{{ asset('storage/avatars/' . $candidate->jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">{{ $candidate->jobWork->company->name }}</p>
                                             <div class="d-flex gap-2 align-items-center">
-                                                <i class="fa-solid fa-location-dot"></i>
-                                                <p class="card-text text-muted">{{ $candidate->jobWork->location }}</p>
+                                                <i class="ph-duotone ph-map-pin"></i>
+                                                <small class="card-text text-muted">{{ $candidate->jobWork->location }}</small>
                                             </div>
                                         </div>
                                     </div>
                                     <hr>
                                     <!-- Footer -->
-                                    <span class="badge bg-secondary px-3 py-2">{{ ucfirst($candidate->status) }}</span>
+                                    <span class="badge badge-outline-primary px-3 py-2 mx-3 mb-3">{{ ucfirst($candidate->status) }}</span>
                                 </a>
                             </div>
                         </div>
