@@ -31,10 +31,13 @@ body {
 a {
     text-decoration: none !important;
     color: var(--bs-primary) !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .nav-link {
     color: #171a1783 !important;
+    padding: 5px 10px !important;
 }
 
 .nav-link:hover {

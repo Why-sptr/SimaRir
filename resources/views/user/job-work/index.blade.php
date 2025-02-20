@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loker</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,16 +17,47 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container p-3">
+            <a class="navbar-brand" href="#" class="action"><i class="ph-duotone ph-book"></i></a>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-profile">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active text-primary fw-bold" href="/user-job-work">Pekerjaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/user-company">Perusahaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/apply">Lamaran</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/favorite">Disimpan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
     <section>
         <div class="container my-5">
             <div class="row">
 
                 <!-- Sidebar -->
                 <div class="col-md-3">
-                    <div class="card shadow-sm border-0 p-3">
+                    <div class="card border-1 border-primary p-3">
                         <button class="btn btn-dark w-100 d-md-none mb-3" type="button" data-bs-toggle="collapse"
                             data-bs-target="#sidebarContent" aria-expanded="false" aria-controls="sidebarContent">
                             Filter
@@ -136,15 +167,17 @@
                 <!-- Main Content -->
                 <div class="col-md-9">
                     <!-- Produk -->
-                    <div class="row g-4">
+                    <div class="row g-3">
                         <!-- Card 1 -->
                         @foreach ($jobWorks as $jobWork)
-                        <div class="col-md-6 mb-4 d-flex">
-                            <div class="card shadow-sm border-0 w-100 h-100">
-                                <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
-                                    <div class="d-flex justify-content-between gap-2">
-                                        <h5 class="card-title text-truncate" style="width: 85%;">{{ $jobWork->name }}</h5>
-                                        <p class="text-primary fw-semibold text-end">
+                        <div class="col-md-6 mb-3 d-flex">
+                            <div class="card border-1 border-primary w-100">
+                                <a class="card-body d-flex flex-column text-decoration-none text-dark" href="{{ route('user-job-work.show', $jobWork->id) }}">
+
+                                    <!-- Nama Pekerjaan & Gaji -->
+                                    <div class="d-flex justify-content-between align-items-center mb-2 px-3 mt-3">
+                                        <h5 class="card-title text-truncate mb-0" style="width: 85%;">{{ $jobWork->name }}</h5>
+                                        <p class="text-primary fw-semibold mb-0">
                                             @php
                                             $salary = $jobWork->salary;
                                             if ($salary >= 1000000000) {
@@ -159,39 +192,40 @@
                                         </p>
                                     </div>
 
-                                    <div class="d-flex flex-column flex-grow-1">
-                                        <div class="d-flex flex-wrap mb-3 gap-1">
-                                            <span class="badge bg-secondary p-2">{{ $jobWork->workMethod->name }}</span>
-                                            <span class="badge bg-secondary p-2">{{ $jobWork->workType->name }}</span>
-                                            <span class="badge bg-secondary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
-                                            <span class="badge bg-secondary p-2">{{ $jobWork->qualification->education->name }}</span>
-                                            @if ($jobWork->qualification->major)
-                                            <span class="badge bg-secondary p-2">{{ $jobWork->qualification->major }}</span>
-                                            @endif
-                                            @if ($jobWork->qualification->ipk)
-                                            <span class="badge bg-secondary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
-                                            @endif
-                                            <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
-                                        </div>
+                                    <!-- Badge Kualifikasi -->
+                                    <div class="d-flex flex-wrap gap-1 mb-3 px-3">
+                                        <span class="badge badge-outline-primary p-2">{{ $jobWork->workMethod->name }}</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $jobWork->workType->name }}</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
+                                        <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->education->name }}</span>
+                                        @if ($jobWork->qualification->major)
+                                        <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->major }}</span>
+                                        @endif
+                                        @if ($jobWork->qualification->ipk)
+                                        <span class="badge badge-outline-primary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
+                                        @endif
+                                        <span class="badge badge-outline-primary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
+                                    </div>
 
-                                        <div class="mt-auto">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
-                                                <div>
-                                                    <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
-                                                    <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <small class="text-muted">Kandidat Pelamar</small>
-                                                <!-- Tombol favorit dengan ID unik berdasarkan job id -->
-                                                <a class="bookmarkButton" style="cursor: pointer;" id="bookmarkButton-{{ $jobWork->id }}" data-job-id="{{ $jobWork->id }}" data-favorite-id="{{ $jobWork->favorite_id }}">
-                                                    <i class="fa-regular fa-bookmark me-2"></i>
-                                                </a>
-                                            </div>
+                                    <!-- Perusahaan -->
+                                    <div class="d-flex align-items-center mt-auto px-3">
+                                        <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                        <div>
+                                            <p class="mb-0 text-primary fw-semibold text-truncate">{{ $jobWork->company->user->name }}</p>
+                                            <small class="text-muted">{{ $jobWork->location }}</small>
                                         </div>
                                     </div>
+
+                                    <hr class="my-3">
+
+                                    <!-- Kandidat Pelamar & Tombol Bookmark -->
+                                    <div class="d-flex justify-content-between align-items-center px-3 mb-3">
+                                        <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
+                                        <a class="bookmarkButton p-0 m-0" style="cursor: pointer;" id="bookmarkButton-{{ $jobWork->id }}" data-job-id="{{ $jobWork->id }}" data-favorite-id="{{ $jobWork->favorite_id }}">
+                                            <i class="fa-regular fa-bookmark"></i>
+                                        </a>
+                                    </div>
+
                                 </a>
                             </div>
                         </div>
