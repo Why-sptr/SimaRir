@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Perusahaan</title>
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -17,17 +17,48 @@
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
 <body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container p-3">
+      <a class="navbar-brand" href="#" class="action"><i class="ph-duotone ph-book"></i></a>
+      <div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav gap-3">
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="/user-profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="/user-job-work">Pekerjaan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="/user-company">Perusahaan</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="/apply">Lamaran</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="/favorite">Disimpan</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
   <section>
     <div class="container mt-4">
-      <div class="card p-3 shadow-sm border-0 shadow-sm border-0">
+      <div class="card p-3 border-1 border-primary">
         <div class="row align-items-center">
           <!-- Image Section -->
           <div class="col-md-4">
-            <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-              <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
+            <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px;">
+              <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover; border: 1px solid #ddd;" class="img-fluid rounded-2">
             </div>
           </div>
           <!-- Text and Details Section -->
@@ -36,15 +67,15 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-building" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-buildings text-primary" style="width: 24px;"></i>
                   <p class="card-text fw-semibold">{{ $jobWork->company->user->name }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-building" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-buildings text-primary" style="width: 24px;"></i>
                   <p class="card-text">{{ $jobWork->company->corporateField->name}} - {{ $jobWork->jobRole->name}}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-money-bill" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-money text-primary" style="width: 24px;"></i>
                   <p class="card-text">
                     @php
                     $salary = $jobWork->salary;
@@ -62,19 +93,19 @@
               </div>
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-clock" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-clock text-primary" style="width: 24px;"></i>
                   <p class="card-text">{{ $jobWork->workType->name }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-briefcase" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-briefcase text-primary" style="width: 24px;"></i>
                   <p class="card-text">{{ $jobWork->workMethod->name }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-check" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-seal-check" style="width: 24px; color: blue;"></i>
                   @if ($jobWork->company->status_verification == 0)
-                  <span class="badge bg-warning p-2">Belum Terverifikasi</span>
+                  <span class="badge bg-secondary p-2" >Belum Terverifikasi</span>
                   @elseif ($jobWork->company->status_verification == 1)
-                  <span class="badge bg-success p-2">Terverifikasi</span>
+                  <span class="badge bg-success p-2" style="background-color: blue !important;">Terverifikasi</span>
                   @endif
                 </div>
               </div>
@@ -82,18 +113,18 @@
             <!-- Buttons -->
             <div class="mt-3">
               @if($alreadyApplied)
-              <button class="btn btn-primary fw-semibold disabled" id="applyButton" data-job-id="{{ $jobWork->id }}">
+              <button class="btn btn-sm btn-primary fw-semibold disabled" id="applyButton" data-job-id="{{ $jobWork->id }}">
                 <i class="fa-solid fa-check me-2"></i>Dilamar
               </button>
               @else
-              <button class="btn btn-primary fw-semibold" id="applyButton" data-job-id="{{ $jobWork->id }}"> 
+              <button class="btn btn-sm btn-primary fw-semibold" id="applyButton" data-job-id="{{ $jobWork->id }}">
                 Lamar
               </button>
               @endif
-              <button class="btn btn-outline-primary fw-semibold" id="shareButton">
+              <button class="btn btn-sm btn-outline-primary fw-semibold" id="shareButton">
                 <i class="fa-solid fa-share-from-square me-2"></i>Bagikan
               </button>
-              <button id="bookmarkButton" class="btn btn-outline-primary fw-semibold" data-job-id="{{ $jobWork->id }}">
+              <button id="bookmarkButton" class="btn btn-sm btn-outline-primary fw-semibold" data-job-id="{{ $jobWork->id }}">
                 <i class="fa-regular fa-bookmark me-2"></i>Favorit
               </button>
             </div>
@@ -103,16 +134,16 @@
         <!-- Skills Section -->
         <div class="d-flex flex-wrap gap-2 justify-content-center text-center">
           @foreach($jobWork->skillJobs as $skill)
-          <span class="badge bg-secondary text-light p-2">{{ $skill->skill->name }}</span>
+          <span class="badge badge-outline-primary p-2">{{ $skill->skill->name }}</span>
           @endforeach
         </div>
       </div>
     </div>
 
     <div class="container mt-4">
-      <div class="card shadow-sm border-0 p-3 shadow-sm border-0">
+      <div class="card border-1 border-primary p-3 border-1 border-primary">
         <h5 class="fw-bold">Informasi Pekerjaan</h5>
-        <div class="card shadow-sm border-0 p-3 shadow-sm border-0">
+        <div class="card border-1 p-3">
           <!-- Syarat/Kualifikasi Section -->
           <h5 class="card-title">Syarat / Kualifikasi</h5>
           <div class="row">
@@ -121,7 +152,7 @@
                 <li class="row">
                   <div class="col-2 col-md-2">
                     <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-calendar-day" style="width: 24px;"></i>
+                      <i class="ph-duotone ph-calendar text-primary" style="width: 24px;"></i>
                       <p class="card-text fw-semibold">Pengalaman</p>
                     </div>
                   </div>
@@ -132,7 +163,7 @@
                 <li class="row">
                   <div class="col-2 col-md-2">
                     <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-graduation-cap" style="width: 24px;"></i>
+                      <i class="ph-duotone ph-graduation-cap text-primary" style="width: 24px;"></i>
                       <p class="card-text fw-semibold">Pendidikan</p>
                     </div>
                   </div>
@@ -143,7 +174,7 @@
                 <li class="row">
                   <div class="col-2 col-md-2">
                     <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-laptop-file" style="width: 24px;"></i>
+                      <i class="ph-duotone ph-chalkboard text-primary" style="width: 24px;"></i>
                       <p class="card-text fw-semibold">Jurusan</p>
                     </div>
                   </div>
@@ -154,7 +185,7 @@
                 <li class="row">
                   <div class="col-2 col-md-2">
                     <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-book" style="width: 24px;"></i>
+                      <i class="ph-duotone ph-notebook text-primary" style="width: 24px;"></i>
                       <p class="card-text fw-semibold">IPK</p>
                     </div>
                   </div>
@@ -165,7 +196,7 @@
                 <li class="row">
                   <div class="col-2 col-md-2">
                     <div class="d-flex gap-2 align-items-center">
-                      <i class="fa-solid fa-font-awesome" style="width: 24px;"></i>
+                      <i class="ph-duotone ph-flag text-primary" style="width: 24px;"></i>
                       <p class="card-text fw-semibold">Toefl</p>
                     </div>
                   </div>
@@ -177,7 +208,7 @@
             </div>
           </div>
         </div>
-        <div class="card shadow-sm border-0 p-3 shadow-sm border-0 mt-3">
+        <div class="card border-1 p-3 mt-3">
           <!-- Deskripsi Pekerjaan Section -->
           <h5 class="card-title">Deskripsi Pekerjaan</h5>
           <div class="row">
@@ -192,12 +223,12 @@
     </div>
 
     <div class="container mt-4">
-      <div class="card p-3 shadow-sm border-0">
+      <div class="card p-3 border-1 border-primary">
         <div class="row align-items-center">
           <!-- Image Section -->
           <div class="col-md-4">
-            <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px; border: 1px solid #ddd;">
-              <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 shadow-sm">
+            <div class="d-flex justify-content-center align-items-center bg-light" style="height: 200px;">
+              <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Image" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover; border: 1px solid #ddd;" class="img-fluid rounded-2">
             </div>
           </div>
           <!-- Text and Details Section -->
@@ -207,25 +238,25 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-location-dot" style="width: 24px;"></i>
-                  <p class="card-text fw-semibold">{{ $jobWork->company->user->location }}</p>
+                  <i class="ph-duotone ph-map-pin text-primary" style="width: 24px;"></i>
+                  <p class="card-text">{{ $jobWork->company->user->location }}</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-building" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-buildings text-primary" style="width: 24px;"></i>
                   <p class="card-text">{{ $jobWork->company->corporateField->name }}</p>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-users" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-users-three text-primary" style="width: 24px;"></i>
                   <p class="card-text">{{ $jobWork->company->employee }} Karyawan</p>
                 </div>
                 <div class="d-flex gap-2 align-items-center">
-                  <i class="fa-solid fa-check" style="width: 24px;"></i>
+                  <i class="ph-duotone ph-seal-check" style="width: 24px; color: blue;"></i>
                   @if ($jobWork->company->status_verification == 0)
-                  <span class="badge bg-warning p-2">Belum Terverifikasi</span>
+                  <span class="badge bg-secondary p-2" >Belum Terverifikasi</span>
                   @elseif ($jobWork->company->status_verification == 1)
-                  <span class="badge bg-success p-2">Terverifikasi</span>
+                  <span class="badge bg-success p-2" style="background-color: blue !important;">Terverifikasi</span>
                   @endif
                 </div>
               </div>
@@ -236,16 +267,16 @@
     </div>
 
     <div class="container mt-4">
-      <div class="card p-3 shadow-sm border-0">
+      <div class="card p-3 border-1 border-primary">
         <h5 class="fw-bold">Rekomendasi Pekerjaan</h5>
         <div class="row g-4">
           @foreach ($jobWorks as $jobWork)
           <div class="col-md-6 mb-4 d-flex">
-            <div class="card shadow-sm border-0 w-100 h-100">
+            <div class="card border-1 border-primary w-100 h-100">
               <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
 
-                <div class="d-flex justify-content-between gap-2">
-                  <h5 class="card-title text-truncate">
+                <div class="d-flex justify-content-between gap-2 px-3 mt-3">
+                  <h5 class="card-title text-truncate fw-semibold" style="width: 80%;">
                     {{ $jobWork->name }}
                   </h5>
                   <p class="text-primary fw-semibold text-end">
@@ -262,19 +293,19 @@
                     {{ $salary }}
                   </p>
                 </div>
-                <div class="d-flex flex-column flex-grow-1">
+                <div class="d-flex flex-column flex-grow-1 px-3 mb-3">
                   <div class="d-flex flex-wrap mb-3 gap-1">
-                    <span class="badge bg-secondary p-2">{{ $jobWork->workMethod->name }}</span>
-                    <span class="badge bg-secondary p-2">{{ $jobWork->workType->name }}</span>
-                    <span class="badge bg-secondary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
-                    <span class="badge bg-secondary p-2">{{ $jobWork->qualification->education->name }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $jobWork->workMethod->name }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $jobWork->workType->name }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
+                    <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->education->name }}</span>
                     @if ($jobWork->qualification->major)
-                    <span class="badge bg-secondary p-2">{{ $jobWork->qualification->major }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->major }}</span>
                     @endif
                     @if ($jobWork->qualification->ipk)
-                    <span class="badge bg-secondary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
+                    <span class="badge badge-outline-primary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
                     @endif
-                    <span class="badge bg-secondary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
+                    <span class="badge badge-outline-primary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
                   </div>
                   <div class="mt-auto">
                     <div class="d-flex align-items-center mb-2">
@@ -287,7 +318,7 @@
                       </div>
                     </div>
                     <hr>
-                    <small class="text-muted">Kandidat Pelamar</small>
+                    <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
                   </div>
                 </div>
               </a>
@@ -467,102 +498,102 @@
   });
 </script>
 <script>
-$(document).ready(function() {
+  $(document).ready(function() {
     const $applyButton = $('#applyButton');
     const $applyModal = $('#applyModal');
     const $applyForm = $('#applyForm');
     const $cvInput = $('#cv');
     const jobId = $applyButton.data('job-id');
-    
+
     // Check if already applied
     function checkApplicationStatus() {
-        return $.ajax({
-            url: '{{ route("apply.check") }}',
-            method: 'GET',
-            data: {
-                job_id: jobId
-            }
-        }).then(function(response) {
-            if (response.applied) {
-                disableApplyButton();
-            }
-        });
+      return $.ajax({
+        url: '{{ route("apply.check") }}',
+        method: 'GET',
+        data: {
+          job_id: jobId
+        }
+      }).then(function(response) {
+        if (response.applied) {
+          disableApplyButton();
+        }
+      });
     }
 
     // Disable apply button
     function disableApplyButton() {
-        $applyButton
-            .prop('disabled', true)
-            .html('<i class="fa-solid fa-check me-2"></i>Dilamar')
-            .removeClass('btn-primary')
-            .addClass('btn-secondary');
+      $applyButton
+        .prop('disabled', true)
+        .html('<i class="fa-solid fa-check me-2"></i>Dilamar')
+        .removeClass('btn-primary')
+        .addClass('btn-secondary');
     }
 
     // Clear CV input
     $('#clearCV').on('click', function() {
-        $cvInput.val('');
+      $cvInput.val('');
     });
 
     // Show modal when apply button clicked
     $applyButton.on('click', function() {
-        if (!$(this).prop('disabled')) {
-            $applyModal.modal('show');
-        }
+      if (!$(this).prop('disabled')) {
+        $applyModal.modal('show');
+      }
     });
 
     // Handle form submission
     $('#submitApply').on('click', function() {
-        const formData = new FormData($applyForm[0]);
-        formData.append('job_id', jobId);
+      const formData = new FormData($applyForm[0]);
+      formData.append('job_id', jobId);
 
-        // Show loading state
-        $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...');
+      // Show loading state
+      $(this).prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Mengirim...');
 
-        $.ajax({
-            url: '{{ route("apply.store") }}',
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                if (response.success) {
-                    $applyModal.modal('hide');
-                    disableApplyButton();
-                    showToast('Lamaran berhasil dikirim!', 'success');
-                }
-            },
-            error: function(xhr) {
-                let message = 'Terjadi kesalahan saat mengirim lamaran!';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    message = xhr.responseJSON.message;
-                }
-                showToast(message, 'error');
-            },
-            complete: function() {
-                // Reset loading state
-                $('#submitApply').prop('disabled', false).html('Kirim Lamaran');
-            }
-        });
+      $.ajax({
+        url: '{{ route("apply.store") }}',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          if (response.success) {
+            $applyModal.modal('hide');
+            disableApplyButton();
+            showToast('Lamaran berhasil dikirim!', 'success');
+          }
+        },
+        error: function(xhr) {
+          let message = 'Terjadi kesalahan saat mengirim lamaran!';
+          if (xhr.responseJSON && xhr.responseJSON.message) {
+            message = xhr.responseJSON.message;
+          }
+          showToast(message, 'error');
+        },
+        complete: function() {
+          // Reset loading state
+          $('#submitApply').prop('disabled', false).html('Kirim Lamaran');
+        }
+      });
     });
 
     // File input validation
     $cvInput.on('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const maxSize = 2 * 1024 * 1024; // 2MB
-            if (file.size > maxSize) {
-                showToast('Ukuran file terlalu besar. Maksimal 2MB', 'error');
-                this.value = '';
-            } else if (file.type !== 'application/pdf') {
-                showToast('Format file harus PDF', 'error');
-                this.value = '';
-            }
+      const file = this.files[0];
+      if (file) {
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        if (file.size > maxSize) {
+          showToast('Ukuran file terlalu besar. Maksimal 2MB', 'error');
+          this.value = '';
+        } else if (file.type !== 'application/pdf') {
+          showToast('Format file harus PDF', 'error');
+          this.value = '';
         }
+      }
     });
 
     // Check initial application status
     checkApplicationStatus();
-});
+  });
 </script>
 
 </html>

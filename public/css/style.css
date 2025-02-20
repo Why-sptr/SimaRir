@@ -64,6 +64,17 @@ a {
     color: var(--bs-primary) !important;
 }
 
+.btn-outline-primary {
+    background-color: transparent;
+    border: solid 1px #008081 !important;
+    color: var(--bs-primary) !important;
+}
+.btn-outline-primary:hover {
+    background-color: #008081 !important;
+    border: solid 1px #008081 !important;
+    color: white !important;
+}
+
 .action {
     background-color: #0080811c !important;
     border: solid 1px #008081 !important;
