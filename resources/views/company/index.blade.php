@@ -122,7 +122,7 @@
                                             <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
                                         </div>
                                         <hr>
-                                        <small class="text-muted">Kandidat Pelamar</small>
+                                        <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
                                     </div>
                                 </div>
                             </a>

@@ -26,24 +26,38 @@
                 <!-- Left Column -->
                 <div class="col-lg-3">
                     <div class="card shadow-sm border-0 text-center p-3 h-100">
-                        <img src="https://via.placeholder.com/100" alt="Profile" class="rounded-circle mb-3">
-                        <h5 class="fw-bold">Nama Lengkap</h5>
-                        <p class="fw-semibold">Role</p>
-                        <p>Lorem ipsum has been the industry's standard dummy text ever since the 1500s...</p>
+                        <img src="{{ asset('storage/avatars/' . $candidate->user->avatar) }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="rounded-circle mb-3 align-self-center border border-2">
+                        <div class="d-flex justify-content-center gap-2">
+                            <h5 class="mb-3 fw-bold">{{ $candidate->user->name }}</h5>
+                        </div>
+                        <p class="fw-semibold">{{ $candidate->user->jobRole->name }}</p>
+                        <p>{{ $candidate->user->moto }}</p>
                         <div class="card shadow-sm border-0 p-2 mt-3 h-100">
                             <ul class="list-unstyled text-start">
-                                <li><p class="fw-semibold mb-0">Whatsapp:</p></li>
-                                <li><span>Text</span></li>
-                                <li><p class="fw-semibold mb-0">Email:</p></li>
-                                <li><span>Text</span></li>
-                                <li><p class="fw-semibold mb-0">Lokasi:</p></li>
-                                <li><span>Text</span></li>
-                                <li><p class="fw-semibold mb-0">Pendidikan Terakhir:</p></li>
-                                <li><span>Text</span></li>
-                                <li><p class="fw-semibold mb-0">Pengalaman Kerja:</p></li>
-                                <li><span>Text</span></li>
-                                <li><p class="fw-semibold mb-0">Jenis Kelamin:</p></li>
-                                <li><span>Text</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Whatsapp:</p>
+                                </li>
+                                <li><span>{{ $candidate->user->phone }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Email:</p>
+                                </li>
+                                <li><span>{{ $candidate->user->email }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Lokasi:</p>
+                                </li>
+                                <li><span>{{ $candidate->user->location }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Pendidikan Terakhir:</p>
+                                </li>
+                                <li><span>{{ $candidate->user->education->name }}</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Pengalaman Kerja:</p>
+                                </li>
+                                <li><span>{{ $candidate->user->work_experience ?? '-'}} Tahun</span></li>
+                                <li>
+                                    <p class="fw-semibold mb-0">Jenis Kelamin:</p>
+                                </li>
+                                <li><span>{{ $candidate->user->gender }}</span></li>
                             </ul>
                         </div>
                     </div>
@@ -51,23 +65,37 @@
                 <!-- Center Column -->
                 <div class="col-lg-6 d-flex flex-column">
                     <div class="card shadow-sm border-0 p-3 mb-3 flex-fill">
-                        <h5 class="fw-bold">Tentang Saya</h5>
-                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Tentang Saya</h5>
+                        </div>
+                        <div class="text">
+                            {!! $candidate->user->description !!}
+                        </div>
                     </div>
                     <div class="card shadow-sm border-0 p-3 flex-fill">
-                        <h5 class="fw-bold">Pengalaman Kerja</h5>
-                        <div>
-                            <h6 class="card-title">Jobdesk</h6>
-                            <p class="fw-semibold text-muted mb-1">Perusahaan</p>
-                            <p class="fw-semibold mb-1">Lama Bekerja</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Pengalaman Kerja</h5>
                         </div>
-                        <hr>
                         <div>
-                            <h6 class="card-title">Jobdesk</h6>
-                            <p class="fw-semibold text-muted mb-1">Perusahaan</p>
-                            <p class="fw-semibold mb-1">Lama Bekerja</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                            @if ($candidate->user->recentWorkExperiences)
+                            @foreach ($candidate->user->recentWorkExperiences as $experience)
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title">{{ $experience->jobdesk }}</h6>
+                                </div>
+                                <p class="fw-semibold text-muted mb-1">{{ $experience->name }}</p>
+                                <p class="fw-semibold mb-1">
+                                    {{ $experience->start_date ? date('M Y', strtotime($experience->start_date)) : '-' }}
+                                    -
+                                    {{ $experience->end_date ? date('M Y', strtotime($experience->end_date)) : 'Sekarang' }}
+                                </p>
+                                <div class="text-secondary">{!! $experience->description !!}</div>
+                            </div>
+                            <hr>
+                            @endforeach
+                            @else
+                            <p class="text-muted">Belum ada pengalaman kerja yang ditambahkan.</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -91,44 +119,57 @@
                         </div>
                     </div>
                     <div class="card shadow-sm border-0 p-3 flex-fill">
-                        <h5 class="fw-bold">Sosial Media</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Sosial Media</h5>
+                        </div>
                         <ul class="list-unstyled">
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-brands fa-github" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Github</p>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-brands fa-instagram" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Instagram</p>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-globe" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Website</p>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-brands fa-linkedin" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Linkedin</p>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-brands fa-tiktok" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Tiktok</p>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-brands fa-youtube" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Youtube</p>
-                            </div>
+                            @if ($candidate->user->socialMedia)
+                            @php
+                            $socialLinks = [
+                            'instagram' => $candidate->user->socialMedia->instagram,
+                            'github' => $candidate->user->socialMedia->github,
+                            'youtube' => $candidate->user->socialMedia->youtube,
+                            'website' => $candidate->user->socialMedia->website,
+                            'linkedin' => $candidate->user->socialMedia->linkedin,
+                            'tiktok' => $candidate->user->socialMedia->tiktok,
+                            ];
+                            @endphp
+
+                            @foreach ($socialLinks as $platform => $link)
+                            @if ($link)
+                            <li>
+                                <p>
+                                    <span class="badge bg-light text-dark">
+                                        @if ($platform === 'website')
+                                        <i class="fa-solid fa-globe"></i>
+                                        @else
+                                        <i class="fa-brands fa-{{ $platform }}"></i>
+                                        @endif
+                                    </span>
+                                    <a href="{{ $link }}" target="_blank">
+                                        {{ ucfirst($platform) }}
+                                    </a>
+                                </p>
+                            </li>
+                            @endif
+                            @endforeach
+                            @else
+                            <p>Media sosial belum ditambahkan.</p>
+                            @endif
                         </ul>
                     </div>
                     <div class="card shadow-sm border-0 p-3 flex-fill">
-                        <h5 class="fw-bold">Lampiran</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Lampiran</h5>
+                        </div>
                         <ul class="list-unstyled">
                             <div class="d-flex gap-2 align-items-center">
                                 <i class="fa-solid fa-file" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">CV</p>
+                                <p class="card-text fw-semibold">{{ $candidate->user->attachment->cv ?? '-'}}</p>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
                                 <i class="fa-solid fa-paperclip" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">Portfolio</p>
+                                <a href="#" class="card-text fw-semibold">{{ $candidate->user->attachment->portfolio ?? '-'}}</a>
                             </div>
                         </ul>
                     </div>
@@ -141,45 +182,60 @@
                 <!-- Kolom Kiri: Sertifikasi -->
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0 p-3 h-100">
-                        <h5 class="fw-bold">Serfitikasi</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Sertifikasi</h5>
+                        </div>
                         <ul class="list-unstyled text-start">
-                            <li><p class="fw-semibold mb-0">Nama Sertifikat</p></li>
-                            <li><p class="fw-normal mb-0">Penerbit</p></li>
-                            <li><p class="text-muted mb-2">Tanggal Berlaku</p></li>
-                            <li><p class="fw-semibold mb-0">Nama Sertifikat</p></li>
-                            <li><p class="fw-normal mb-0">Penerbit</p></li>
-                            <li><p class="text-muted mb-2">Tanggal Berlaku</p></li>
-                            <li><p class="fw-semibold mb-0">Nama Sertifikat</p></li>
-                            <li><p class="fw-normal mb-0">Penerbit</p></li>
-                            <li><p class="text-muted mb-2">Tanggal Berlaku</p></li>
-                            <li><p class="fw-semibold mb-0">Nama Sertifikat</p></li>
-                            <li><p class="fw-normal mb-0">Penerbit</p></li>
-                            <li><p class="text-muted mb-2">Tanggal Berlaku</p></li>
-                            <li><p class="fw-semibold mb-0">Nama Sertifikat</p></li>
-                            <li><p class="fw-normal mb-0">Penerbit</p></li>
-                            <li><p class="text-muted mb-2">Tanggal Berlaku</p></li>
-                            <li><p class="fw-semibold mb-0">Nama Sertifikat</p></li>
-                            <li><p class="fw-normal mb-0">Penerbit</p></li>
-                            <li><p class="text-muted mb-2">Tanggal Berlaku</p></li>
+                            @if (!empty($candidate->user->certifications))
+                            @foreach ($candidate->user->certifications as $certificate)
+                            <li>
+                                <div class="d-flex justify-content-between">
+                                    <p class="fw-semibold mb-0">{{ $certificate->name }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <p class="fw-normal mb-0">{{ $certificate->publisher }}</p>
+                            </li>
+                            <li>
+                                <p class="text-muted mb-2">
+                                    {{ $certificate->start_date ? date('M Y', strtotime($certificate->start_date)) : '-' }}
+                                    -
+                                    {{ $certificate->end_date ? date('M Y', strtotime($certificate->end_date)) : 'Sekarang' }}
+                                </p>
+                            </li>
+                            @endforeach
+                            @else
+                            <p class="text-muted">Belum ada sertifikasi yang ditambahkan.</p>
+                            @endif
                         </ul>
                     </div>
                 </div>
-
                 <!-- Kolom Kanan: Pengalaman Kerja -->
                 <div class="col-md-6">
                     <div class="card shadow-sm border-0 p-3 h-100">
-                        <h5 class="fw-bold">Pengalaman Organisasi</h5>
-                        <div>
-                            <h6 class="card-title">Nama Organisasi</h6>
-                            <p class="fw-semibold text-muted mb-1">Jabatan</p>
-                            <p class="fw-semibold mb-1">Masa Jabatan</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Pengalaman Organisasi</h5>
                         </div>
                         <div>
-                            <h6 class="card-title">Nama Organisasi</h6>
-                            <p class="fw-semibold text-muted mb-1">Jabatan</p>
-                            <p class="fw-semibold mb-1">Masa Jabatan</p>
-                            <p class="text-secondary">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type</p>
+                            @if(!empty($candidate->user->organizations))
+                            @foreach ($candidate->user->organizations as $organization)
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title">{{ $organization->name }}</h6>
+                                </div>
+                                <p class="fw-semibold text-muted mb-1">{{ $organization->departement }}</p>
+                                <p class="fw-semibold mb-1">
+                                    {{ $organization->start_date ? date('M Y', strtotime($organization->start_date)) : '-' }}
+                                    -
+                                    {{ $organization->end_date ? date('M Y', strtotime($organization->end_date)) : 'Sekarang' }}
+                                </p>
+                                <div class="text-secondary">{!! $organization->description !!}</div>
+                            </div>
+                            <hr>
+                            @endforeach
+                            @else
+                            <p class="text-muted">Belum ada pengalaman organisasi yang ditambahkan.</p>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -85,101 +85,32 @@
 
         <div class="container mt-4">
             <div class="card shadow-sm border-0 p-3">
-                <h5 class="fw-bold">Kandidat Pelamar - <span class="fw-normal">Jumlah pelamar</span></h5>
+                <h5 class="fw-bold">Kandidat Pelamar - <span class="fw-normal">{{ count($jobWork->candidates) }} pelamar</span></h5>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
-                    <!-- Kandidat Card -->
+                    @foreach($jobWork->candidates as $candidate)
                     <div class="col">
-                        <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                    <span class="text-secondary">👤</span>
+                        <a href="{{ route('candidates.show', $candidate->id) }}" class="text-decoration-none text-dark">
+                            <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="d-flex align-items-center w-100">
+                                    <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                                        <img class="rounded-circle bg-light" style="width: 50px; height: 50px;" src="{{ asset('storage/avatars/' . $candidate->user->avatar) }}" alt="">
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-1 fw-bold">{{ $candidate->user->name }}</h6>
+                                        <a href="{{ asset('storage/' . $candidate->cv) }}" class="text-muted">Download CV</a>
+                                    </div>
                                 </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-1 fw-bold">Nama Pelamar</h6>
-                                    <p class="mb-0 text-muted">Resume File/CV</p>
-                                </div>
+                                <select class="form-select update-status w-25" data-id="{{ $candidate->id }}">
+                                    <option value="pending" {{ $candidate->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="accepted" {{ $candidate->status == 'accepted' ? 'selected' : '' }}>Diterima</option>
+                                    <option value="rejected" {{ $candidate->status == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                                </select>
                             </div>
-                            <button class="btn btn-secondary btn-sm">Ubah Status</button>
-                        </div>
+                        </a>
                     </div>
-                    <!-- Ulangi kandidat card sesuai jumlah kandidat -->
-                    <div class="col">
-                        <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                    <span class="text-secondary">👤</span>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-1 fw-bold">Nama Pelamar</h6>
-                                    <p class="mb-0 text-muted">Resume File/CV</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary btn-sm">Ubah Status</button>
-                        </div>
-                    </div>
-                    <!-- Ulangi kandidat card sesuai jumlah kandidat -->
-                    <div class="col">
-                        <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                    <span class="text-secondary">👤</span>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-1 fw-bold">Nama Pelamar</h6>
-                                    <p class="mb-0 text-muted">Resume File/CV</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary btn-sm">Ubah Status</button>
-                        </div>
-                    </div>
-                    <!-- Ulangi kandidat card sesuai jumlah kandidat -->
-                    <div class="col">
-                        <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                    <span class="text-secondary">👤</span>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-1 fw-bold">Nama Pelamar</h6>
-                                    <p class="mb-0 text-muted">Resume File/CV</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary btn-sm">Ubah Status</button>
-                        </div>
-                    </div>
-                    <!-- Ulangi kandidat card sesuai jumlah kandidat -->
-                    <div class="col">
-                        <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                    <span class="text-secondary">👤</span>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-1 fw-bold">Nama Pelamar</h6>
-                                    <p class="mb-0 text-muted">Resume File/CV</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary btn-sm">Ubah Status</button>
-                        </div>
-                    </div>
-                    <!-- Ulangi kandidat card sesuai jumlah kandidat -->
-                    <div class="col">
-                        <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                    <span class="text-secondary">👤</span>
-                                </div>
-                                <div class="ms-3">
-                                    <h6 class="mb-1 fw-bold">Nama Pelamar</h6>
-                                    <p class="mb-0 text-muted">Resume File/CV</p>
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary btn-sm">Ubah Status</button>
-                        </div>
-                    </div>
-                    <!-- Tambahkan lebih banyak kandidat seperti di atas -->
+                    @endforeach
                 </div>
-                <!-- Pagination -->
+                <!-- Pagination (Jika diperlukan) -->
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
                         <li class="page-item disabled"><a class="page-link" href="#">1</a></li>
@@ -273,5 +204,31 @@
         </div>
     </section>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".update-status").change(function() {
+            let candidateId = $(this).data("id");
+            let newStatus = $(this).val();
+            let token = "{{ csrf_token() }}";
+
+            $.ajax({
+                url: "/candidates/" + candidateId,
+                type: "PUT",
+                data: {
+                    _token: token,
+                    status: newStatus
+                },
+                success: function(response) {
+                    alert("Status berhasil diperbarui menjadi: " + newStatus);
+                },
+                error: function(xhr) {
+                    alert("Terjadi kesalahan. Silakan coba lagi.");
+                }
+            });
+        });
+    });
+</script>
+
 
 </html>

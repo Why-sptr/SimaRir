@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\WorkTypeController;
 use App\Http\Controllers\ViewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Company\CandidateController;
 use App\Http\Controllers\Company\CompanyController as CompanyCompanyController;
 use App\Http\Controllers\Company\CompanyJobWorkController;
 use App\Http\Controllers\Company\GalleryController;
@@ -40,7 +41,7 @@ Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('work-time', WorkTimeController::class);
     Route::resource('gallery', GalleryController::class);
     Route::resource('company-job-work', CompanyJobWorkController::class);
-    Route::get('/company/detail-user', [ViewsController::class, 'detailUser']);
+    Route::resource('candidates', CandidateController::class);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
@@ -54,8 +55,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('favorite/check/{jobId}/{userId}', [FavoriteController::class, 'checkFavorite'])->name('favorite.check');
     Route::resource('apply', ApplyController::class);
     Route::get('apply/check', [ApplyController::class, 'check'])->name('apply.check');
-    Route::get('/user/lamaran-saya', [ViewsController::class, 'lamaranSaya']);
-    Route::get('/user/disimpan', [ViewsController::class, 'disimpan']);
 });
 
 // Auth
