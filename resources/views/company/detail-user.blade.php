@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,22 +17,47 @@
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container p-3">
+            <a class="navbar-brand" href="#" class="action"><i class="ph-duotone ph-book"></i></a>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav gap-3">
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="/company">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="#">Upload Pekerjaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="#">List Pekerjaan</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
     <section>
         <div class="container mt-4">
             <div class="row g-4">
                 <!-- Left Column -->
                 <div class="col-lg-3">
-                    <div class="card shadow-sm border-0 text-center p-3 h-100">
-                        <img src="{{ asset('storage/avatars/' . $candidate->user->avatar) }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="rounded-circle mb-3 align-self-center border border-2">
-                        <div class="d-flex justify-content-center gap-2">
-                            <h5 class="mb-3 fw-bold">{{ $candidate->user->name }}</h5>
+                    <div class="card border-1 border-primary text-center p-3 h-100">
+                        <img src="{{ asset('storage/avatars/' . $candidate->user->avatar) }}" alt="Profile Avatar" style="max-width: 200px; max-height: 200px; height: 100%; width: 100%; object-fit: cover" class="border border-1 p-2 border-primary rounded-2 mb-3 align-self-center">
+                        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+                            <h5 class="m-0 fw-bold">{{ $candidate->user->name }}</h5>
                         </div>
-                        <p class="fw-semibold">{{ $candidate->user->jobRole->name }}</p>
                         <p>{{ $candidate->user->moto }}</p>
-                        <div class="card shadow-sm border-0 p-2 mt-3 h-100">
+                        <span class="badge badge-outline-primary p-2">{{ $candidate->user->jobRole->name }}</span>
+                        <div class="card border-0 p-2 mt-3 h-100">
                             <ul class="list-unstyled text-start">
                                 <li>
                                     <p class="fw-semibold mb-0">Whatsapp:</p>
@@ -53,7 +78,7 @@
                                 <li>
                                     <p class="fw-semibold mb-0">Pengalaman Kerja:</p>
                                 </li>
-                                <li><span>{{ $candidate->user->work_experience ?? '-'}} Tahun</span></li>
+                                <li><span>{{ $candidate->user->work_experience ?? '0'}} Tahun</span></li>
                                 <li>
                                     <p class="fw-semibold mb-0">Jenis Kelamin:</p>
                                 </li>
@@ -64,7 +89,7 @@
                 </div>
                 <!-- Center Column -->
                 <div class="col-lg-6 d-flex flex-column">
-                    <div class="card shadow-sm border-0 p-3 mb-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 mb-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Tentang Saya</h5>
                         </div>
@@ -72,7 +97,7 @@
                             {!! $candidate->user->description !!}
                         </div>
                     </div>
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Pengalaman Kerja</h5>
                         </div>
@@ -94,31 +119,33 @@
                             <hr>
                             @endforeach
                             @else
-                            <p class="text-muted">Belum ada pengalaman kerja yang ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                            </div>
                             @endif
                         </div>
                     </div>
                 </div>
                 <!-- Right Column -->
                 <div class="col-lg-3 d-flex flex-column gap-3">
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <h5 class="fw-bold">Skill</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge bg-secondary p-2">Skill 1</span>
-                            <span class="badge bg-secondary p-2">Skill 2</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
-                            <span class="badge bg-secondary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 1</span>
+                            <span class="badge badge-outline-primary p-2">Skill 2</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            <span class="badge badge-outline-primary p-2">Skill 3</span>
                         </div>
                     </div>
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Sosial Media</h5>
                         </div>
@@ -139,11 +166,11 @@
                             @if ($link)
                             <li>
                                 <p>
-                                    <span class="badge bg-light text-dark">
+                                    <span class="badge bg-primary rounded-pill p-2">
                                         @if ($platform === 'website')
-                                        <i class="fa-solid fa-globe"></i>
+                                        <i class="ph-duotone ph-globe"></i>
                                         @else
-                                        <i class="fa-brands fa-{{ $platform }}"></i>
+                                        <i class="ph-duotone ph-{{ $platform }}-logo"></i>
                                         @endif
                                     </span>
                                     <a href="{{ $link }}" target="_blank">
@@ -154,11 +181,13 @@
                             @endif
                             @endforeach
                             @else
-                            <p>Media sosial belum ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                            </div>
                             @endif
                         </ul>
                     </div>
-                    <div class="card shadow-sm border-0 p-3 flex-fill">
+                    <div class="card border-1 border-primary p-3 flex-fill">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Lampiran</h5>
                         </div>
@@ -181,7 +210,7 @@
             <div class="row">
                 <!-- Kolom Kiri: Sertifikasi -->
                 <div class="col-md-6">
-                    <div class="card shadow-sm border-0 p-3 h-100">
+                    <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Sertifikasi</h5>
                         </div>
@@ -205,14 +234,16 @@
                             </li>
                             @endforeach
                             @else
-                            <p class="text-muted">Belum ada sertifikasi yang ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                            </div>
                             @endif
                         </ul>
                     </div>
                 </div>
                 <!-- Kolom Kanan: Pengalaman Kerja -->
                 <div class="col-md-6">
-                    <div class="card shadow-sm border-0 p-3 h-100">
+                    <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Pengalaman Organisasi</h5>
                         </div>
@@ -234,7 +265,9 @@
                             <hr>
                             @endforeach
                             @else
-                            <p class="text-muted">Belum ada pengalaman organisasi yang ditambahkan.</p>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                            </div>
                             @endif
                         </div>
                     </div>
