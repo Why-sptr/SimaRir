@@ -35,16 +35,10 @@
                             <a class="nav-link active fw-bold" href="/company">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-semibold" href="#">Pekerjaan</a>
+                            <a class="nav-link fw-semibold" href="#">Upload Pekerjaan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-semibold" href="#">Perusahaan</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-semibold" href="#">Lamaran</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-semibold" href="#">Disimpan</a>
+                            <a class="nav-link fw-semibold" href="#">List Pekerjaan</a>
                         </li>
                     </ul>
                 </div>
