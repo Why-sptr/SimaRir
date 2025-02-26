@@ -175,6 +175,7 @@
                     <!-- Produk -->
                     <div class="row g-3">
                         <!-- Card 1 -->
+                        @if (count($jobWorks) > 0)
                         @foreach ($jobWorks as $jobWork)
                         <div class="col-md-6 mb-3 d-flex">
                             <div class="card border-1 border-primary w-100">
@@ -215,7 +216,11 @@
 
                                     <!-- Perusahaan -->
                                     <div class="d-flex align-items-center mt-auto px-3">
+                                        @if ($jobWork->company->user->avatar)
                                         <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                        @else
+                                        <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                        @endif
                                         <div>
                                             <div class="d-flex align-items-center justify-content-center gap-1">
                                                 <p class="mb-0 text-primary fw-semibold text-truncate">{{ $jobWork->company->user->name }}</p>
@@ -241,6 +246,11 @@
                             </div>
                         </div>
                         @endforeach
+                        @else
+                        <div class="text-center">
+                            <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                        </div>
+                        @endif
 
                         <!-- Pagination -->
                         <nav class="mt-4 pagination-web">
