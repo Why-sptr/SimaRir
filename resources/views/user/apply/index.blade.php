@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="row g-3">
-                        <div class="container my-4">
+                        <div class="container my-3">
                             <div class="row justify-content-center">
                                 <div class="col">
                                     <div class="search-container">

@@ -52,10 +52,13 @@
         </div>
     </nav>
     <section>
-        <div class="container mt-4 text-center">
-            <h3 class="fw-bold">Disimpan</h3>
+        <div class="container my-2">
+            <div class="alert bg-white border border-1 border-primary alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                Hallo <span class="text-primary fw-bold">{{auth()->user()->name}} 👋</span>. Lihat pekerjaan yang sudah kamu simpan disini ya.
+            </div>
         </div>
-        <div class="container mt-4">
+        <div class="container py-3">
             <div class="col-md-12">
                 <!-- Produk -->
                 <div class="row g-3">
@@ -65,8 +68,8 @@
                         <div class="card border-1 border-primary w-100 h-100">
                             <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
                                 <div class="d-flex justify-content-between gap-2 px-3 mt-3">
-                                    <h5 class="card-title text-truncate text-dark fw-semibold" style="width: 85%;">{{ $jobWork->name }}</h5>
-                                    <p class="text-primary fw-semibold text-end">
+                                    <h5 class="card-title text-truncate text-dark fw-semibold col-md-9">{{ $jobWork->name }}</h5>
+                                    <p class="text-primary fw-semibold col-md-2 text-end">
                                         @php
                                         $salary = $jobWork->salary;
                                         if ($salary >= 1000000000) {
@@ -98,13 +101,17 @@
 
                                     <div class="mt-auto">
                                         <div class="d-flex align-items-center px-3">
+                                            @if ($jobWork->company->user->avatar)
                                             <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
+                                            @else
+                                            <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                            @endif
                                             <div>
                                                 <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
                                                 <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
                                             </div>
                                         </div>
-                                        <hr>
+                                        <hr class="my-3 mx-3 border-primary">
                                         <div class="d-flex justify-content-between align-items-center px-3 mb-3">
                                             <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
                                             <!-- Tombol favorit dengan ID unik berdasarkan job id -->
@@ -125,13 +132,13 @@
                 <nav class="mt-4 pagination-web">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
-                            <a class="page-link active" href="#">1</a>
+                            <a class="page-link p-2 active" href="#">1</a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#">2</a>
+                            <a class="page-link p-2" href="#">2</a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="#">3</a>
+                            <a class="page-link p-2" href="#">3</a>
                         </li>
                     </ul>
                 </nav>

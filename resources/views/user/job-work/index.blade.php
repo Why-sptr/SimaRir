@@ -58,7 +58,7 @@
                 Hallo <span class="text-primary fw-bold">{{auth()->user()->name}} 👋</span>. Yuk cari pekerjaan yang sesuai dengan keinginan kamu.
             </div>
         </div>
-        <div class="container my-5">
+        <div class="container py-3">
             <div class="row">
 
                 <!-- Sidebar -->
