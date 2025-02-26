@@ -52,6 +52,12 @@
         </div>
     </nav>
     <section>
+        <div class="container my-2">
+            <div class="alert bg-white border border-1 border-primary alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                Hallo <span class="text-primary fw-bold">{{auth()->user()->name}} 👋</span>. Yuk cari pekerjaan yang sesuai dengan keinginan kamu.
+            </div>
+        </div>
         <div class="container my-5">
             <div class="row">
 
@@ -176,7 +182,7 @@
 
                                     <!-- Nama Pekerjaan & Gaji -->
                                     <div class="d-flex justify-content-between align-items-center mb-2 px-3 mt-3">
-                                        <h5 class="card-title text-truncate mb-0" style="width: 85%;">{{ $jobWork->name }}</h5>
+                                        <h5 class="card-title text-truncate mb-0 fw-semibold" style="width: 85%;">{{ $jobWork->name }}</h5>
                                         <p class="text-primary fw-semibold mb-0">
                                             @php
                                             $salary = $jobWork->salary;
@@ -211,12 +217,17 @@
                                     <div class="d-flex align-items-center mt-auto px-3">
                                         <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
                                         <div>
-                                            <p class="mb-0 text-primary fw-semibold text-truncate">{{ $jobWork->company->user->name }}</p>
+                                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                                <p class="mb-0 text-primary fw-semibold text-truncate">{{ $jobWork->company->user->name }}</p>
+                                                @if ($jobWork->company->status_verification == 1)
+                                                <i class="ph-duotone ph-seal-check" style="width: 24px; color: blue;"></i>
+                                                @endif
+                                            </div>
                                             <small class="text-muted">{{ $jobWork->location }}</small>
                                         </div>
                                     </div>
 
-                                    <hr class="my-3">
+                                    <hr class="my-3 mx-3 border-primary">
 
                                     <!-- Kandidat Pelamar & Tombol Bookmark -->
                                     <div class="d-flex justify-content-between align-items-center px-3 mb-3">
@@ -235,13 +246,13 @@
                         <nav class="mt-4 pagination-web">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item">
-                                    <a class="page-link active" href="#">1</a>
+                                    <a class="page-link active p-2" href="#">1</a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
+                                    <a class="page-link p-2" href="#">2</a>
                                 </li>
                                 <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
+                                    <a class="page-link p-2" href="#">3</a>
                                 </li>
                             </ul>
                         </nav>

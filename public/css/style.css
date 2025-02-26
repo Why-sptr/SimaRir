@@ -58,6 +58,18 @@ a {
     border: solid 1px #008081;
 }
 
+.page-link {
+    color: var(--bs-primary) !important;
+    background-color: transparent !important;
+    padding: auto !important;
+}
+.page-link:hover,
+.page-link.active {
+    color: white !important;
+    background-color: var(--bs-primary) !important;
+    border: solid 1px #008081 !important;
+}
+
 .badge-outline-primary {
     background-color: #0080811c !important;
     border: solid 1px #008081 !important;
