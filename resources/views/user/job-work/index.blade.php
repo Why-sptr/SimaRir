@@ -183,8 +183,8 @@
 
                                     <!-- Nama Pekerjaan & Gaji -->
                                     <div class="d-flex justify-content-between align-items-center mb-2 px-3 mt-3">
-                                        <h5 class="card-title text-truncate mb-0 fw-semibold" style="width: 85%;">{{ $jobWork->name }}</h5>
-                                        <p class="text-primary fw-semibold mb-0">
+                                        <h5 class="card-title text-truncate mb-0 fw-semibold col-md-10">{{ $jobWork->name }}</h5>
+                                        <p class="text-primary fw-semibold mb-0 col-md-2 text-end">
                                             @php
                                             $salary = $jobWork->salary;
                                             if ($salary >= 1000000000) {
@@ -248,7 +248,7 @@
                         @endforeach
                         @else
                         <div class="text-center">
-                            <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                            <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
                         </div>
                         @endif
 

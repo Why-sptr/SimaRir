@@ -108,7 +108,7 @@
                 @endforeach
                 @else
                 <div class="text-center">
-                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
                 </div>
                 @endif
 

@@ -52,10 +52,13 @@
         </div>
     </nav>
     <section>
-        <div class="container mt-4 text-center">
-            <h3 class="fw-bold">Lamaran Saya</h3>
+        <div class="container my-2">
+            <div class="alert bg-white border border-1 border-primary alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                Hallo <span class="text-primary fw-bold">{{auth()->user()->name}} 👋</span>. Sekarang kamu udah bisa lihat pekerjaan yang sudah kamu lamar disini.
+            </div>
         </div>
-        <div class="container mt-4">
+        <div class="container py-3">
             <div class="row">
                 <div class="col-md-3">
                     <button class="btn btn-dark w-100 d-md-none mb-3" type="button" data-bs-toggle="collapse"
@@ -122,14 +125,15 @@
                                 </div>
                             </div>
                         </div>
+                        @if ($candidates->count() > 0)
                         @foreach ($candidates as $candidate)
                         <div class="col-12 d-flex">
                             <div class="card border-1 border-primary flex-grow-1">
                                 <a href="{{ route('user-job-work.show', $candidate->jobWork->id) }}" class="card-body" style="text-decoration: none; color: inherit;">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between px-3 mt-3">
-                                        <h5 class="card-title fw-semibold mb-2 text-dark">{{ $candidate->jobWork->name }}</h5>
-                                        <p class="text-primary fw-semibold mb-1">Rp {{ number_format($candidate->jobWork->salary, 0, ',', '.') }}</p>
+                                        <h5 class="card-title text-truncate fw-semibold mb-2 text-dark col-md-10">{{ $candidate->jobWork->name }}</h5>
+                                        <p class="text-primary fw-semibold mb-1 text-end col-md-2">Rp {{ number_format($candidate->jobWork->salary, 0, ',', '.') }}</p>
                                     </div>
                                     <!-- Job Tags -->
                                     <div class="d-flex flex-wrap mb-3 gap-1 px-3">
@@ -147,7 +151,11 @@
                                     </div>
                                     <!-- Company Info -->
                                     <div class="d-flex align-items-center mb-2 px-3">
+                                        @if ($candidate->jobWork->company->user->avatar)
                                         <img src="{{ asset('storage/avatars/' . $candidate->jobWork->company->user->avatar) }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 50px; height: 50px; object-fit: cover;">
+                                        @else
+                                        <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                        @endif
                                         <div>
                                             <p class="mb-0 text-primary fw-bold">{{ $candidate->jobWork->company->name }}</p>
                                             <div class="d-flex gap-2 align-items-center">
@@ -156,13 +164,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <hr class="my-3 mx-3 border-primary">
                                     <!-- Footer -->
                                     <span class="badge badge-outline-primary px-3 py-2 mx-3 mb-3">{{ ucfirst($candidate->status) }}</span>
                                 </a>
                             </div>
                         </div>
                         @endforeach
+                        @else
+                        <div class="text-center">
+                            <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                        </div>
+                        @endif
 
                     </div>
                 </div>
