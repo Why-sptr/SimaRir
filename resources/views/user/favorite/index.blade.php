@@ -63,6 +63,7 @@
                 <!-- Produk -->
                 <div class="row g-3">
                     <!-- Card 1 -->
+                    @if ($jobWorks->count() > 0)
                     @foreach ($jobWorks as $jobWork)
                     <div class="col-md-4 mb-4 d-flex">
                         <div class="card border-1 border-primary w-100 h-100">
@@ -130,6 +131,11 @@
                         </div>
                     </div>
                     @endforeach
+                    @else
+                    <div class="text-center">
+                        <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                    </div>
+                    @endif
                 </div>
 
 
