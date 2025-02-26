@@ -84,7 +84,12 @@
                                     <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
                                     @endif
                                     <div>
-                                        <h5 class="card-title text-dark fw-semibold">{{ $company->user->name }}</h5>
+                                        <div class="d-flex align-items-center justify-content-center gap-1">
+                                            <h5 class="card-title text-dark fw-semibold">{{ $company->user->name }}</h5>
+                                            @if ($company->status_verification == 1)
+                                            <i class="ph-duotone ph-seal-check mb-1" style="width: 24px; color: blue;"></i>
+                                            @endif
+                                        </div>
                                         <div class="d-flex gap-2 align-items-center">
                                             <i class="ph-duotone ph-map-pin"></i>
                                             <small class="card-text text-muted">{{ $company->user->location }}</small>
