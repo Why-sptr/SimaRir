@@ -52,7 +52,13 @@
         </div>
     </nav>
     <section>
-        <div class="container py-5">
+        <div class="container my-2">
+            <div class="alert bg-white border border-1 border-primary alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                Hallo <span class="text-primary fw-bold">{{auth()->user()->name}} 👋</span>. Kamu bisa lihat semua perusahaan yang terdaftar disini.
+            </div>
+        </div>
+        <div class="container py-3">
             <div class="container mb-4">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
@@ -64,6 +70,7 @@
                 </div>
             </div>
             <div class="row g-3">
+                @if ($companies->count() > 0)
                 @foreach ($companies as $company)
                 <!-- Card 1 -->
                 <div class="col-md-4">
@@ -71,9 +78,13 @@
                         <div class="card h-100 border border-1 border-primary">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-2">
-                                    <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Company Image" style="max-width: 50px; max-height: 50px; width:100%; height:100%; object-fit: cover;" class="img-fluid rounded-2 border border-primary me-2">
+                                    @if ($company->user->avatar)
+                                    <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Company Image" style="max-width: 50px; max-height: 50px; width:100%; height:100%; object-fit: cover; border: 1px solid #ddd;" class="img-fluid rounded-2 me-2">
+                                    @else
+                                    <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                    @endif
                                     <div>
-                                        <h5 class="card-title text-dark">{{ $company->user->name }}</h5>
+                                        <h5 class="card-title text-dark fw-semibold">{{ $company->user->name }}</h5>
                                         <div class="d-flex gap-2 align-items-center">
                                             <i class="ph-duotone ph-map-pin"></i>
                                             <small class="card-text text-muted">{{ $company->user->location }}</small>
@@ -95,6 +106,26 @@
                     </a>
                 </div>
                 @endforeach
+                @else
+                <div class="text-center">
+                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="">
+                </div>
+                @endif
+
+                <!-- Pagination -->
+                <nav class="mt-4 pagination-web">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a class="page-link active p-2" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link p-2" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link p-2" href="#">3</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </section>
