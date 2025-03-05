@@ -272,6 +272,7 @@
                                     {{ $certificate->end_date ? date('M Y', strtotime($certificate->end_date)) : 'Sekarang' }}
                                 </p>
                             </li>
+                            <hr>
                             @empty
                             <div class="text-center">
                                 <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
@@ -289,10 +290,10 @@
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
-                        @foreach($organizations as $organization)
+                        @forelse($organizations as $organization)
                             <div>
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="card-title m-0">{{ $organization->name }}</h6>
+                                    <p class="fw-semibold mb-0">{{ $organization->name }}</p>
                                     <a href="#" 
                                         class="edit-organization action" 
                                         data-id="{{ $organization->id }}" 
@@ -305,10 +306,14 @@
                                     </a>
                                 </div>
                                 <p class="fw-semibold text-muted mb-1">{{ $organization->department }}</p>
-                                <p class="text-secondary m-0">{!! $organization->description !!}</p>
+                                <div class="text-secondary mb-0">{!! $organization->description !!}</div>
                             </div>
                             <hr>
-                        @endforeach
+                        @empty
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -320,7 +325,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- Form to edit the user's details -->
@@ -392,8 +397,8 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -406,7 +411,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="descriptionModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
@@ -419,8 +424,8 @@
 
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -433,7 +438,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="attachmentModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
@@ -452,8 +457,8 @@
 
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -466,7 +471,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="socialMediaModalLabel">Tambah/Edit Sosial Media</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('social-media.store') }}" method="POST">
@@ -496,8 +501,8 @@
                             <input type="text" class="form-control" id="tiktok" name="tiktok" value="{{ old('tiktok', $user->socialMedia->tiktok ?? '') }}">
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -510,7 +515,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="workExperienceModalLabel">Tambah/Edit Pengalaman Kerja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="workExperienceForm" action="{{ route('work-experience.store') }}" method="POST">
@@ -543,14 +548,14 @@
 
                         <div class="modal-footer">
                             <button type="button"
-                                class="btn btn-danger delete-experience"
+                                class="btn btn-outline-danger btn-sm delete-experience"
                                 data-id=""
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteModal">
                                 Hapus
                             </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -563,39 +568,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Kerja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Yakin ingin menghapus pengalaman kerja ini?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
                     <form id="deleteForm" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal Organization -->
-    <div class="modal fade" id="deleteModalOrganizations" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Organisasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Yakin ingin menghapus pengalaman organisasi ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <form id="deleteFormOrganizations" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
                     </form>
                 </div>
             </div>
@@ -607,7 +590,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="certificateModalLabel">Tambah/Edit Pengalaman Kerja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="certificateForm" action="{{ route('certification.store') }}" method="POST">
@@ -634,14 +617,14 @@
 
                         <div class="modal-footer">
                             <button type="button"
-                                class="btn btn-danger delete-certificate"
+                                class="btn btn-outline-danger btn-sm delete-certificate"
                                 data-id=""
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteCertificateModal">
                                 Hapus
                             </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
                     </form>
                 </div>
@@ -654,17 +637,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteCertificateModalLabel">Hapus Sertifikasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Yakin ingin menghapus sertifikasi ini?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
                     <form id="deleteCertificateForm" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
                     </form>
                 </div>
             </div>
@@ -676,7 +659,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="organizationExperienceModalLabel">Tambah/Edit Pengalaman Organisasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="organizationExperienceForm" action="{{ route('organizations.store') }}" method="POST">
@@ -698,10 +681,32 @@
                             <textarea rows="3" class="d-none" name="description" id="quill-editor-area-organizations"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="deleteOrganizationBtn" data-id="" style="display: none;">Hapus</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="deleteOrganizationBtn" data-id="" style="display: none;">Hapus</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal Organization -->
+    <div class="modal fade" id="deleteModalOrganizations" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Organisasi</h5>
+                    <button type="button" class="btn-close btn-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin ingin menghapus pengalaman organisasi ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                    <form id="deleteFormOrganizations" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
                     </form>
                 </div>
             </div>
@@ -717,7 +722,6 @@
         const methodField = $('#formMethod');
         const idField = $('#experienceId');
 
-        // Inisialisasi Quill Editor
         const quillEditor = new Quill('#quill-editor', {
             theme: 'snow'
         });
@@ -742,15 +746,12 @@
                         $('#name').val(data.name || '');
                         $('#jobdesk').val(data.jobdesk || '');
                         
-                        // Set value ke Quill Editor
                         quillEditor.root.innerHTML = data.description || '';
 
-                        // Set nilai input tanggal
                         $('#start_date').val(data.start_date || '').change();
                         $('#end_date').val(data.end_date || '').change();
 
-                        // Set data-id tombol hapus
-                        $('.delete-experience').data('id', experienceId);
+                        $('.delete-experience').data('id', experienceId).show();
                     },
                     error: function (xhr, status, error) {
                         console.error('Error fetching data:', error);
@@ -766,14 +767,13 @@
         modal.on('hidden.bs.modal', function () {
             form.trigger('reset');
             quillEditor.root.innerHTML = '';
+            $('.delete-experience').data('id', '').hide();
         });
 
-        // Simpan perubahan dari Quill Editor ke textarea sebelum submit
         quillEditor.on('text-change', function () {
             quillEditorArea.val(quillEditor.root.innerHTML);
         });
 
-        // Konfigurasi modal hapus
         const deleteModal = $('#deleteModal');
         const deleteForm = $('#deleteForm');
 
