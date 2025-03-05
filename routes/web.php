@@ -33,7 +33,17 @@ use App\Http\Controllers\User\WorkExperienceController;
 use Spatie\Permission\Models\Role;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        if (auth()->user()->hasRole('user')) {
+            return redirect()->route('user-job-work.index');
+        } elseif (auth()->user()->hasRole('company')) {
+            return redirect()->route('company.index');
+        } elseif (auth()->user()->hasRole('admin')) {
+            return redirect()->route('admin');
+        }
+    } else {
+        return view('welcome');
+    }
 });
 Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('company', CompanyCompanyController::class);
