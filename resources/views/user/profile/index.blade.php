@@ -254,13 +254,12 @@
                             <li>
                                 <div class="d-flex justify-content-between">
                                     <p class="fw-semibold mb-0">{{ $certificate->name }}</p>
-                                    <a href="#" class="action"
-                                        class="edit-certificate"
+                                    <a href="#" class="action edit-certificate"
                                         data-id="{{ $certificate->id }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#certificateModal">
                                         <i class="ph-duotone ph-pen"></i>
-                                    </a>
+                                        </a>
                                 </div>
                             </li>
                             <li>
@@ -792,59 +791,66 @@
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         const modal = $('#certificateModal');
         const form = $('#certificateForm');
         const methodField = $('#formCertificateMethod');
         const idField = $('#certificateId');
 
-        $('.add-certificate, .edit-certificate').on('click', function() {
+        $('.action-add, .edit-certificate').on('click', function () {
             const isEdit = $(this).hasClass('edit-certificate');
-            const actionUrl = isEdit ? `/certification/${$(this).data('id')}` : `/certification`;
+            const certificateId = $(this).data('id');
+            const actionUrl = isEdit ? `/certification/${certificateId}` : `/certification`;
             const method = isEdit ? 'PUT' : 'POST';
 
             form.attr('action', actionUrl);
             methodField.val(method);
-            idField.val(isEdit ? $(this).data('id') : '');
+            idField.val(isEdit ? certificateId : '');
 
             if (isEdit) {
                 $.ajax({
-                    url: `/certification/${$(this).data('id')}`,
+                    url: `/certification/${certificateId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         $('#nameCertificate').val(data.name || '');
                         $('#publisher').val(data.publisher || '');
-                        $('#start_date_certificate').val(data.start_date || '');
-                        $('#end_date_certificate').val(data.end_date || '');
+                        $('#start_date_certificate').val(data.start_date || '').change();
+                        $('#end_date_certificate').val(data.end_date || '').change();
+
+                        $('.delete-certificate').data('id', certificateId).show();
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error fetching data:', error);
-                    },
+                    }
                 });
             } else {
                 form.trigger('reset');
+                $('.delete-certificate').data('id', '').hide();
             }
         });
 
-        modal.on('hidden.bs.modal', function() {
+        modal.on('hidden.bs.modal', function () {
             form.trigger('reset');
         });
 
         const deleteModal = $('#deleteCertificateModal');
         const deleteForm = $('#deleteCertificateForm');
 
-        $('.delete-certificate').on('click', function() {
-            const certificateId = $('#certificateId').val();
-            const deleteUrl = `/certification/${certificateId}`;
-            deleteForm.attr('action', deleteUrl);
-            deleteModal.modal('show');
+        $('.delete-certificate').on('click', function () {
+            const certificateId = $(this).data('id');
+            if (certificateId) {
+                const deleteUrl = `/certification/${certificateId}`;
+                deleteForm.attr('action', deleteUrl);
+                deleteModal.modal('show');
+            }
         });
 
-        deleteModal.on('hidden.bs.modal', function() {
+        deleteModal.on('hidden.bs.modal', function () {
             deleteForm.attr('action', '');
         });
     });
+
     $(document).ready(function () {
         const modal = $('#organizationExperienceModal');
         const form = $('#organizationExperienceForm');
