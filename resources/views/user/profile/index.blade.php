@@ -282,45 +282,35 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Kolom Kanan: Pengalaman Kerja -->
+                <!-- Kolom Kanan: Pengalaman Organisasi -->
                 <div class="col-md-6">
                     <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
-                            <h5 class="mb-3 fw-bold">Pengalaman Organisasi</h5>
-                            <a href="#" class="action-add" class="add-experience" data-bs-toggle="modal" data-bs-target="#workExperienceModal">
+                            <h5 class="mb-3 fw-bold">Pengalaman Organiasi</h5>
+                            <a href="#" class="action-add" data-bs-toggle="modal" data-bs-target="#organizationExperienceModal">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
-                        <div>
-                            @forelse ($workExperiences as $experience)
-                            <div class="mb-3">
+                        @foreach($organizations as $organization)
+                            <div>
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="card-title">{{ $experience->name }}</h6>
-                                    <a href="#" class="action"
-                                        class="edit-experience"
-                                        data-id="{{ $experience->id }}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#workExperienceModal">
+                                    <h6 class="card-title m-0">{{ $organization->name }}</h6>
+                                    <a href="#" 
+                                        class="edit-organization action" 
+                                        data-id="{{ $organization->id }}" 
+                                        data-name="{{ $organization->name }}" 
+                                        data-department="{{ $organization->department }}" 
+                                        data-description="{{ $organization->description }}" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#organizationExperienceModal">
                                         <i class="ph-duotone ph-pen"></i>
                                     </a>
                                 </div>
-                                <p class="fw-semibold text-muted mb-1">{{ $experience->departement }}</p>
-                                <p class="fw-semibold mb-1">
-                                    {{ $experience->start_date ? date('M Y', strtotime($experience->start_date)) : '-' }}
-                                    -
-                                    {{ $experience->end_date ? date('M Y', strtotime($experience->end_date)) : 'Sekarang' }}
-                                </p>
-                                <div class="text-secondary">{!! $experience->description !!}</div>
+                                <p class="fw-semibold text-muted mb-1">{{ $organization->department }}</p>
+                                <p class="text-secondary m-0">{!! $organization->description !!}</p>
                             </div>
                             <hr>
-                            @empty
-                            <p class="text-muted">Belum ada pengalaman kerja yang ditambahkan.</p>
-                            @endforelse
-                            <h6 class="card-title">Nama Organisasi</h6>
-                            <p class="fw-semibold text-muted mb-1">Jabatan</p>
-                            <p class="fw-semibold mb-1">Masa Jabatan</p>
-                            <p class="text-secondary">-</p>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -591,6 +581,28 @@
             </div>
         </div>
     </div>
+    <!-- Delete Modal Organization -->
+    <div class="modal fade" id="deleteModalOrganizations" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Organisasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Yakin ingin menghapus pengalaman organisasi ini?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <form id="deleteFormOrganizations" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Modal Certificate -->
     <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -655,6 +667,43 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Organization Experience -->
+    <div class="modal fade" id="organizationExperienceModal" tabindex="-1" aria-labelledby="organizationExperienceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="organizationExperienceModalLabel">Tambah/Edit Pengalaman Organisasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="organizationExperienceForm" action="{{ route('organizations.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="_method" id="formMethodOrganizations" value="POST">
+                        <input type="hidden" name="idOrganization" id="organizationId" value="">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Organisasi</label>
+                            <input type="text" class="form-control" id="nameOrganizations" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="department" class="form-label">Divisi</label>
+                            <input type="text" class="form-control" id="department" name="department">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descriptionOrganizations" class="form-label">Deskripsi</label>
+                            <div id="quill-editor-organizations" class="mb-3"></div>
+                            <textarea rows="3" class="d-none" name="description" id="quill-editor-area-organizations"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" id="deleteOrganizationBtn" data-id="" style="display: none;">Hapus</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -782,6 +831,96 @@
             deleteForm.attr('action', '');
         });
     });
+    $(document).ready(function () {
+        const modal = $('#organizationExperienceModal');
+        const form = $('#organizationExperienceForm');
+        const methodField = $('#formMethodOrganizations');
+        const idField = $('#organizationId');
+        const deleteModal = $('#deleteModalOrganizations');
+        const deleteForm = $('#deleteFormOrganizations');
+
+        const quillEditorOrganizations = new Quill('#quill-editor-organizations', {
+            theme: 'snow'
+        });
+        const quillEditorAreaOrganizations = $('#quill-editor-area-organizations');
+
+        $('.action-add, .edit-organization').on('click', function () {
+            const isEdit = $(this).hasClass('edit-organization');
+            const orgId = $(this).data('id');
+
+            if (isEdit) {
+                form.attr('action', `/organizations/${orgId}`);
+                methodField.val('PUT');
+                idField.val(orgId);
+
+                $.ajax({
+                    url: `/organizations/${orgId}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#nameOrganizations').val(data.name || '');
+                        $('#department').val(data.department || '');
+                        quillEditorOrganizations.root.innerHTML = data.description || '';
+                        $('#deleteOrganizationBtn').data('id', orgId).show();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            } else {
+                form.attr('action', '/organizations');
+                methodField.val('POST');
+                idField.val('');
+                form.trigger('reset');
+                quillEditorOrganizations.root.innerHTML = '';
+                $('#deleteOrganizationBtn').hide();
+            }
+        });
+
+        quillEditorOrganizations.on('text-change', function () {
+            quillEditorAreaOrganizations.val(quillEditorOrganizations.root.innerHTML);
+        });
+
+        modal.on('hidden.bs.modal', function () {
+            form.trigger('reset');
+            methodField.val('POST');
+            quillEditorOrganizations.root.innerHTML = '';
+        });
+
+        $('#deleteOrganizationBtn').on('click', function () {
+            const orgId = $(this).data('id');
+            if (orgId) {
+                modal.modal('hide');
+                modal.on('hidden.bs.modal', function () {
+                    deleteForm.attr('action', `/organizations/${orgId}`);
+                    deleteModal.modal('show');
+                });
+            }
+        });
+
+        deleteModal.on('hidden.bs.modal', function () {
+            deleteForm.attr('action', '');
+        });
+
+        deleteForm.on('submit', function (e) {
+            e.preventDefault();
+            const deleteUrl = deleteForm.attr('action');
+
+            $.ajax({
+                url: deleteUrl,
+                type: 'POST',
+                data: deleteForm.serialize(),
+                success: function (response) {
+                    deleteModal.modal('hide');
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error deleting data:', error);
+                }
+            });
+        });
+    });
+
 </script>
 
 </html>

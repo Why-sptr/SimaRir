@@ -19,9 +19,10 @@ class UserProfileController extends Controller
         $educations = Education::all();
         $workExperiences = RecentWorkExperience::where('user_id', $user->id)->get();
         $certificates = Certification::where('user_id', $user->id)->get();
+        $organizations = Auth::user()->organizations;
         $jobRoles = JobRole::all();
 
-        return view('user.profile.index', compact('user', 'educations', 'workExperiences', 'certificates', 'jobRoles'));
+        return view('user.profile.index', compact('user', 'educations', 'workExperiences', 'certificates', 'organizations', 'jobRoles'));
     }
 
     public function store(Request $request)

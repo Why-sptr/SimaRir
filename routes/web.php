@@ -60,7 +60,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('user-profile', UserProfileController::class);
     Route::resource('work-experience', WorkExperienceController::class);
     Route::resource('certification', CertificationController::class);
-    Route::resource('organization', OrganizationController::class);
+    Route::resource('organizations', OrganizationController::class);
     Route::resource('favorite', FavoriteController::class);
     Route::get('favorite/check/{jobId}/{userId}', [FavoriteController::class, 'checkFavorite'])->name('favorite.check');
     Route::resource('apply', ApplyController::class);
