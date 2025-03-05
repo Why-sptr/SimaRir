@@ -130,13 +130,12 @@
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="card-title">{{ $experience->jobdesk }}</h6>
-                                    <a href="#" class="action"
-                                        class="edit-experience"
+                                    <a href="#" class="action edit-experience"
                                         data-id="{{ $experience->id }}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#workExperienceModal">
                                         <i class="ph-duotone ph-pen"></i>
-                                    </a>
+                                        </a>
                                 </div>
                                 <p class="fw-semibold text-muted mb-1">{{ $experience->name }}</p>
                                 <p class="fw-semibold mb-1">
@@ -713,67 +712,82 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         const modal = $('#workExperienceModal');
         const form = $('#workExperienceForm');
         const methodField = $('#formMethod');
         const idField = $('#experienceId');
+
+        // Inisialisasi Quill Editor
         const quillEditor = new Quill('#quill-editor', {
             theme: 'snow'
         });
         const quillEditorArea = $('#quill-editor-area');
 
-        $('.add-experience, .edit-experience').on('click', function() {
+        $('.action-add, .edit-experience').on('click', function () {
             const isEdit = $(this).hasClass('edit-experience');
-            const actionUrl = isEdit ? `/work-experience/${$(this).data('id')}` : `/work-experience`;
+            const experienceId = $(this).data('id');
+            const actionUrl = isEdit ? `/work-experience/${experienceId}` : `/work-experience`;
             const method = isEdit ? 'PUT' : 'POST';
 
             form.attr('action', actionUrl);
             methodField.val(method);
-            idField.val(isEdit ? $(this).data('id') : '');
+            idField.val(isEdit ? experienceId : '');
 
             if (isEdit) {
                 $.ajax({
-                    url: `/work-experience/${$(this).data('id')}`,
+                    url: `/work-experience/${experienceId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function(data) {
+                    success: function (data) {
                         $('#name').val(data.name || '');
                         $('#jobdesk').val(data.jobdesk || '');
+                        
+                        // Set value ke Quill Editor
                         quillEditor.root.innerHTML = data.description || '';
-                        $('#start_date').val(data.start_date || '');
-                        $('#end_date').val(data.end_date || '');
+
+                        // Set nilai input tanggal
+                        $('#start_date').val(data.start_date || '').change();
+                        $('#end_date').val(data.end_date || '').change();
+
+                        // Set data-id tombol hapus
+                        $('.delete-experience').data('id', experienceId);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         console.error('Error fetching data:', error);
                     }
                 });
             } else {
                 form.trigger('reset');
                 quillEditor.root.innerHTML = '';
+                $('.delete-experience').data('id', '').hide();
             }
         });
 
-        modal.on('hidden.bs.modal', function() {
+        modal.on('hidden.bs.modal', function () {
             form.trigger('reset');
             quillEditor.root.innerHTML = '';
         });
 
-        quillEditor.on('text-change', function() {
+        // Simpan perubahan dari Quill Editor ke textarea sebelum submit
+        quillEditor.on('text-change', function () {
             quillEditorArea.val(quillEditor.root.innerHTML);
         });
 
+        // Konfigurasi modal hapus
         const deleteModal = $('#deleteModal');
         const deleteForm = $('#deleteForm');
 
-        $('.delete-experience').on('click', function() {
-            const experienceId = $('#experienceId').val();
-            const deleteUrl = `/work-experience/${experienceId}`;
-            deleteForm.attr('action', deleteUrl);
-            deleteModal.modal('show');
+        $('.delete-experience').on('click', function () {
+            const experienceId = $(this).data('id');
+            if (experienceId) {
+                const deleteUrl = `/work-experience/${experienceId}`;
+                deleteForm.attr('action', deleteUrl);
+                deleteModal.modal('show');
+            }
         });
 
-        deleteModal.on('hidden.bs.modal', function() {
+        deleteModal.on('hidden.bs.modal', function () {
             deleteForm.attr('action', '');
         });
     });
