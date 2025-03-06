@@ -8,6 +8,7 @@ use App\Models\Certification;
 use App\Models\Education;
 use App\Models\JobRole;
 use App\Models\RecentWorkExperience;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,8 +22,9 @@ class UserProfileController extends Controller
         $certificates = Certification::where('user_id', $user->id)->get();
         $organizations = Auth::user()->organizations;
         $jobRoles = JobRole::all();
+        $skills = Skill::all();
 
-        return view('user.profile.index', compact('user', 'educations', 'workExperiences', 'certificates', 'organizations', 'jobRoles'));
+        return view('user.profile.index', compact('user', 'educations', 'workExperiences', 'certificates', 'organizations', 'jobRoles', 'skills'));
     }
 
     public function store(Request $request)

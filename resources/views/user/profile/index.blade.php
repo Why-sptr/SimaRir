@@ -157,20 +157,27 @@
                 <!-- Right Column -->
                 <div class="col-lg-3 d-flex flex-column gap-3">
                     <div class="card border-1 border-primary p-3 flex-fill">
-                        <h5 class="fw-bold">Skill</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Skill</h5>
+                            <a href="#" class="action" data-bs-toggle="modal" data-bs-target="#skillModal">
+                                <i class="ph-duotone ph-pen"></i>
+                            </a>
+                        </div>
+                        
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge badge-outline-primary p-2">Skill 1</span>
-                            <span class="badge badge-outline-primary p-2">Skill 2</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            {{-- Periksa Skill User --}}
+                            @if ($user && $user->skills->isNotEmpty())
+                                @foreach ($user->skills as $skill)
+                                    <span class="badge badge-outline-primary p-2">
+                                        <i class="ph-duotone ph-lightning"></i> {{-- Ikon untuk Skill --}}
+                                        {{ $skill->name }}
+                                    </span>
+                                @endforeach
+                            @else
+                                <div class="text-center">
+                                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="No Skills Found">
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card border-1 border-primary p-3 flex-fill">
@@ -272,6 +279,7 @@
                                     {{ $certificate->end_date ? date('M Y', strtotime($certificate->end_date)) : 'Sekarang' }}
                                 </p>
                             </li>
+                            <hr>
                             @empty
                             <div class="text-center">
                                 <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
@@ -289,10 +297,10 @@
                                 <i class="fa-solid fa-plus"></i>
                             </a>
                         </div>
-                        @foreach($organizations as $organization)
+                        @forelse($organizations as $organization)
                             <div>
                                 <div class="d-flex justify-content-between">
-                                    <h6 class="card-title m-0">{{ $organization->name }}</h6>
+                                    <p class="fw-semibold mb-0">{{ $organization->name }}</p>
                                     <a href="#" 
                                         class="edit-organization action" 
                                         data-id="{{ $organization->id }}" 
@@ -305,411 +313,35 @@
                                     </a>
                                 </div>
                                 <p class="fw-semibold text-muted mb-1">{{ $organization->department }}</p>
-                                <p class="text-secondary m-0">{!! $organization->description !!}</p>
+                                <div class="text-secondary mb-0">{!! $organization->description !!}</div>
                             </div>
                             <hr>
-                        @endforeach
+                        @empty
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Modal User -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Form to edit the user's details -->
-                    <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('POST')
-
-                        <!-- Location Field -->
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}">
-                        </div>
-
-                        <!-- Corporate Field -->
-                        <div class="mb-3">
-                            <label for="education" class="form-label">Pendidikan</label>
-                            <select class="form-control" id="education" name="education">
-                                <option value="" disabled selected>Pilih Pendidikan</option>
-                                @foreach ($educations as $edu)
-                                <option value="{{ $edu->id }}"
-                                    {{ $edu->id == $user->education_id ? 'selected' : '' }}>
-                                    {{ $edu->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Job Role -->
-                        <div class="mb-3">
-                            <label for="job_role_id" class="form-label">Role</label>
-                            <select class="form-control" id="job_role_id" name="job_role_id">
-                                <option value="" disabled selected>Pilih Role</option>
-                                @foreach ($jobRoles as $job)
-                                <option value="{{ $job->id }}" {{ $job->id == $user->job_role_id ? 'selected' : '' }}>
-                                    {{ $job->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-
-                        <!-- Moto Field -->
-                        <div class="mb-3">
-                            <label for="moto" class="form-label">Moto</label>
-                            <input type="text" class="form-control" id="moto" name="moto" value="{{ auth()->user()->moto }}">
-                        </div>
-
-                        <!-- Work Experience -->
-                        <div class="mb-3">
-                            <label for="work_experience" class="form-label">Pengalaman Kerja</label>
-                            <input type="number" class="form-control" id="work_experience" name="work_experience" value="{{ auth()->user()->work_experience }}">
-                        </div>
-
-                        <!-- Gender Field -->
-                        <div class="mb-3">
-                            <label for="gender" class="form-label">Jenis Kelamin</label>
-                            <select class="form-control" id="gender" name="gender" required>
-                                <option value="">-- Pilih --</option>
-                                <option value="male" {{ auth()->user()->gender == 'male' ? 'selected' : '' }}>Laki-laki</option>
-                                <option value="female" {{ auth()->user()->gender == 'female' ? 'selected' : '' }}>Perempuan</option>
-                                <option value="other" {{ auth()->user()->gender == 'other' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
-                        </div>
-
-                        <!-- Avatar Field -->
-                        <div class="mb-3">
-                            <label for="avatar" class="form-label">Avatar</label>
-                            <input type="file" class="form-control" id="avatar" name="avatar">
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Description -->
-    <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="descriptionModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('POST')
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="5">{{ auth()->user()->description }}</textarea>
-                        </div>
-
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Attachment -->
-    <div class="modal fade" id="attachmentModal" tabindex="-1" aria-labelledby="attachmentModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="attachmentModalLabel">Edit Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('user-profile.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('POST')
-                        <div class="mb-3">
-                            <label for="cv" class="form-label">CV</label>
-                            <input class="form-control" type="file" id="cv" name="cv" value="{{ old('cv', $user->attachment->cv ?? '-') }}" onchange="previewFile('cv')">
-                            <p id="cv-preview" class="mt-2">File: {{ $user->attachment->cv ?? '-' }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="portfolio" class="form-label">Portfolio</label>
-                            <input class="form-control" type="file" id="portfolio" name="portfolio" value="{{ old('portfolio', $user->attachment->portfolio ?? '-') }}" onchange="previewFile('portfolio')">
-                            <p id="portfolio-preview" class="mt-2">File: {{ $user->attachment->portfolio ?? '-' }}</p>
-                        </div>
-
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Sosmed Modal -->
-    <div class="modal fade" id="socialMediaModal" tabindex="-1" aria-labelledby="socialMediaModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="socialMediaModalLabel">Tambah/Edit Sosial Media</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('social-media.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="instagram" class="form-label">Instagram</label>
-                            <input type="text" class="form-control" id="instagram" name="instagram" value="{{ old('instagram', $user->socialMedia->instagram ?? '') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="github" class="form-label">GitHub</label>
-                            <input type="text" class="form-control" id="github" name="github" value="{{ old('github', $user->socialMedia->github ?? '') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="youtube" class="form-label">YouTube</label>
-                            <input type="text" class="form-control" id="youtube" name="youtube" value="{{ old('youtube', $user->socialMedia->youtube ?? '') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="website" class="form-label">Website</label>
-                            <input type="text" class="form-control" id="website" name="website" value="{{ old('website', $user->socialMedia->website ?? '') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="linkedin" class="form-label">LinkedIn</label>
-                            <input type="text" class="form-control" id="linkedin" name="linkedin" value="{{ old('linkedin', $user->socialMedia->linkedin ?? '') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="tiktok" class="form-label">TikTok</label>
-                            <input type="text" class="form-control" id="tiktok" name="tiktok" value="{{ old('tiktok', $user->socialMedia->tiktok ?? '') }}">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Work Experience -->
-    <div class="modal fade" id="workExperienceModal" tabindex="-1" aria-labelledby="workExperienceModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="workExperienceModalLabel">Tambah/Edit Pengalaman Kerja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="workExperienceForm" action="{{ route('work-experience.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="_method" id="formMethod" value="POST">
-                        <input type="hidden" name="id" id="experienceId" value="">
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Perusahaan</label>
-                            <input type="text" class="form-control" id="name" name="name" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="jobdesk" class="form-label">Jobdesk</label>
-                            <input type="text" class="form-control" id="jobdesk" name="jobdesk" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Deskripsi</label>
-                            <div id="quill-editor" class="mb-3"></div>
-                            <textarea rows="3" class="mb-3 d-none" name="description" id="quill-editor-area"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="start_date" class="form-label">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date" value="">
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button"
-                                class="btn btn-danger delete-experience"
-                                data-id=""
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteModal">
-                                Hapus
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal Work Experience -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Kerja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Yakin ingin menghapus pengalaman kerja ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <form id="deleteForm" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal Organization -->
-    <div class="modal fade" id="deleteModalOrganizations" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Hapus Pengalaman Organisasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Yakin ingin menghapus pengalaman organisasi ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <form id="deleteFormOrganizations" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Certificate -->
-    <div class="modal fade" id="certificateModal" tabindex="-1" aria-labelledby="certificateModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="certificateModalLabel">Tambah/Edit Pengalaman Kerja</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="certificateForm" action="{{ route('certification.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="_method" id="formCertificateMethod" value="POST">
-                        <input type="hidden" name="id" id="certificateId" value="">
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Sertifikat</label>
-                            <input type="text" class="form-control" id="nameCertificate" name="name" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="publisher" class="form-label">Penerbit</label>
-                            <input type="text" class="form-control" id="publisher" name="publisher" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="start_date" class="form-label">Tanggal Mulai</label>
-                            <input type="date" class="form-control" id="start_date_certificate" name="start_date" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="end_date" class="form-label">Tanggal Selesai</label>
-                            <input type="date" class="form-control" id="end_date_certificate" name="end_date" value="">
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button"
-                                class="btn btn-danger delete-certificate"
-                                data-id=""
-                                data-bs-toggle="modal"
-                                data-bs-target="#deleteCertificateModal">
-                                Hapus
-                            </button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal Certificate -->
-    <div class="modal fade" id="deleteCertificateModal" tabindex="-1" aria-labelledby="deleteCertificateModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteCertificateModalLabel">Hapus Sertifikasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Yakin ingin menghapus sertifikasi ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <form id="deleteCertificateForm" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Organization Experience -->
-    <div class="modal fade" id="organizationExperienceModal" tabindex="-1" aria-labelledby="organizationExperienceModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="organizationExperienceModalLabel">Tambah/Edit Pengalaman Organisasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="organizationExperienceForm" action="{{ route('organizations.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="_method" id="formMethodOrganizations" value="POST">
-                        <input type="hidden" name="idOrganization" id="organizationId" value="">
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nama Organisasi</label>
-                            <input type="text" class="form-control" id="nameOrganizations" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="department" class="form-label">Divisi</label>
-                            <input type="text" class="form-control" id="department" name="department">
-                        </div>
-                        <div class="mb-3">
-                            <label for="descriptionOrganizations" class="form-label">Deskripsi</label>
-                            <div id="quill-editor-organizations" class="mb-3"></div>
-                            <textarea rows="3" class="d-none" name="description" id="quill-editor-area-organizations"></textarea>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" id="deleteOrganizationBtn" data-id="" style="display: none;">Hapus</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('user.profile.modal.modal-user')
+    @include('user.profile.modal.modal-description')
+    @include('user.profile.modal.modal-attachment')
+    @include('user.profile.modal.modal-sosmed')
+    @include('user.profile.modal.modal-work-experience')
+    @include('user.profile.modal.modal-delete-work-experience')
+    @include('user.profile.modal.modal-certificate')
+    @include('user.profile.modal.modal-delete-certificate')
+    @include('user.profile.modal.modal-organizations')
+    @include('user.profile.modal.modal-delete-organizations')
+    @include('user.profile.modal.modal-skill')
 </body>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
         const modal = $('#workExperienceModal');
@@ -717,7 +349,6 @@
         const methodField = $('#formMethod');
         const idField = $('#experienceId');
 
-        // Inisialisasi Quill Editor
         const quillEditor = new Quill('#quill-editor', {
             theme: 'snow'
         });
@@ -742,15 +373,12 @@
                         $('#name').val(data.name || '');
                         $('#jobdesk').val(data.jobdesk || '');
                         
-                        // Set value ke Quill Editor
                         quillEditor.root.innerHTML = data.description || '';
 
-                        // Set nilai input tanggal
                         $('#start_date').val(data.start_date || '').change();
                         $('#end_date').val(data.end_date || '').change();
 
-                        // Set data-id tombol hapus
-                        $('.delete-experience').data('id', experienceId);
+                        $('.delete-experience').data('id', experienceId).show();
                     },
                     error: function (xhr, status, error) {
                         console.error('Error fetching data:', error);
@@ -766,14 +394,13 @@
         modal.on('hidden.bs.modal', function () {
             form.trigger('reset');
             quillEditor.root.innerHTML = '';
+            $('.delete-experience').data('id', '').hide();
         });
 
-        // Simpan perubahan dari Quill Editor ke textarea sebelum submit
         quillEditor.on('text-change', function () {
             quillEditorArea.val(quillEditor.root.innerHTML);
         });
 
-        // Konfigurasi modal hapus
         const deleteModal = $('#deleteModal');
         const deleteForm = $('#deleteForm');
 
@@ -937,6 +564,22 @@
                 error: function (xhr, status, error) {
                     console.error('Error deleting data:', error);
                 }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('#skills').select2({
+            placeholder: "Pilih skill",
+            allowClear: true,
+            width: '100%'
+        });
+
+        // Pastikan Select2 tetap bekerja dalam modal
+        $('#skillModal').on('shown.bs.modal', function () {
+            $('#skills').select2({
+                dropdownParent: $('#skillModal'),
+                width: '100%'
             });
         });
     });

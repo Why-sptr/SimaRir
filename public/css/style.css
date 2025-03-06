@@ -87,6 +87,17 @@ a {
     color: white !important;
 }
 
+.btn-outline-danger {
+    background-color: #ff48001c !important;
+    border: solid 1px #ff4800 !important;
+    color: #ff4800 !important;
+}
+.btn-outline-danger:hover {
+    background-color: #ff4800 !important;
+    border: solid 1px #ff4800 !important;
+    color: white !important;
+}
+
 .action {
     background-color: #0080811c !important;
     border: solid 1px #008081 !important;
