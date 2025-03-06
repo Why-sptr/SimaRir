@@ -1,3 +1,10 @@
+<style>
+    #location-suggestions {
+        width: 93%;
+        max-width: 93%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <!-- Modal User -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -14,8 +21,9 @@
 
                     <!-- Location Field -->
                     <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}">
+                        <label for="location" class="form-label">Kabupaten/Kota</label>
+                        <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}" placeholder="Ketik nama kabupaten/kota...">
+                        <div id="location-suggestions" class="list-group position-absolute w-100" style="max-height: 200px; overflow-y: auto; display: none;"></div>
                     </div>
 
                     <!-- Corporate Field -->

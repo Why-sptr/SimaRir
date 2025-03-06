@@ -68,7 +68,7 @@
                             <h5 class="m-0 fw-bold">{{ $user->name }}</h5>
                             <a href="#" class="action" class="action" data-bs-toggle="modal" data-bs-target="#editModal"><i class="ph-duotone ph-pen"></i></a>
                         </div>
-                        
+
                         <p>{{ $user->moto }}</p>
                         <span class="badge badge-outline-primary p-2">{{ $user->jobRole->name }}</span>
                         <div class="card border-0 p-2 mt-3 h-100">
@@ -110,7 +110,7 @@
                         </div>
                         <div class="text">
                             @if($user->description)
-                                {!! $user->description !!}
+                            {!! $user->description !!}
                             @else
                             <div class="text-center">
                                 <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
@@ -135,7 +135,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#workExperienceModal">
                                         <i class="ph-duotone ph-pen"></i>
-                                        </a>
+                                    </a>
                                 </div>
                                 <p class="fw-semibold text-muted mb-1">{{ $experience->name }}</p>
                                 <p class="fw-semibold mb-1">
@@ -163,20 +163,20 @@
                                 <i class="ph-duotone ph-pen"></i>
                             </a>
                         </div>
-                        
+
                         <div class="d-flex flex-wrap gap-2">
                             {{-- Periksa Skill User --}}
                             @if ($user && $user->skills->isNotEmpty())
-                                @foreach ($user->skills as $skill)
-                                    <span class="badge badge-outline-primary p-2">
-                                        <i class="ph-duotone ph-lightning"></i> {{-- Ikon untuk Skill --}}
-                                        {{ $skill->name }}
-                                    </span>
-                                @endforeach
+                            @foreach ($user->skills as $skill)
+                            <span class="badge badge-outline-primary p-2">
+                                <i class="ph-duotone ph-lightning"></i> {{-- Ikon untuk Skill --}}
+                                {{ $skill->name }}
+                            </span>
+                            @endforeach
                             @else
-                                <div class="text-center">
-                                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="No Skills Found">
-                                </div>
+                            <div class="text-center">
+                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="No Skills Found">
+                            </div>
                             @endif
                         </div>
                     </div>
@@ -266,7 +266,7 @@
                                         data-bs-toggle="modal"
                                         data-bs-target="#certificateModal">
                                         <i class="ph-duotone ph-pen"></i>
-                                        </a>
+                                    </a>
                                 </div>
                             </li>
                             <li>
@@ -298,28 +298,28 @@
                             </a>
                         </div>
                         @forelse($organizations as $organization)
-                            <div>
-                                <div class="d-flex justify-content-between">
-                                    <p class="fw-semibold mb-0">{{ $organization->name }}</p>
-                                    <a href="#" 
-                                        class="edit-organization action" 
-                                        data-id="{{ $organization->id }}" 
-                                        data-name="{{ $organization->name }}" 
-                                        data-department="{{ $organization->department }}" 
-                                        data-description="{{ $organization->description }}" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#organizationExperienceModal">
-                                        <i class="ph-duotone ph-pen"></i>
-                                    </a>
-                                </div>
-                                <p class="fw-semibold text-muted mb-1">{{ $organization->department }}</p>
-                                <div class="text-secondary mb-0">{!! $organization->description !!}</div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <p class="fw-semibold mb-0">{{ $organization->name }}</p>
+                                <a href="#"
+                                    class="edit-organization action"
+                                    data-id="{{ $organization->id }}"
+                                    data-name="{{ $organization->name }}"
+                                    data-department="{{ $organization->department }}"
+                                    data-description="{{ $organization->description }}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#organizationExperienceModal">
+                                    <i class="ph-duotone ph-pen"></i>
+                                </a>
                             </div>
-                            <hr>
+                            <p class="fw-semibold text-muted mb-1">{{ $organization->department }}</p>
+                            <div class="text-secondary mb-0">{!! $organization->description !!}</div>
+                        </div>
+                        <hr>
                         @empty
-                            <div class="text-center">
-                                <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
-                            </div>
+                        <div class="text-center">
+                            <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                        </div>
                         @endforelse
                     </div>
                 </div>
@@ -343,7 +343,7 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         const modal = $('#workExperienceModal');
         const form = $('#workExperienceForm');
         const methodField = $('#formMethod');
@@ -354,7 +354,7 @@
         });
         const quillEditorArea = $('#quill-editor-area');
 
-        $('.action-add, .edit-experience').on('click', function () {
+        $('.action-add, .edit-experience').on('click', function() {
             const isEdit = $(this).hasClass('edit-experience');
             const experienceId = $(this).data('id');
             const actionUrl = isEdit ? `/work-experience/${experienceId}` : `/work-experience`;
@@ -369,10 +369,10 @@
                     url: `/work-experience/${experienceId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         $('#name').val(data.name || '');
                         $('#jobdesk').val(data.jobdesk || '');
-                        
+
                         quillEditor.root.innerHTML = data.description || '';
 
                         $('#start_date').val(data.start_date || '').change();
@@ -380,7 +380,7 @@
 
                         $('.delete-experience').data('id', experienceId).show();
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error fetching data:', error);
                     }
                 });
@@ -391,20 +391,20 @@
             }
         });
 
-        modal.on('hidden.bs.modal', function () {
+        modal.on('hidden.bs.modal', function() {
             form.trigger('reset');
             quillEditor.root.innerHTML = '';
             $('.delete-experience').data('id', '').hide();
         });
 
-        quillEditor.on('text-change', function () {
+        quillEditor.on('text-change', function() {
             quillEditorArea.val(quillEditor.root.innerHTML);
         });
 
         const deleteModal = $('#deleteModal');
         const deleteForm = $('#deleteForm');
 
-        $('.delete-experience').on('click', function () {
+        $('.delete-experience').on('click', function() {
             const experienceId = $(this).data('id');
             if (experienceId) {
                 const deleteUrl = `/work-experience/${experienceId}`;
@@ -413,18 +413,18 @@
             }
         });
 
-        deleteModal.on('hidden.bs.modal', function () {
+        deleteModal.on('hidden.bs.modal', function() {
             deleteForm.attr('action', '');
         });
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         const modal = $('#certificateModal');
         const form = $('#certificateForm');
         const methodField = $('#formCertificateMethod');
         const idField = $('#certificateId');
 
-        $('.action-add, .edit-certificate').on('click', function () {
+        $('.action-add, .edit-certificate').on('click', function() {
             const isEdit = $(this).hasClass('edit-certificate');
             const certificateId = $(this).data('id');
             const actionUrl = isEdit ? `/certification/${certificateId}` : `/certification`;
@@ -439,7 +439,7 @@
                     url: `/certification/${certificateId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         $('#nameCertificate').val(data.name || '');
                         $('#publisher').val(data.publisher || '');
                         $('#start_date_certificate').val(data.start_date || '').change();
@@ -447,7 +447,7 @@
 
                         $('.delete-certificate').data('id', certificateId).show();
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error fetching data:', error);
                     }
                 });
@@ -457,14 +457,14 @@
             }
         });
 
-        modal.on('hidden.bs.modal', function () {
+        modal.on('hidden.bs.modal', function() {
             form.trigger('reset');
         });
 
         const deleteModal = $('#deleteCertificateModal');
         const deleteForm = $('#deleteCertificateForm');
 
-        $('.delete-certificate').on('click', function () {
+        $('.delete-certificate').on('click', function() {
             const certificateId = $(this).data('id');
             if (certificateId) {
                 const deleteUrl = `/certification/${certificateId}`;
@@ -473,12 +473,12 @@
             }
         });
 
-        deleteModal.on('hidden.bs.modal', function () {
+        deleteModal.on('hidden.bs.modal', function() {
             deleteForm.attr('action', '');
         });
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         const modal = $('#organizationExperienceModal');
         const form = $('#organizationExperienceForm');
         const methodField = $('#formMethodOrganizations');
@@ -491,7 +491,7 @@
         });
         const quillEditorAreaOrganizations = $('#quill-editor-area-organizations');
 
-        $('.action-add, .edit-organization').on('click', function () {
+        $('.action-add, .edit-organization').on('click', function() {
             const isEdit = $(this).hasClass('edit-organization');
             const orgId = $(this).data('id');
 
@@ -504,13 +504,13 @@
                     url: `/organizations/${orgId}`,
                     type: 'GET',
                     dataType: 'json',
-                    success: function (data) {
+                    success: function(data) {
                         $('#nameOrganizations').val(data.name || '');
                         $('#department').val(data.department || '');
                         quillEditorOrganizations.root.innerHTML = data.description || '';
                         $('#deleteOrganizationBtn').data('id', orgId).show();
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error('Error fetching data:', error);
                     }
                 });
@@ -524,32 +524,32 @@
             }
         });
 
-        quillEditorOrganizations.on('text-change', function () {
+        quillEditorOrganizations.on('text-change', function() {
             quillEditorAreaOrganizations.val(quillEditorOrganizations.root.innerHTML);
         });
 
-        modal.on('hidden.bs.modal', function () {
+        modal.on('hidden.bs.modal', function() {
             form.trigger('reset');
             methodField.val('POST');
             quillEditorOrganizations.root.innerHTML = '';
         });
 
-        $('#deleteOrganizationBtn').on('click', function () {
+        $('#deleteOrganizationBtn').on('click', function() {
             const orgId = $(this).data('id');
             if (orgId) {
                 modal.modal('hide');
-                modal.on('hidden.bs.modal', function () {
+                modal.on('hidden.bs.modal', function() {
                     deleteForm.attr('action', `/organizations/${orgId}`);
                     deleteModal.modal('show');
                 });
             }
         });
 
-        deleteModal.on('hidden.bs.modal', function () {
+        deleteModal.on('hidden.bs.modal', function() {
             deleteForm.attr('action', '');
         });
 
-        deleteForm.on('submit', function (e) {
+        deleteForm.on('submit', function(e) {
             e.preventDefault();
             const deleteUrl = deleteForm.attr('action');
 
@@ -557,11 +557,11 @@
                 url: deleteUrl,
                 type: 'POST',
                 data: deleteForm.serialize(),
-                success: function (response) {
+                success: function(response) {
                     deleteModal.modal('hide');
                     location.reload();
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error('Error deleting data:', error);
                 }
             });
@@ -576,12 +576,74 @@
         });
 
         // Pastikan Select2 tetap bekerja dalam modal
-        $('#skillModal').on('shown.bs.modal', function () {
+        $('#skillModal').on('shown.bs.modal', function() {
             $('#skills').select2({
                 dropdownParent: $('#skillModal'),
                 width: '100%'
             });
         });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const locationInput = document.getElementById("location");
+        const suggestionsBox = document.getElementById("location-suggestions");
+
+        let cities = [];
+
+        async function fetchCities() {
+            const provinceIds = [
+                11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31, 32, 33, 34, 35, 36, 51, 52, 53, 61, 62, 63, 64, 65, 71, 72, 73, 74, 75, 76, 81, 82, 91, 92
+            ];
+
+            for (let provinceId of provinceIds) {
+                try {
+                    let response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+                    let data = await response.json();
+                    cities = [...cities, ...data];
+                } catch (error) {
+                    console.error(`Error fetching cities for province ${provinceId}:`, error);
+                }
+            }
+        }
+
+        function showSuggestions(query) {
+            const filteredCities = cities.filter(city => city.name.toLowerCase().includes(query.toLowerCase()));
+
+            suggestionsBox.innerHTML = "";
+            if (filteredCities.length > 0) {
+                suggestionsBox.style.display = "block";
+
+                filteredCities.forEach(city => {
+                    let suggestionItem = document.createElement("div");
+                    suggestionItem.classList.add("list-group-item", "list-group-item-action");
+                    suggestionItem.textContent = city.name;
+                    suggestionItem.onclick = function () {
+                        locationInput.value = city.name;
+                        suggestionsBox.style.display = "none";
+                    };
+                    suggestionsBox.appendChild(suggestionItem);
+                });
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        }
+
+        locationInput.addEventListener("input", function () {
+            let query = this.value.trim();
+            if (query.length > 2) { 
+                showSuggestions(query);
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!suggestionsBox.contains(e.target) && e.target !== locationInput) {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        fetchCities();
     });
 
 </script>
