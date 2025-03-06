@@ -73,30 +73,36 @@
                         <span class="badge badge-outline-primary p-2">{{ $user->jobRole->name }}</span>
                         <div class="card border-0 p-2 mt-3 h-100">
                             <ul class="list-unstyled text-start">
-                                <li>
+                                <li class="d-flex gap-2 align-items-center">
+                                    <i class="ph-duotone ph-whatsapp-logo text-primary"></i>
                                     <p class="fw-semibold mb-0">Whatsapp:</p>
                                 </li>
-                                <li><span>{{ $user->phone }}</span></li>
-                                <li>
+                                <li><p class="mb-2">{{ $user->phone }}</p></li>
+                                <li class="d-flex gap-2 align-items-center">
+                                    <i class="ph-duotone ph-envelope text-primary"></i>
                                     <p class="fw-semibold mb-0">Email:</p>
                                 </li>
-                                <li><span>{{ $user->email }}</span></li>
-                                <li>
-                                    <p class="fw-semibold mb-0">Lokasi:</p>
+                                <li><p class="mb-2">{{ $user->email }}</p></li>
+                                <li class="d-flex gap-2 align-items-center">
+                                    <i class="ph-duotone ph-map-pin-area text-primary"></i>
+                                    <p class="fw-semibold mb-0 text">Lokasi:</p>
                                 </li>
-                                <li><span>{{ $user->location }}</span></li>
-                                <li>
+                                <li><p class="mb-2">{{ $user->location }}</p></li>
+                                <li class="d-flex gap-2 align-items-center">
+                                    <i class="ph-duotone ph-graduation-cap text-primary"></i>
                                     <p class="fw-semibold mb-0">Pendidikan Terakhir:</p>
                                 </li>
-                                <li><span>{{ $user->education->name }}</span></li>
-                                <li>
+                                <li><p class="mb-2">{{ $user->education->name }}</p></li>
+                                <li class="d-flex gap-2 align-items-center">
+                                    <i class="ph-duotone ph-briefcase text-primary"></i>
                                     <p class="fw-semibold mb-0">Pengalaman Kerja:</p>
                                 </li>
-                                <li><span>{{ $user->work_experience ?? '0'}} Tahun</span></li>
-                                <li>
+                                <li><p class="mb-2">{{ $user->work_experience ?? '0'}} Tahun</p></li>
+                                <li class="d-flex gap-2 align-items-center">
+                                    <i class="ph-duotone ph-gender-intersex text-primary"></i>
                                     <p class="fw-semibold mb-0">Jenis Kelamin:</p>
                                 </li>
-                                <li><span>{{ $user->gender }}</span></li>
+                                <li><p class="mb-2">{{ $user->gender }}</p></li>
                             </ul>
                         </div>
                     </div>
@@ -232,12 +238,12 @@
                         </div>
                         <ul class="list-unstyled">
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-file" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">{{ $user->attachment->cv ?? '-'}}</p>
+                                <i class="ph-duotone ph-files text-primary" style="width: 24px;"></i>
+                                <a href="{{ asset('storage/attachments/' . $user->attachment->cv) }}" target="_blank" class="card-text fw-semibold">{{ $user->attachment->cv ?? '-'}}</a>
                             </div>
                             <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-paperclip" style="width: 24px;"></i>
-                                <a href="#" class="card-text fw-semibold">{{ $user->attachment->portfolio ?? '-'}}</a>
+                                <i class="ph-duotone ph-paperclip text-primary" style="width: 24px;"></i>
+                                <a href="{{ asset('storage/attachments/' . $user->attachment->portfolio) }}" target="_blank" class="card-text fw-semibold">{{ $user->attachment->portfolio ?? '-'}}</a>
                             </div>
                         </ul>
                     </div>
