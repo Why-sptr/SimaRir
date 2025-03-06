@@ -60,6 +60,6 @@ class CertificationController extends Controller
         }
         $certificate->delete();
 
-        return redirect()->back()->with('success', 'Sertifikasi berhasil dihapus.');
+        return redirect()->back()->with('danger', 'Sertifikasi berhasil dihapus.');
     }
 }

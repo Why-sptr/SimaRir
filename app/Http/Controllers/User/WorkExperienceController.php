@@ -64,6 +64,6 @@ class WorkExperienceController extends Controller
         }
         $experience->delete();
 
-        return redirect()->back()->with('success', 'Pengalaman kerja berhasil dihapus.');
+        return redirect()->back()->with('danger', 'Pengalaman kerja berhasil dihapus.');
     }
 }

@@ -46,6 +46,6 @@ class OrganizationController extends Controller
         $organization = Organization::findOrFail($organization->id);
 
         $organization->delete();
-        return redirect()->back()->with('success', 'Pengalaman organisasi berhasil dihapus!');
+        return redirect()->back()->with('danger', 'Pengalaman organisasi berhasil dihapus!');
     }
 }

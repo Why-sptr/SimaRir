@@ -53,6 +53,22 @@
             </div>
         </div>
     </nav>
+    @if (session('success'))
+    <div class="container my-2">
+        <div class="alert bg-white border border-1 border-primary alert-dismissible text-primary" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session('success') }}
+        </div>
+    </div>
+    @endif
+    @if (session('danger'))
+    <div class="container my-2">
+        <div class="alert bg-white border border-1 border-danger alert-dismissible text-danger" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {{ session('danger') }}
+        </div>
+    </div>
+    @endif
     <section>
         <div class="container mt-4">
             <div class="row g-4">
