@@ -29,6 +29,7 @@ use App\Http\Controllers\User\OrganizationController;
 use App\Http\Controllers\User\UserCompanyController;
 use App\Http\Controllers\User\UserJobWorkController;
 use App\Http\Controllers\User\UserProfileController;
+use App\Http\Controllers\User\UserSkillController;
 use App\Http\Controllers\User\WorkExperienceController;
 use Spatie\Permission\Models\Role;
 
@@ -61,6 +62,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::resource('work-experience', WorkExperienceController::class);
     Route::resource('certification', CertificationController::class);
     Route::resource('organizations', OrganizationController::class);
+    Route::resource('user-skill', UserSkillController::class);
     Route::resource('favorite', FavoriteController::class);
     Route::get('favorite/check/{jobId}/{userId}', [FavoriteController::class, 'checkFavorite'])->name('favorite.check');
     Route::resource('apply', ApplyController::class);

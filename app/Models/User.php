@@ -145,4 +145,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin::class);
     }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'skill_user', 'user_id', 'skill_id')->withTimestamps();
+    }
 }

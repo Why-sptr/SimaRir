@@ -157,20 +157,27 @@
                 <!-- Right Column -->
                 <div class="col-lg-3 d-flex flex-column gap-3">
                     <div class="card border-1 border-primary p-3 flex-fill">
-                        <h5 class="fw-bold">Skill</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-3 fw-bold">Skill</h5>
+                            <a href="#" class="action" data-bs-toggle="modal" data-bs-target="#skillModal">
+                                <i class="ph-duotone ph-pen"></i>
+                            </a>
+                        </div>
+                        
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge badge-outline-primary p-2">Skill 1</span>
-                            <span class="badge badge-outline-primary p-2">Skill 2</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            {{-- Periksa Skill User --}}
+                            @if ($user && $user->skills->isNotEmpty())
+                                @foreach ($user->skills as $skill)
+                                    <span class="badge badge-outline-primary p-2">
+                                        <i class="ph-duotone ph-lightning"></i> {{-- Ikon untuk Skill --}}
+                                        {{ $skill->name }}
+                                    </span>
+                                @endforeach
+                            @else
+                                <div class="text-center">
+                                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-100" alt="No Skills Found">
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card border-1 border-primary p-3 flex-fill">
@@ -329,9 +336,12 @@
     @include('user.profile.modal.modal-delete-certificate')
     @include('user.profile.modal.modal-organizations')
     @include('user.profile.modal.modal-delete-organizations')
+    @include('user.profile.modal.modal-skill')
 </body>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
         const modal = $('#workExperienceModal');
@@ -554,6 +564,22 @@
                 error: function (xhr, status, error) {
                     console.error('Error deleting data:', error);
                 }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('#skills').select2({
+            placeholder: "Pilih skill",
+            allowClear: true,
+            width: '100%'
+        });
+
+        // Pastikan Select2 tetap bekerja dalam modal
+        $('#skillModal').on('shown.bs.modal', function () {
+            $('#skills').select2({
+                dropdownParent: $('#skillModal'),
+                width: '100%'
             });
         });
     });
