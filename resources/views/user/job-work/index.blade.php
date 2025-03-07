@@ -60,7 +60,6 @@
         </div>
         <div class="container py-3">
             <div class="row">
-
                 <!-- Sidebar -->
                 <div class="col-md-3">
                     <div class="card border-1 border-primary p-3">
@@ -69,109 +68,89 @@
                             Filter
                         </button>
                         <div class="collapse d-md-block sticky-sidebar" id="sidebarContent">
+                            <form action="{{ route('user-job-work.index') }}" method="GET" id="filterForm">
+                                <!-- Search hidden field to sync with main search -->
+                                @if(request()->has('search'))
+                                <input type="hidden" name="search" id="sidebar-search-input" value="{{ request('search') }}">
+                                @endif
 
-                            <!-- Jenis Section -->
-                            <div class="mb-4">
-                                <h5 class="fw-bold">Jenis</h5>
-                                <form>
+                                <!-- Tipe Pekerjaan Section -->
+                                <div class="mb-4">
+                                    <h6 class="fw-bold">Tipe Pekerjaan</h6>
+                                    @foreach($workTypes as $workType)
                                     <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox1">
-                                        <label class="form-check-label" for="checkbox1">
-                                            Whitening
+                                        <input class="form-check-input custom-checkbox" type="checkbox"
+                                            name="work_types[]" value="{{ $workType->id }}" id="workType{{ $workType->id }}"
+                                            {{ in_array($workType->id, request('work_types', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="workType{{ $workType->id }}">
+                                            {{ $workType->name }}
                                         </label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox2">
-                                        <label class="form-check-label" for="checkbox2">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox3">
-                                        <label class="form-check-label" for="checkbox3">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox4">
-                                        <label class="form-check-label" for="checkbox4">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox5">
-                                        <label class="form-check-label" for="checkbox5">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
+                                    @endforeach
+                                </div>
 
-                            <!-- Label Section -->
-                            <div class="mb-4">
-                                <h5 class="fw-bold">Label</h5>
-                                <form>
+                                <!-- Metode Pekerjaan Section -->
+                                <div class="mb-4">
+                                    <h6 class="fw-bold">Metode Pekerjaan</h6>
+                                    @foreach($workMethods as $workMethod)
                                     <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox1">
-                                        <label class="form-check-label" for="checkbox1">
-                                            Whitening
+                                        <input class="form-check-input custom-checkbox" type="checkbox"
+                                            name="work_methods[]" value="{{ $workMethod->id }}" id="workMethod{{ $workMethod->id }}"
+                                            {{ in_array($workMethod->id, request('work_methods', [])) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="workMethod{{ $workMethod->id }}">
+                                            {{ $workMethod->name }}
                                         </label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox2">
-                                        <label class="form-check-label" for="checkbox2">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox3">
-                                        <label class="form-check-label" for="checkbox3">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox4">
-                                        <label class="form-check-label" for="checkbox4">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox5">
-                                        <label class="form-check-label" for="checkbox5">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
+                                    @endforeach
+                                </div>
 
-                            <!-- Dropdown -->
-                            <div class="mb-4">
-                                <h5 class="fw-bold">Label</h5>
-                                <select class="form-select">
-                                    <option selected>Select</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                </select>
-                            </div>
+                                <!-- Lokasi Dropdown -->
+                                <div class="mb-4 position-relative">
+                                    <h6 class="fw-bold">Lokasi</h6>
+                                    <input type="text" class="form-control" id="location" name="location" placeholder="Cari lokasi...">
+                                    <div id="location-suggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></div>
+                                </div>
 
-                            <!-- Button -->
-                            <button class="btn btn-primary w-100">Terapkan</button>
+
+                                <!-- Button -->
+                                <button type="submit" class="btn btn-primary w-100">Terapkan</button>
+                            </form>
                         </div>
                     </div>
                 </div>
 
                 <!-- Main Content -->
                 <div class="col-md-9">
+                    <div class="container mb-4">
+                        <div class="row justify-content-center">
+                            <div class="col-12">
+                                <form action="{{ route('user-job-work.index') }}" method="GET" id="searchForm">
+                                    <!-- Keep all current filter parameters when searching -->
+                                    @if(request()->has('work_types'))
+                                    @foreach(request('work_types') as $type)
+                                    <input type="hidden" name="work_types[]" value="{{ $type }}">
+                                    @endforeach
+                                    @endif
+                                    @if(request()->has('work_methods'))
+                                    @foreach(request('work_methods') as $method)
+                                    <input type="hidden" name="work_methods[]" value="{{ $method }}">
+                                    @endforeach
+                                    @endif
+                                    @if(request()->has('location'))
+                                    <input type="hidden" name="location" value="{{ request('location') }}" id="search-location-input">
+                                    @endif
+
+                                    <div class="search-container justify-content-center d-flex">
+                                        <input type="text" class="form-control search-input" name="search"
+                                            placeholder="Search..." value="{{ request('search') }}" id="main-search-input">
+                                        <button type="submit" class="border-0 bg-transparent">
+                                            <i class="ph-duotone ph-magnifying-glass search-icon me-3"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Produk -->
                     <div class="row g-3">
                         <!-- Card 1 -->
@@ -255,15 +234,11 @@
                         <!-- Pagination -->
                         <nav class="mt-4 pagination-web">
                             <ul class="pagination justify-content-center">
-                                <li class="page-item">
-                                    <a class="page-link active p-2" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link p-2" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link p-2" href="#">3</a>
-                                </li>
+                                @for ($i = 1; $i <= $jobWorks->lastPage(); $i++)
+                                    <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
                             </ul>
                         </nav>
                     </div>
@@ -385,6 +360,84 @@
             var toast = new bootstrap.Toast($('#liveToast')[0]);
             toast.show();
         }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainSearchInput = document.getElementById('main-search-input');
+        const sidebarSearchInput = document.getElementById('sidebar-search-input');
+
+        if (mainSearchInput && sidebarSearchInput) {
+            mainSearchInput.addEventListener('input', function() {
+                sidebarSearchInput.value = this.value;
+            });
+        }
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const locationInput = document.getElementById("location");
+        const suggestionsBox = document.getElementById("location-suggestions");
+        const searchLocationInput = document.getElementById("search-location-input");
+        let cities = [];
+
+        const provinceIds = [
+            11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31, 32, 33, 34, 35, 36, 51, 52, 53, 61, 62, 63, 64, 65,
+            71, 72, 73, 74, 75, 76, 81, 82, 91, 92
+        ];
+
+        async function fetchCities() {
+            for (let provinceId of provinceIds) {
+                try {
+                    let response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+                    let data = await response.json();
+                    cities = [...cities, ...data];
+                } catch (error) {
+                    console.error(`Error fetching cities for province ${provinceId}:`, error);
+                }
+            }
+        }
+
+        function showSuggestions(query) {
+            const filteredCities = cities.filter(city => city.name.toLowerCase().includes(query.toLowerCase()));
+
+            suggestionsBox.innerHTML = "";
+            if (filteredCities.length > 0) {
+                suggestionsBox.style.display = "block";
+
+                filteredCities.forEach(city => {
+                    let suggestionItem = document.createElement("div");
+                    suggestionItem.classList.add("list-group-item", "list-group-item-action");
+                    suggestionItem.textContent = city.name;
+                    suggestionItem.onclick = function() {
+                        locationInput.value = city.name;
+                        if (searchLocationInput) {
+                            searchLocationInput.value = city.name;
+                        }
+                        suggestionsBox.style.display = "none";
+                    };
+                    suggestionsBox.appendChild(suggestionItem);
+                });
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        }
+
+        locationInput.addEventListener("input", function() {
+            let query = this.value.trim();
+            if (query.length > 2) {
+                showSuggestions(query);
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!suggestionsBox.contains(e.target) && e.target !== locationInput) {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        fetchCities();
     });
 </script>
 
