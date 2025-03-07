@@ -171,7 +171,20 @@
                                     </div>
                                     <hr class="my-3 mx-3 border-primary">
                                     <!-- Footer -->
-                                    <span class="badge badge-outline-primary px-3 py-2 mx-3 mb-3">{{ ucfirst($candidate->status) }}</span>
+                                    @php
+                                    $badgeClass = match ($candidate->status) {
+                                    \App\Models\Candidate::STATUS_REVIEW => 'badge-outline-primary',
+                                    \App\Models\Candidate::STATUS_REJECTED => 'badge-outline-danger',
+                                    \App\Models\Candidate::STATUS_PENDING => 'badge-outline-warning',
+                                    \App\Models\Candidate::STATUS_ACCEPTED => 'badge-outline-success',
+                                    default => 'badge-outline-secondary'
+                                    };
+                                    @endphp
+
+                                    <span class="badge {{ $badgeClass }} px-3 py-2 mx-3 mb-3">
+                                        {{ ucfirst($candidate->status) }}
+                                    </span>
+
                                 </a>
                             </div>
                         </div>

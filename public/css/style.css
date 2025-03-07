@@ -76,6 +76,24 @@ a {
     color: var(--bs-primary) !important;
 }
 
+.badge-outline-danger {
+    background-color: #ff48001c !important;
+    border: solid 1px #ff4800 !important;
+    color: #ff4800 !important;
+}
+
+.badge-outline-warning {
+    background-color: #ff9d001c !important;
+    border: solid 1px #ff9d00 !important;
+    color: #ff9d00 !important;
+}
+
+.badge-outline-success {
+    background-color: #006eff1c !important;
+    border: solid 1px #006eff !important;
+    color: #006eff !important;
+}
+
 .btn-outline-primary {
     background-color: transparent;
     border: solid 1px #008081 !important;
@@ -97,6 +115,27 @@ a {
     border: solid 1px #ff4800 !important;
     color: white !important;
 }
+.btn-outline-warning {
+    background-color: #ff9d001c !important;
+    border: solid 1px #ff9d00 !important;
+    color: #ff9d00 !important;
+}
+.btn-outline-warning:hover {
+    background-color: #ff9d00 !important;
+    border: solid 1px #ff9d00 !important;
+    color: white !important;
+}
+.btn-outline-success {
+    background-color: #006eff1c !important;
+    border: solid 1px #006eff !important;
+    color: #006eff !important;
+}
+.btn-outline-success:hover {
+    background-color: #006eff !important;
+    border: solid 1px #006eff !important;
+    color: white !important;
+}
+
 
 .action {
     background-color: #0080811c !important;

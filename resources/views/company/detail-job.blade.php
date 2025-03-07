@@ -132,7 +132,8 @@
                             <div class="card border-1 p-3 d-flex flex-row align-items-center justify-content-between">
                                 <div class="d-flex align-items-center w-100">
                                     <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
-                                        <img class="rounded-circle bg-light" style="width: 50px; height: 50px;" src="{{ asset('storage/avatars/' . $candidate->user->avatar) }}" alt="">
+                                        <img class="rounded-circle bg-light" style="width: 50px; height: 50px;"
+                                            src="{{ asset('storage/avatars/' . $candidate->user->avatar) }}" alt="">
                                     </div>
                                     <div class="ms-3">
                                         <h6 class="mb-1 fw-bold">{{ $candidate->user->name }}</h6>
@@ -140,9 +141,11 @@
                                     </div>
                                 </div>
                                 <select class="form-select update-status w-25" data-id="{{ $candidate->id }}">
-                                    <option value="pending" {{ $candidate->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="accepted" {{ $candidate->status == 'accepted' ? 'selected' : '' }}>Diterima</option>
-                                    <option value="rejected" {{ $candidate->status == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                                    @foreach(\App\Models\Candidate::getAvailableStatuses() as $value => $label)
+                                    <option value="{{ $value }}" {{ $candidate->status == $value ? 'selected' : '' }}>
+                                        {{ $label }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </a>

@@ -10,8 +10,15 @@ class CandidateController extends Controller
 {
     public function update(Request $request, $id)
     {
+        $validStatuses = [
+            Candidate::STATUS_PENDING,
+            Candidate::STATUS_REVIEW,
+            Candidate::STATUS_ACCEPTED,
+            Candidate::STATUS_REJECTED
+        ];
+
         $request->validate([
-            'status' => 'required|in:accepted,rejected,pending'
+            'status' => 'required|in:' . implode(',', $validStatuses)
         ]);
 
         $candidate = Candidate::findOrFail($id);
@@ -24,6 +31,7 @@ class CandidateController extends Controller
             'status' => $candidate->status
         ]);
     }
+
 
     public function show($id)
     {
