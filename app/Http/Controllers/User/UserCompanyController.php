@@ -9,9 +9,16 @@ use Illuminate\Http\Request;
 
 class UserCompanyController extends Controller
 {
-    public function index(){
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
 
-        $companies = Company::all();
+        $companies = Company::whereHas('user', function ($query) use ($search) {
+            if (!empty($search)) {
+                $query->where('name', 'like', "%{$search}%");
+            }
+        })->paginate(9)->withQueryString();
+
         return view('user.company.index', compact('companies'));
     }
 
@@ -19,6 +26,6 @@ class UserCompanyController extends Controller
     {
         $company = Company::find($id);
         $jobWorks = JobWork::where('company_id', $id)->paginate(2);
-        return view('user.company.show', compact('company','jobWorks'));
+        return view('user.company.show', compact('company', 'jobWorks'));
     }
 }

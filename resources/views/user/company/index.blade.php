@@ -62,32 +62,41 @@
             <div class="container mb-4">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <div class="search-container">
-                            <input type="text" class="form-control search-input" placeholder="Search...">
-                            <i class="ph-duotone ph-magnifying-glass search-icon"></i>
-                        </div>
+                        <form action="{{ route('user-company.index') }}" method="GET">
+                            <div class="search-container d-flex">
+                                <input type="text" class="form-control search-input" name="search"
+                                    placeholder="Cari perusahaan..." value="{{ request('search') }}">
+                                <button type="submit" class="border-0 bg-transparent">
+                                    <i class="ph-duotone ph-magnifying-glass search-icon pe-3"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+
             <div class="row g-3">
                 @if ($companies->count() > 0)
                 @foreach ($companies as $company)
-                <!-- Card 1 -->
                 <div class="col-md-4">
                     <a href="{{ route('user-company.show', $company->id) }}" style="text-decoration: none; color: inherit;">
                         <div class="card h-100 border border-1 border-primary">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-2">
                                     @if ($company->user->avatar)
-                                    <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Company Image" style="max-width: 50px; max-height: 50px; width:100%; height:100%; object-fit: cover; border: 1px solid #ddd;" class="img-fluid rounded-2 me-2">
+                                    <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Company Image"
+                                        style="max-width: 50px; max-height: 50px; object-fit: cover; border: 1px solid #ddd;"
+                                        class="img-fluid rounded-2 me-2">
                                     @else
-                                    <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
+                                    <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo"
+                                        class="rounded me-2 border border-1"
+                                        style="width: 45px; height: 45px; object-fit: cover;">
                                     @endif
                                     <div>
-                                        <div class="d-flex align-items-center justify-content-center gap-1">
+                                        <div class="d-flex align-items-center gap-1">
                                             <h5 class="card-title text-dark fw-semibold">{{ $company->user->name }}</h5>
                                             @if ($company->status_verification == 1)
-                                            <i class="ph-duotone ph-seal-check mb-1" style="width: 24px; color: blue;"></i>
+                                            <i class="ph-duotone ph-seal-check mb-1" style="color: blue;"></i>
                                             @endif
                                         </div>
                                         <div class="d-flex gap-2 align-items-center">
@@ -97,11 +106,11 @@
                                     </div>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
-                                    <i class="ph-duotone ph-buildings" style="width: 24px;"></i>
+                                    <i class="ph-duotone ph-buildings"></i>
                                     <p class="card-text"><strong>{{ $company->corporateField->name }}</strong></p>
                                 </div>
                                 <div class="d-flex gap-2 align-items-center">
-                                    <i class="ph-duotone ph-read-cv-logo" style="width: 24px;"></i>
+                                    <i class="ph-duotone ph-read-cv-logo"></i>
                                     <p class="card-text">{{ $company->jobWorks->count() }} lowongan</p>
                                 </div>
                                 <hr>
@@ -113,26 +122,23 @@
                 @endforeach
                 @else
                 <div class="text-center">
-                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
+                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="Tidak ada perusahaan ditemukan">
                 </div>
                 @endif
-
-                <!-- Pagination -->
-                <nav class="mt-4 pagination-web">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link active p-2" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link p-2" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link p-2" href="#">3</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
+
+            <!-- Pagination -->
+            <nav class="mt-4 pagination-web">
+                <ul class="pagination justify-content-center">
+                    @for ($i = 1; $i <= $companies->lastPage(); $i++)
+                        <li class="page-item {{ $companies->currentPage() == $i ? 'active' : '' }}">
+                            <a class="page-link p-2 {{ $companies->currentPage() == $i ? 'active' : '' }}" href="{{ $companies->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+                </ul>
+            </nav>
         </div>
+
     </section>
 </body>
 
