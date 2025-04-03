@@ -60,19 +60,21 @@
                         <label for="salary" class="form-label">Gaji</label>
                         <input type="number" class="form-control" id="salary" name="salary" required>
                     </div>
-                    <div class="mb-3 col-md-4">
+                    <div class="mb-3 col-md-4 position-relative">
                         <label for="location" class="form-label">Lokasi</label>
-                        <input type="text" class="form-control" id="location" name="location" required>
+                        <input type="text" class="form-control" id="location" name="location" required autocomplete="off">
+                        <div id="location-suggestions" class="list-group position-absolute w-100" style="z-index: 1000; display: none;"></div>
                     </div>
                     <div class="mb-3 col-md-4">
                         <label class="form-label" for="work_experience">Pengalaman Kerja (tahun):</label>
                         <input type="number" id="work_experience" name="qualification[work_experience]" class="form-control" required>
                     </div>
-                    <div class="mb-3 col-md-12">
+                    <div class="mb-5 col-md-12">
                         <label for="description" class="form-label">Deskripsi</label>
-                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        <div id="quill-editor"></div>
+                        <input type="hidden" id="description-input" name="description">
                     </div>
-                    <h5 class="fw-bold my-3">Tanggal</h5>
+                    <h5 class="fw-bold mm-3 mt-5">Tanggal</h5>
                     <div class="mb-3 col-md-6">
                         <label for="start_date" class="form-label">Tanggal Mulai</label>
                         <input type="date" class="form-control" id="start_date" name="start_date" required>
@@ -149,6 +151,8 @@
     </section>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 </body>
 <script>
     $(document).ready(function() {
@@ -156,6 +160,82 @@
             placeholder: "Pilih Keahlian",
             allowClear: false,
             theme: "bootstrap-5"
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const locationInput = document.getElementById("location");
+        const suggestionsBox = document.getElementById("location-suggestions");
+        let cities = [];
+
+        const provinceIds = [
+            11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31, 32, 33, 34, 35, 36, 51, 52, 53, 61, 62, 63, 64, 65,
+            71, 72, 73, 74, 75, 76, 81, 82, 91, 92
+        ];
+
+        async function fetchCities() {
+            for (let provinceId of provinceIds) {
+                try {
+                    let response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+                    let data = await response.json();
+                    cities = [...cities, ...data];
+                } catch (error) {
+                    console.error(`Error fetching cities for province ${provinceId}:`, error);
+                }
+            }
+        }
+
+        function showSuggestions(query) {
+            const filteredCities = cities.filter(city => city.name.toLowerCase().includes(query.toLowerCase()));
+
+            suggestionsBox.innerHTML = "";
+            if (filteredCities.length > 0) {
+                suggestionsBox.style.display = "block";
+
+                filteredCities.forEach(city => {
+                    let suggestionItem = document.createElement("div");
+                    suggestionItem.classList.add("list-group-item", "list-group-item-action");
+                    suggestionItem.textContent = city.name;
+                    suggestionItem.onclick = function() {
+                        locationInput.value = city.name;
+                        suggestionsBox.style.display = "none";
+                    };
+                    suggestionsBox.appendChild(suggestionItem);
+                });
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        }
+
+        locationInput.addEventListener("input", function() {
+            let query = this.value.trim();
+            if (query.length > 2) {
+                showSuggestions(query);
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!suggestionsBox.contains(e.target) && e.target !== locationInput) {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        fetchCities();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var quill = new Quill("#quill-editor", {
+            theme: "snow"
+        });
+
+        quill.on("text-change", function() {
+            document.getElementById("description-input").value = quill.root.innerHTML;
+        });
+
+        document.querySelector("form").addEventListener("submit", function() {
+            document.getElementById("description-input").value = quill.root.innerHTML;
         });
     });
 </script>
