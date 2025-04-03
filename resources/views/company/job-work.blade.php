@@ -110,7 +110,12 @@
 
                             <div class="d-flex justify-content-between align-items-center px-3 mb-3">
                                 <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
-                                <small>Berakhir pada : {{ $jobWork->end_date}}</small>
+                                <div class="d-flex align-items-center gap-2">
+                                    <small>Berakhir pada : {{ $jobWork->end_date}}</small>
+                                    <a href="{{ route('company-job-work.edit', $jobWork->id) }}" class="action">
+                                        <i class="ph-duotone ph-pen"></i>
+                                    </a>
+                                </div>
                             </div>
 
                         </a>
@@ -130,7 +135,7 @@
                             <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
                                 <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
                             </li>
-                        @endfor
+                            @endfor
                     </ul>
                 </nav>
             </div>

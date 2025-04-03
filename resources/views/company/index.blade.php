@@ -108,9 +108,9 @@
                     @foreach ($jobWorks as $jobWork)
                     <div class="col-md-6 mb-4 d-flex">
                         <div class="card border-1 w-100 h-100">
-                            <a class="card-body d-flex flex-column" href="{{ route('company-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
+                            <a class="card-body d-flex flex-column text-decoration-none" href="{{ route('company-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
                                 <div class="d-flex justify-content-between gap-2 px-3 mt-3">
-                                    <h5 class="card-title text-truncate" style="width: 85%;">
+                                    <h5 class="card-title text-truncate fw-semibold text-dark" style="width: 85%;">
                                         {{ $jobWork->name }}
                                     </h5>
                                     <p class="text-primary fw-semibold text-end">
@@ -147,7 +147,15 @@
                                             <small class="mb-0 text-muted">{{ $jobWork->location }}</small>
                                         </div>
                                         <hr>
-                                        <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
+                                        <div class="d-flex justify-between align-items-center">
+                                            <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <small class="text-dark">Berakhir pada : {{ $jobWork->end_date}}</small>
+                                                <a href="{{ route('company-job-work.edit', $jobWork->id) }}" class="action">
+                                                    <i class="ph-duotone ph-pen"></i>
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </a>

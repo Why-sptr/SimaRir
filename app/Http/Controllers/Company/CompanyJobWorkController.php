@@ -42,7 +42,7 @@ class CompanyJobWorkController extends Controller
         $skills = Skill::all();
         $educations = Education::all();
 
-        return view('company.create-job', compact('workTypes', 'workMethods', 'jobRoles', 'skills', 'educations'));
+        return view('company.create-edit-job', compact('workTypes', 'workMethods', 'jobRoles', 'skills', 'educations'));
     }
 
     public function store(Request $request)
@@ -122,5 +122,91 @@ class CompanyJobWorkController extends Controller
         ])->findOrFail($id);
 
         return view('company.detail-job', compact('jobWork'));
+    }
+
+    public function edit($id)
+    {
+        $jobWork = JobWork::with([
+            'workType',
+            'workMethod',
+            'jobRole',
+            'qualification',
+            'skillJobs'
+        ])->findOrFail($id);
+
+        $workTypes = WorkType::all();
+        $workMethods = WorkMethod::all();
+        $jobRoles = JobRole::all();
+        $skills = Skill::all();
+        $educations = Education::all();
+
+        return view('company.create-edit-job', compact('jobWork', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'educations'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        Log::info('Request data for update: ' . json_encode($request->all()));
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'salary' => 'required|numeric',
+            'description' => 'required|string',
+            'location' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after:start_date',
+            'work_type_id' => 'nullable|exists:work_types,id',
+            'work_method_id' => 'nullable|exists:work_methods,id',
+            'job_role_id' => 'nullable|exists:job_roles,id',
+            'skill_job_id' => 'nullable|array',
+            'skill_job_id.*' => 'exists:skills,id',
+            'qualification.work_experience' => 'required|numeric|min:0',
+            'qualification.education_id' => 'required|exists:educations,id',
+            'qualification.major' => 'required|string|max:255',
+            'qualification.ipk' => 'required|numeric|min:0|max:4',
+            'qualification.toefl' => 'required|numeric|min:0',
+        ]);
+
+        $company = auth()->user()->companies()->first();
+
+        if (!$company) {
+            Log::error('Perusahaan tidak ditemukan.');
+            return redirect()->back()->withErrors('Perusahaan tidak ditemukan.');
+        }
+
+        $jobWork = JobWork::findOrFail($id);
+
+        $qualificationData = $validated['qualification'];
+        $qualification = Qualification::find($jobWork->qualification_id);
+        $qualification->update($qualificationData);
+
+        if (!$qualification) {
+            Log::error('Gagal memperbarui data kualifikasi. Data: ' . json_encode($qualificationData));
+            return redirect()->back()->withErrors('Gagal memperbarui data kualifikasi.');
+        }
+
+        $jobWorkData = $validated;
+        $jobWorkData['company_id'] = $company->id;
+        $jobWorkData['qualification_id'] = $qualification->id;
+        unset($jobWorkData['skill_job_id'], $jobWorkData['qualification']);
+
+        Log::info('Data job work untuk update: ' . json_encode($jobWorkData));
+
+        if (!$jobWork->update($jobWorkData)) {
+            Log::error('Gagal memperbarui data job work. Data: ' . json_encode($jobWorkData));
+            return redirect()->back()->withErrors('Gagal memperbarui data job work.');
+        }
+
+        SkillJob::where('job_id', $jobWork->id)->delete();
+
+        if (!empty($validated['skill_job_id'])) {
+            foreach ($validated['skill_job_id'] as $skillId) {
+                SkillJob::create([
+                    'skill_id' => $skillId,
+                    'job_id' => $jobWork->id,
+                ]);
+            }
+        }
+
+        return redirect()->route('company.index')->with('success', 'Lowongan pekerjaan berhasil diperbarui.');
     }
 }
