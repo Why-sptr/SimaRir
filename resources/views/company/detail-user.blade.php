@@ -38,7 +38,7 @@
                             <a class="nav-link fw-semibold" href="/company-job-work/create">Upload Pekerjaan</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fw-semibold" href="#">List Pekerjaan</a>
+                            <a class="nav-link fw-semibold" href="/company-job-work">List Pekerjaan</a>
                         </li>
                     </ul>
                 </div>

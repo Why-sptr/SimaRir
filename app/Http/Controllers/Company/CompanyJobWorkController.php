@@ -17,6 +17,23 @@ use Illuminate\Support\Facades\Log;
 
 class CompanyJobWorkController extends Controller
 {
+    public function index()
+    {
+        $company = auth()->user()->companies()->first();
+
+        $jobWorks = JobWork::with([
+            'workType',
+            'workMethod',
+            'jobRole',
+            'qualification',
+            'candidates',
+            'bookmarks',
+            'skillJobs'
+        ])->where('company_id', $company->id)->paginate(10);
+
+        return view('company.job-work', compact('jobWorks'));
+    }
+
     public function create()
     {
         $workTypes = WorkType::all();
