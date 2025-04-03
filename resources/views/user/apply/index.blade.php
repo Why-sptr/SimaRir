@@ -61,55 +61,65 @@
         <div class="container py-3">
             <div class="row">
                 <div class="col-md-3">
+                    <div class="card border-1 border-primary p-3">
                     <button class="btn btn-dark w-100 d-md-none mb-3" type="button" data-bs-toggle="collapse"
                         data-bs-target="#sidebarContent" aria-expanded="false" aria-controls="sidebarContent">
                         Filter
                     </button>
-                    <div class="card border-1 border-primary p-3">
                         <div class="collapse d-md-block sticky-sidebar" id="sidebarContent">
                             <!-- Jenis Section -->
                             <div class="mb-4">
-                                <h5 class="fw-bold">Filter Lamaran</h5>
-                                <form>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox1">
-                                        <label class="form-check-label" for="checkbox1">
-                                            Whitening
-                                        </label>
+                                <form action="{{ route('apply.index') }}" method="GET" id="filterForm">
+                                    <!-- Search hidden field to sync with main search -->
+                                    @if(request()->has('search'))
+                                    <input type="hidden" name="search" id="sidebar-search-input" value="{{ request('search') }}">
+                                    @endif
+
+                                    <!-- Status Section -->
+                                    <div class="mb-4">
+                                        <h6 class="fw-bold">Status Lamaran</h6>
+                                        <div class="form-check">
+                                            <input class="form-check-input custom-checkbox" type="checkbox"
+                                                name="statuses[]" value="{{ \App\Models\Candidate::STATUS_PENDING }}"
+                                                id="statusPending"
+                                                {{ in_array(\App\Models\Candidate::STATUS_PENDING, request('statuses', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="statusPending">
+                                                Pending
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input custom-checkbox" type="checkbox"
+                                                name="statuses[]" value="{{ \App\Models\Candidate::STATUS_REVIEW }}"
+                                                id="statusReview"
+                                                {{ in_array(\App\Models\Candidate::STATUS_REVIEW, request('statuses', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="statusReview">
+                                                Review
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input custom-checkbox" type="checkbox"
+                                                name="statuses[]" value="{{ \App\Models\Candidate::STATUS_ACCEPTED }}"
+                                                id="statusAccepted"
+                                                {{ in_array(\App\Models\Candidate::STATUS_ACCEPTED, request('statuses', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="statusAccepted">
+                                                Accepted
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input custom-checkbox" type="checkbox"
+                                                name="statuses[]" value="{{ \App\Models\Candidate::STATUS_REJECTED }}"
+                                                id="statusRejected"
+                                                {{ in_array(\App\Models\Candidate::STATUS_REJECTED, request('statuses', [])) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="statusRejected">
+                                                Rejected
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox2">
-                                        <label class="form-check-label" for="checkbox2">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox3">
-                                        <label class="form-check-label" for="checkbox3">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox4">
-                                        <label class="form-check-label" for="checkbox4">
-                                            Brightening
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input custom-checkbox" type="checkbox" value=""
-                                            id="checkbox5">
-                                        <label class="form-check-label" for="checkbox5">
-                                            Brightening
-                                        </label>
-                                    </div>
+
+                                    <!-- Button -->
+                                    <button type="submit" class="btn btn-primary w-100">Terapkan</button>
                                 </form>
                             </div>
-                            <!-- Button -->
-                            <button class="btn btn-primary w-100">Terapkan</button>
                         </div>
                     </div>
                 </div>
@@ -118,10 +128,15 @@
                         <div class="container my-3">
                             <div class="row justify-content-center">
                                 <div class="col">
-                                    <div class="search-container">
-                                        <input type="text" class="form-control search-input" placeholder="Search...">
-                                        <i class="ph-duotone ph-magnifying-glass search-icon"></i>
-                                    </div>
+                                    <form action="{{ route('apply.index') }}" method="GET" id="searchForm">
+                                        <div class="search-container justify-content-center d-flex mt-4 mt-md-0">
+                                            <input type="text" class="form-control search-input" name="search"
+                                                placeholder="Search..." value="{{ request('search') }}" id="main-search-input">
+                                            <button type="submit" class="border-0 bg-transparent">
+                                                <i class="ph-duotone ph-magnifying-glass search-icon me-3"></i>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +209,17 @@
                             <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
                         </div>
                         @endif
+
+                        <!-- Pagination -->
+                        <nav class="mt-4 pagination-web">
+                            <ul class="pagination justify-content-center">
+                                @for ($i = 1; $i <= $candidates->lastPage(); $i++)
+                                    <li class="page-item {{ $candidates->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="page-link p-2 {{ $candidates->currentPage() == $i ? 'active' : '' }}" href="{{ $candidates->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                    @endfor
+                            </ul>
+                        </nav>
 
                     </div>
                 </div>

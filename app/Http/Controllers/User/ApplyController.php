@@ -8,11 +8,23 @@ use Illuminate\Http\Request;
 
 class ApplyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $candidates = Candidate::where('user_id', auth()->id())
-            ->with('jobWork.company')
-            ->get();
+
+        $query = Candidate::where('user_id', auth()->id());
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->whereHas('jobWork', function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->has('statuses') && !empty($request->statuses)) {
+            $query->whereIn('status', $request->statuses);
+        }
+
+        $candidates = $query->paginate(10)->withQueryString();
 
         return view('user.apply.index', compact('candidates'));
     }
