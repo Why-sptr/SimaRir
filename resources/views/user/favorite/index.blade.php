@@ -136,23 +136,19 @@
                         <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-50" alt="">
                     </div>
                     @endif
+
+                    <!-- Pagination -->
+                    <nav class="mt-4 pagination-web">
+                        <ul class="pagination justify-content-center">
+                            @for ($i = 1; $i <= $jobWorks->lastPage(); $i++)
+                                <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
+                                    <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                        </ul>
+                    </nav>
                 </div>
 
-
-                <!-- Pagination -->
-                <nav class="mt-4 pagination-web">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link p-2 active" href="#">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link p-2" href="#">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link p-2" href="#">3</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
         <!-- Toast Container -->

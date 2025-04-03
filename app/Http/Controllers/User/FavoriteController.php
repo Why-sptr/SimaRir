@@ -16,7 +16,7 @@ class FavoriteController extends Controller
         $userId = auth()->id(); // Get the current logged-in user's ID
         $jobWorks = JobWork::whereHas('bookmarks', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->get();
+        })->paginate(10)->withQueryString();
 
         // Pass the jobWorks (favorite jobs) to the view
         return view('user.favorite.index', compact('jobWorks'));
