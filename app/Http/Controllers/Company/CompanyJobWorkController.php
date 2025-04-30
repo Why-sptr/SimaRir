@@ -116,12 +116,13 @@ class CompanyJobWorkController extends Controller
             'workMethod',
             'jobRole',
             'qualification',
-            'candidates',
             'bookmarks',
             'skillJobs'
         ])->findOrFail($id);
 
-        return view('company.detail-job', compact('jobWork'));
+        $candidates = $jobWork->candidates()->paginate(10);
+
+        return view('company.detail-job', compact('jobWork', 'candidates'));
     }
 
     public function edit($id)

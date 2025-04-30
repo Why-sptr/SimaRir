@@ -164,9 +164,16 @@
 
                     @endforeach
 
-                    <div class="d-flex justify-content-center mt-4" id="pagination">
-                        {{ $jobWorks->links('pagination::bootstrap-5') }}
-                    </div>
+                    <!-- Pagination -->
+                    <nav class="mt-4 pagination-web">
+                        <ul class="pagination justify-content-center">
+                            @for ($i = 1; $i <= $jobWorks->lastPage(); $i++)
+                                <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
+                                    <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                        </ul>
+                    </nav>
 
                 </div>
             </div>

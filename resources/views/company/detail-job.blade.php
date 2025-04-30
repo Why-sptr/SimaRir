@@ -124,9 +124,9 @@
 
         <div class="container mt-4">
             <div class="card border-1 border-primary p-3">
-                <h5 class="fw-bold">Kandidat Pelamar - <span class="fw-normal">{{ count($jobWork->candidates) }} pelamar</span></h5>
+                <h5 class="fw-bold">Kandidat Pelamar - <span class="fw-normal">{{ count($candidates) }} pelamar</span></h5>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
-                    @foreach($jobWork->candidates as $candidate)
+                    @foreach($candidates as $candidate)
                     <div class="col">
                         <a href="{{ route('candidates.show', $candidate->id) }}" class="text-decoration-none text-dark">
                             <div class="card border-1 p-3 d-flex flex-row align-items-center justify-content-between">
@@ -152,12 +152,14 @@
                     </div>
                     @endforeach
                 </div>
-                <!-- Pagination (Jika diperlukan) -->
-                <nav class="mt-4">
+                <!-- Pagination -->
+                <nav class="mt-4 pagination-web">
                     <ul class="pagination justify-content-center">
-                        <li class="page-item disabled"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        @for ($i = 1; $i <= $candidates->lastPage(); $i++)
+                            <li class="page-item {{ $candidates->currentPage() == $i ? 'active' : '' }}">
+                                <a class="page-link p-2 {{ $candidates->currentPage() == $i ? 'active' : '' }}" href="{{ $candidates->url($i) }}">{{ $i }}</a>
+                            </li>
+                            @endfor
                     </ul>
                 </nav>
             </div>
