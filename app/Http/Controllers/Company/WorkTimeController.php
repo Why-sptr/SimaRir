@@ -13,20 +13,20 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'monday_in' => 'required|date_format:H:i',
-            'monday_out' => 'required|date_format:H:i',
-            'tuesday_in' => 'required|date_format:H:i',
-            'tuesday_out' => 'required|date_format:H:i',
-            'wednesday_in' => 'required|date_format:H:i',
-            'wednesday_out' => 'required|date_format:H:i',
-            'thursday_in' => 'required|date_format:H:i',
-            'thursday_out' => 'required|date_format:H:i',
-            'friday_in' => 'required|date_format:H:i',
-            'friday_out' => 'required|date_format:H:i',
-            'saturday_in' => 'required|date_format:H:i',
-            'saturday_out' => 'required|date_format:H:i',
-            'sunday_in' => 'required|date_format:H:i',
-            'sunday_out' => 'required|date_format:H:i',
+            'monday_in' => 'nullable|date_format:H:i',
+            'monday_out' => 'nullable|date_format:H:i',
+            'tuesday_in' => 'nullable|date_format:H:i',
+            'tuesday_out' => 'nullable|date_format:H:i',
+            'wednesday_in' => 'nullable|date_format:H:i',
+            'wednesday_out' => 'nullable|date_format:H:i',
+            'thursday_in' => 'nullable|date_format:H:i',
+            'thursday_out' => 'nullable|date_format:H:i',
+            'friday_in' => 'nullable|date_format:H:i',
+            'friday_out' => 'nullable|date_format:H:i',
+            'saturday_in' => 'nullable|date_format:H:i',
+            'saturday_out' => 'nullable|date_format:H:i',
+            'sunday_in' => 'nullable|date_format:H:i',
+            'sunday_out' => 'nullable|date_format:H:i',
         ]);
 
         $company = Company::findOrFail($request->company_id);
