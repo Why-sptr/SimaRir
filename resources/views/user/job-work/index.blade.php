@@ -57,6 +57,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 Hallo <span class="text-primary fw-bold">{{auth()->user()->name}} 👋</span>. Yuk cari pekerjaan yang sesuai dengan keinginan kamu.
             </div>
+
+            @if($filteredBySkills)
+            <div class="alert alert-success mb-4">
+                <i class="ph-duotone ph-check-circle me-2"></i> Menampilkan pekerjaan sesuai dengan skill Anda.
+            </div>
+            @else
+            <div class="alert alert-info mb-4">
+                <i class="ph-duotone ph-info me-2"></i> Tidak ditemukan pekerjaan yang sesuai dengan skill Anda. Menampilkan semua pekerjaan.
+            </div>
+            @endif
         </div>
         <div class="container py-3">
             <div class="row">
@@ -154,10 +164,13 @@
                     <!-- Produk -->
                     <div class="row g-3">
                         <!-- Card 1 -->
+                        @if(auth()->check() && $userHasSkills)
+                        @endif
+
                         @if (count($jobWorks) > 0)
                         @foreach ($jobWorks as $jobWork)
                         <div class="col-md-6 mb-3 d-flex">
-                            <div class="card border-1 border-primary w-100">
+                            <div class="card border-1 border-primary w-100 {{ auth()->check() && $userHasSkills && isset($jobWork->matchingSkillsCount) && $jobWork->matchingSkillsCount > 0 ? 'border-success' : 'border-primary' }}">
                                 <a class="card-body d-flex flex-column text-decoration-none text-dark" href="{{ route('user-job-work.show', $jobWork->id) }}">
 
                                     <!-- Nama Pekerjaan & Gaji -->
@@ -190,8 +203,30 @@
                                         @if ($jobWork->qualification->ipk)
                                         <span class="badge badge-outline-primary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
                                         @endif
-                                        <span class="badge badge-outline-primary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
+
+                                        <!-- Skills matching indicator -->
+                                        @if(auth()->check() && $userHasSkills && isset($jobWork->matchingSkillsCount) && $jobWork->matchingSkillsCount > 0)
+                                        <span class="badge badge-outline-success p-2">
+                                            <i class="ph-duotone ph-check me-1"></i> {{ $jobWork->matchingSkillsCount }} Skill cocok
+                                        </span>
+                                        @else
+                                        <span class="badge badge-outline-primary p-2">+ {{ $jobWork->skillJobs->count() }} Skills</span>
+                                        @endif
                                     </div>
+
+                                    <!-- Skills yang cocok -->
+                                    @if(auth()->check() && $userHasSkills && isset($jobWork->matchingSkillsCount) && $jobWork->matchingSkillsCount > 0)
+                                    <div class="mb-3 px-3">
+                                        <small class="text-success fw-medium">
+                                            <i class="ph-duotone ph-sparkle me-1"></i> Skill yang cocok:
+                                            @foreach($jobWork->skillJobs as $index => $skillJob)
+                                            @if(in_array($skillJob->skill_id, $jobWork->matchingSkills))
+                                            {{ $skillJob->skill->name }}{{ !$loop->last ? ', ' : '' }}
+                                            @endif
+                                            @endforeach
+                                        </small>
+                                    </div>
+                                    @endif
 
                                     <!-- Perusahaan -->
                                     <div class="d-flex align-items-center mt-auto px-3">
@@ -211,7 +246,7 @@
                                         </div>
                                     </div>
 
-                                    <hr class="my-3 mx-3 border-primary">
+                                    <hr class="my-3 mx-3 {{ auth()->check() && $userHasSkills && isset($jobWork->matchingSkillsCount) && $jobWork->matchingSkillsCount > 0 ? 'border-success' : 'border-primary' }}">
 
                                     <!-- Kandidat Pelamar & Tombol Bookmark -->
                                     <div class="d-flex justify-content-between align-items-center px-3 mb-3">
@@ -238,7 +273,7 @@
                                     <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
                                         <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
                                     </li>
-                                @endfor
+                                    @endfor
                             </ul>
                         </nav>
                     </div>
