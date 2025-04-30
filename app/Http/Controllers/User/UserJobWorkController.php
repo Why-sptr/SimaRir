@@ -25,28 +25,7 @@ class UserJobWorkController extends Controller
         $filteredBySkills = false;
         $userSkillIds = [];
 
-        // Check if user is logged in and has skills
-        if ($user) {
-            $userSkills = $user->skills;
-            if ($userSkills->count() > 0) {
-                $userHasSkills = true;
-                $userSkillIds = $userSkills->pluck('id')->toArray();
-
-                // Get job IDs that match user skills
-                $matchingJobIds = SkillJob::whereIn('skill_id', $userSkillIds)
-                    ->pluck('job_id')
-                    ->unique()
-                    ->toArray();
-
-                // Only apply skills filter if there are matching jobs
-                if (!empty($matchingJobIds)) {
-                    $query->whereIn('id', $matchingJobIds);
-                    $filteredBySkills = true;
-                }
-            }
-        }
-
-        // Apply other filters
+        // Apply filters
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -70,16 +49,47 @@ class UserJobWorkController extends Controller
         // Get all job works with their skills
         $allJobs = $query->with(['skillJobs.skill'])->get();
 
-        // For each job, calculate matching skills with user
-        if ($userHasSkills) {
-            foreach ($allJobs as $jobWork) {
-                $jobSkillIds = $jobWork->skillJobs->pluck('skill_id')->toArray();
-                $jobWork->matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
-                $jobWork->matchingSkillsCount = count($jobWork->matchingSkills);
-            }
+        // Check if user is logged in and has skills
+        if ($user) {
+            $userSkills = $user->skills;
+            if ($userSkills->count() > 0) {
+                $userHasSkills = true;
+                $userSkillIds = $userSkills->pluck('id')->toArray();
 
-            // Sort jobs by matching skills count (descending)
-            $allJobs = $allJobs->sortByDesc('matchingSkillsCount');
+                // For each job, calculate matching skills with user
+                $matchingJobs = collect();
+                $nonMatchingJobs = collect();
+
+                foreach ($allJobs as $jobWork) {
+                    $jobSkillIds = $jobWork->skillJobs->pluck('skill_id')->toArray();
+                    $jobWork->matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
+                    $jobWork->matchingSkillsCount = count($jobWork->matchingSkills);
+
+                    // Split jobs into matching and non-matching collections
+                    if ($jobWork->matchingSkillsCount > 0) {
+                        $matchingJobs->push($jobWork);
+                    } else {
+                        $nonMatchingJobs->push($jobWork);
+                    }
+                }
+
+                // Sort matching jobs by matchingSkillsCount (descending)
+                $matchingJobs = $matchingJobs->sortByDesc('matchingSkillsCount');
+
+                // Merge collections - matching jobs first, then non-matching jobs
+                $allJobs = $matchingJobs->merge($nonMatchingJobs);
+
+                // Set filtered flag if we have matching jobs
+                if ($matchingJobs->count() > 0) {
+                    $filteredBySkills = true;
+                }
+            }
+        } else {
+            // If user is not logged in, ensure we set matchingSkillsCount to 0 for all jobs
+            foreach ($allJobs as $jobWork) {
+                $jobWork->matchingSkills = [];
+                $jobWork->matchingSkillsCount = 0;
+            }
         }
 
         // Manual pagination for sorted collection
