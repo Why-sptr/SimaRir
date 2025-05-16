@@ -18,8 +18,15 @@ class UserJobWorkController extends Controller
         $user = Auth::user();
         $workTypes = WorkType::all();
         $workMethods = WorkMethod::all();
+        $currentDate = now()->format('Y-m-d');
 
         $query = JobWork::query();
+
+        // Filter out expired jobs
+        $query->where(function ($q) use ($currentDate) {
+            $q->whereNull('end_date')
+                ->orWhere('end_date', '>=', $currentDate);
+        });
 
         // Get authenticated user
         $user = auth()->user();
@@ -47,6 +54,9 @@ class UserJobWorkController extends Controller
         if ($request->has('location') && $request->location != '') {
             $query->where('location', 'like', "%{$request->location}%");
         }
+
+        // Order by most recent
+        $query->orderBy('created_at', 'desc');
 
         // Get all job works with their skills
         $allJobs = $query->with(['skillJobs.skill'])->get();
@@ -122,6 +132,7 @@ class UserJobWorkController extends Controller
     public function show($id)
     {
         $user = Auth::user();
+        $currentDate = now()->format('Y-m-d');
         $jobWork = JobWork::with([
             'workType',
             'workMethod',
@@ -141,6 +152,6 @@ class UserJobWorkController extends Controller
 
         $jobWorks = JobWork::take(2)->get();
 
-        return view('user.job-work.show', compact('jobWork', 'jobWorks', 'alreadyApplied', 'user'));
+        return view('user.job-work.show', compact('jobWork', 'jobWorks', 'alreadyApplied', 'user', 'currentDate'));
     }
 }

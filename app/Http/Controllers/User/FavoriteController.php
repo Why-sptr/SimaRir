@@ -13,15 +13,22 @@ class FavoriteController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // Get the logged-in user's favorite jobs
-        $userId = auth()->id(); // Get the current logged-in user's ID
+        $currentDate = now()->format('Y-m-d');
+        $userId = auth()->id();
+
         $jobWorks = JobWork::whereHas('bookmarks', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->paginate(10)->withQueryString();
+        })
+            ->join('bookmarks', 'job_works.id', '=', 'bookmarks.job_id')
+            ->where('bookmarks.user_id', $userId)
+            ->orderBy('bookmarks.created_at', 'desc')
+            ->select('job_works.*')
+            ->paginate(10)
+            ->withQueryString();
 
-        // Pass the jobWorks (favorite jobs) to the view
-        return view('user.favorite.index', compact('jobWorks', 'user'));
+        return view('user.favorite.index', compact('jobWorks', 'user', 'currentDate'));
     }
+
 
     public function store(Request $request)
     {

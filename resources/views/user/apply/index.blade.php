@@ -192,8 +192,11 @@
                         </div>
                         @if ($candidates->count() > 0)
                         @foreach ($candidates as $candidate)
+                        @php
+                       $isExpired = $candidate->jobWork->end_date && \Carbon\Carbon::parse($candidate->jobWork->end_date)->lt(\Carbon\Carbon::now());
+                        @endphp
                         <div class="col-12 d-flex">
-                            <div class="card border-1 border-primary flex-grow-1">
+                            <div class="card border-1 border-primary flex-grow-1 {{ $isExpired ? 'bg-secondary bg-opacity-25' : 'bg-white' }}">
                                 <a href="{{ route('user-job-work.show', $candidate->jobWork->id) }}" class="card-body" style="text-decoration: none; color: inherit;">
                                     <!-- Job Title and Salary -->
                                     <div class="d-flex justify-content-between px-3 mt-3">

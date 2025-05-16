@@ -13,6 +13,7 @@ class ApplyController extends Controller
     {
         $user = Auth::user();
         $query = Candidate::where('user_id', auth()->id());
+        $currentDate = now()->format('Y-m-d');
 
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
@@ -25,9 +26,14 @@ class ApplyController extends Controller
             $query->whereIn('status', $request->statuses);
         }
 
-        $candidates = $query->paginate(10)->withQueryString();
+        $candidates = $query->with(['jobWork' => function ($query) {
+            $query->with(['company.user', 'workMethod', 'workType', 'qualification.education', 'skillJobs']);
+        }])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('user.apply.index', compact('candidates', 'user'));
+        return view('user.apply.index', compact('candidates', 'user', 'currentDate'));
     }
 
     public function store(Request $request)
@@ -77,7 +83,6 @@ class ApplyController extends Controller
             'message' => 'Lamaran berhasil dikirim'
         ]);
     }
-
 
     public function check(Request $request)
     {

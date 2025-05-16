@@ -114,6 +114,12 @@
           <!-- Text and Details Section -->
           <div class="col-md-8">
             <h3 class="fw-bold">{{ $jobWork->name }}</h3>
+            @php
+            $isExpired = \Carbon\Carbon::parse($jobWork->end_date)->lt(\Carbon\Carbon::now());
+            @endphp
+            @if ($isExpired)
+            <span class="badge bg-danger mb-3 p-2">Lowongan Kadaluarsa</span>
+            @endif
             <div class="row">
               <div class="col-md-6">
                 <div class="d-flex gap-2 align-items-center">
@@ -161,19 +167,29 @@
               </div>
             </div>
             <!-- Buttons -->
+            @php
+            $isExpired = \Carbon\Carbon::parse($jobWork->end_date)->lt(\Carbon\Carbon::now());
+            @endphp
+
             <div class="mt-3">
               @if($alreadyApplied)
               <button class="btn btn-sm btn-primary fw-semibold disabled" id="applyButton" data-job-id="{{ $jobWork->id }}">
                 <i class="fa-solid fa-check me-2"></i>Dilamar
+              </button>
+              @elseif($isExpired)
+              <button class="btn btn-sm btn-secondary fw-semibold disabled" id="applyButton" data-job-id="{{ $jobWork->id }}">
+                <i class="fa-solid fa-clock me-2"></i>Lowongan Berakhir
               </button>
               @else
               <button class="btn btn-sm btn-primary fw-semibold" id="applyButton" data-job-id="{{ $jobWork->id }}">
                 Lamar
               </button>
               @endif
+
               <button class="btn btn-sm btn-outline-primary fw-semibold" id="shareButton">
                 <i class="fa-solid fa-share-from-square me-2"></i>Bagikan
               </button>
+
               <button id="bookmarkButton" class="btn btn-sm btn-outline-primary fw-semibold" data-job-id="{{ $jobWork->id }}">
                 <i class="fa-regular fa-bookmark me-2"></i>Favorit
               </button>
