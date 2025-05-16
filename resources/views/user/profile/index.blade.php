@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,7 +27,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container p-3">
-            <a class="navbar-brand" href="#" class="action"><i class="ph-duotone ph-book"></i></a>
+            <a class="navbar-brand" href="#" class="action"><img src="{{ asset('assets/img/logo.png') }}" alt="" style="width: 50px;"></i></a>
             <div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -52,9 +53,9 @@
 
                             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                                 @if ($user->avatar)
-                                <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Profile Avatar" style="width: 50px; height: 50px; object-fit: cover" class="rounded-circle border border-1 border-primary">
+                                <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Profile Avatar" style="width: 35px; height: 35px; object-fit: cover" class="rounded-circle border border-1 border-primary">
                                 @else
-                                <img src="{{ asset('assets/img/default-user.png') }}" alt="Profile Avatar" style="width: 50px; height: 50px; object-fit: cover" class="rounded-circle border border-1 border-primary">
+                                <img src="{{ asset('assets/img/default-user.png') }}" alt="Profile Avatar" style="width: 35px; height: 35px; object-fit: cover" class="rounded-circle border border-1 border-primary">
                                 @endif
                                 <span class="d-none d-md-block dropdown-toggle ps-2">{{ $user->name }}</span>
                             </a><!-- End Profile Iamge Icon -->
