@@ -9,11 +9,13 @@ use App\Models\SkillJob;
 use App\Models\WorkMethod;
 use App\Models\WorkType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserJobWorkController extends Controller
 {
     public function index(Request $request)
     {
+        $user = Auth::user();
         $workTypes = WorkType::all();
         $workMethods = WorkMethod::all();
 
@@ -112,12 +114,14 @@ class UserJobWorkController extends Controller
             'workTypes',
             'workMethods',
             'userHasSkills',
-            'filteredBySkills'
+            'filteredBySkills',
+            'user'
         ));
     }
 
     public function show($id)
     {
+        $user = Auth::user();
         $jobWork = JobWork::with([
             'workType',
             'workMethod',
@@ -137,6 +141,6 @@ class UserJobWorkController extends Controller
 
         $jobWorks = JobWork::take(2)->get();
 
-        return view('user.job-work.show', compact('jobWork', 'jobWorks', 'alreadyApplied'));
+        return view('user.job-work.show', compact('jobWork', 'jobWorks', 'alreadyApplied', 'user'));
     }
 }

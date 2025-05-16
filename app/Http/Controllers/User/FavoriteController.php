@@ -5,13 +5,14 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Bookmark;
 use App\Models\JobWork;
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         // Get the logged-in user's favorite jobs
         $userId = auth()->id(); // Get the current logged-in user's ID
         $jobWorks = JobWork::whereHas('bookmarks', function ($query) use ($userId) {
@@ -19,7 +20,7 @@ class FavoriteController extends Controller
         })->paginate(10)->withQueryString();
 
         // Pass the jobWorks (favorite jobs) to the view
-        return view('user.favorite.index', compact('jobWorks'));
+        return view('user.favorite.index', compact('jobWorks', 'user'));
     }
 
     public function store(Request $request)

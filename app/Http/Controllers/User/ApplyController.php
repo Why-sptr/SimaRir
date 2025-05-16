@@ -5,12 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApplyController extends Controller
 {
     public function index(Request $request)
     {
-
+        $user = Auth::user();
         $query = Candidate::where('user_id', auth()->id());
 
         if ($request->has('search') && $request->search != '') {
@@ -26,7 +27,7 @@ class ApplyController extends Controller
 
         $candidates = $query->paginate(10)->withQueryString();
 
-        return view('user.apply.index', compact('candidates'));
+        return view('user.apply.index', compact('candidates', 'user'));
     }
 
     public function store(Request $request)

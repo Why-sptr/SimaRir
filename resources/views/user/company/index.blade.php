@@ -30,7 +30,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav gap-3">
+                    <ul class="navbar-nav gap-3 align-items-center">
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="/user-profile">Profile</a>
                         </li>
@@ -46,6 +46,55 @@
                         <li class="nav-item">
                             <a class="nav-link fw-semibold" href="/favorite">Disimpan</a>
                         </li>
+                        <li class="nav-item dropdown pe-3">
+
+                            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                                @if ($user->avatar)
+                                <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Profile Avatar" style="width: 50px; height: 50px; object-fit: cover" class="rounded-circle border border-1 border-primary">
+                                @else
+                                <img src="{{ asset('assets/img/default-user.png') }}" alt="Profile Avatar" style="width: 50px; height: 50px; object-fit: cover" class="rounded-circle border border-1 border-primary">
+                                @endif
+                                <span class="d-none d-md-block dropdown-toggle ps-2">{{ $user->name }}</span>
+                            </a><!-- End Profile Iamge Icon -->
+
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile p-2">
+                                <li class="dropdown-header">
+                                    <h6>{{ $user->name }}</h6>
+                                    <span>{{ $user->jobRole->name }}</span>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="/user-profile">
+                                        <i class="bi bi-person"></i>
+                                        <span>Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="https://wa.me/62895381252534" target="_blank">
+                                        <i class="bi bi-question-circle"></i>
+                                        <span>Butuh Bantuan?</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center" href="/logout">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Keluar</span>
+                                    </a>
+                                </li>
+
+                            </ul><!-- End Profile Dropdown Items -->
+                        </li><!-- End Profile Nav -->
                     </ul>
                 </div>
             </div>
@@ -134,7 +183,7 @@
                         <li class="page-item {{ $companies->currentPage() == $i ? 'active' : '' }}">
                             <a class="page-link p-2 {{ $companies->currentPage() == $i ? 'active' : '' }}" href="{{ $companies->url($i) }}">{{ $i }}</a>
                         </li>
-                    @endfor
+                        @endfor
                 </ul>
             </nav>
         </div>

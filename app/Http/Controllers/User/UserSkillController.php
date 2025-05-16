@@ -11,9 +11,10 @@ class UserSkillController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $skills = Skill::all();
         $userSkills = Auth::user()->skills()->pluck('skills.id')->toArray();
-        return view('user.skills', compact('skills', 'userSkills'));
+        return view('user.skills', compact('skills', 'userSkills', 'user'));
     }
 
     public function store(Request $request)
