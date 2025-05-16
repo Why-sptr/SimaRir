@@ -53,6 +53,7 @@ Route::middleware(['auth', 'role:company'])->group(function () {
     Route::resource('gallery', GalleryController::class);
     Route::resource('company-job-work', CompanyJobWorkController::class);
     Route::resource('candidates', CandidateController::class);
+    Route::get('jobwork/{jobWorkId}/candidates', [CandidateController::class, 'index'])->name('candidates.index');
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

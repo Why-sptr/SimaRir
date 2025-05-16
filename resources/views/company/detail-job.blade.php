@@ -131,7 +131,9 @@
                         <i class="ph-duotone ph-users text-primary" style="width: 24px;"></i>
                         <p class="card-text fw-semibold">Kandidat Pelamar</p>
                     </div>
-                    <a href="#" class="btn btn-sm btn-primary mb-3 text-white p-2">Lihat Semua Kandidat</a>
+                    <a href="{{ route('candidates.index', $jobWork->id) }}" class="btn btn-sm btn-primary py-1 px-2 text-white">
+                        Lihat Semua
+                    </a>
                 </div>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
                     @foreach($candidates as $candidate)
