@@ -19,7 +19,8 @@ class CompanyJobWorkController extends Controller
 {
     public function index()
     {
-        $company = auth()->user()->companies()->first();
+        $user = Auth::user();
+        $company = auth()->user()->companies()->with('corporateField')->first();
 
         $jobWorks = JobWork::with([
             'workType',
@@ -31,18 +32,21 @@ class CompanyJobWorkController extends Controller
             'skillJobs'
         ])->where('company_id', $company->id)->paginate(10);
 
-        return view('company.job-work', compact('jobWorks'));
+        // Also pass the company to the view
+        return view('company.job-work', compact('jobWorks', 'company', 'user'));
     }
 
     public function create()
     {
+        $user = Auth::user();
+        $company = auth()->user()->companies()->with('corporateField')->first();
         $workTypes = WorkType::all();
         $workMethods = WorkMethod::all();
         $jobRoles = JobRole::all();
         $skills = Skill::all();
         $educations = Education::all();
 
-        return view('company.create-edit-job', compact('workTypes', 'workMethods', 'jobRoles', 'skills', 'educations'));
+        return view('company.create-edit-job', compact('workTypes', 'workMethods', 'jobRoles', 'skills', 'educations', 'user', 'company'));
     }
 
     public function store(Request $request)
@@ -111,6 +115,8 @@ class CompanyJobWorkController extends Controller
 
     public function show($id)
     {
+        $user = Auth::user();
+        $company = auth()->user()->companies()->with('corporateField')->first();
         $jobWork = JobWork::with([
             'workType',
             'workMethod',
@@ -122,11 +128,13 @@ class CompanyJobWorkController extends Controller
 
         $candidates = $jobWork->candidates()->paginate(10);
 
-        return view('company.detail-job', compact('jobWork', 'candidates'));
+        return view('company.detail-job', compact('jobWork', 'candidates', 'user', 'company'));
     }
 
     public function edit($id)
     {
+        $user = Auth::user();
+        $company = auth()->user()->companies()->with('corporateField')->first();
         $jobWork = JobWork::with([
             'workType',
             'workMethod',
@@ -141,7 +149,7 @@ class CompanyJobWorkController extends Controller
         $skills = Skill::all();
         $educations = Education::all();
 
-        return view('company.create-edit-job', compact('jobWork', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'educations'));
+        return view('company.create-edit-job', compact('jobWork', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'educations', 'user', 'company'));
     }
 
     public function update(Request $request, $id)

@@ -40,8 +40,6 @@ class CompanyController extends Controller
         ])
         ->paginate(2);
     
-
-
         $companies = Company::where('user_id', $user->id)->with([
             'galleries',
             'user.socialMedia',
@@ -51,10 +49,11 @@ class CompanyController extends Controller
             'jobWorks.jobRole',
             'jobWorks.qualification',
             'jobWorks.candidates',
-            'jobWorks.bookmarks'
+            'jobWorks.bookmarks',
+            'corporateField'
         ])->get();
 
-        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'jobWorks'));
+        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'jobWorks','user'));
     }
 
     public function store(Request $request)

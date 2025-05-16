@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
+use App\Models\Company;
 use App\Models\JobWork;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CandidateController extends Controller
 {
     public function index($jobWorkId)
     {
+        $user = Auth::user();
+        $companies = Company::where('user_id', $user->id)->with(['corporateField'])->first();
         $jobWork = JobWork::findOrFail($jobWorkId);
 
         // Ensure the company user only sees their own job posts' candidates
@@ -38,7 +42,7 @@ class CandidateController extends Controller
 
         $candidates = $query->paginate(10);
 
-        return view('company.list-candidate', compact('jobWork', 'candidates'));
+        return view('company.list-candidate', compact('jobWork', 'candidates', 'user', 'companies'));
     }
 
     public function update(Request $request, $id)
@@ -67,6 +71,8 @@ class CandidateController extends Controller
 
     public function show($id)
     {
+        $user = Auth::user();
+        $companies = Company::where('user_id', $user->id)->with(['corporateField'])->first();
         $candidate = Candidate::with([
             'user.jobRole',
             'user.education',
@@ -83,6 +89,6 @@ class CandidateController extends Controller
             $jobWork = JobWork::find($candidate->job_id);
         }
 
-        return view('company.detail-user', compact('candidate', 'jobWork'));
+        return view('company.detail-user', compact('candidate', 'jobWork', 'user', 'companies'));
     }
 }
