@@ -125,6 +125,14 @@
         <div class="container mt-4">
             <div class="card border-1 border-primary p-3">
                 <h5 class="fw-bold">Kandidat Pelamar - <span class="fw-normal">{{ count($candidates) }} pelamar</span></h5>
+                @if (count($candidates) > 0)
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex gap-2 align-items-center">
+                        <i class="ph-duotone ph-users text-primary" style="width: 24px;"></i>
+                        <p class="card-text fw-semibold">Kandidat Pelamar</p>
+                    </div>
+                    <a href="#" class="btn btn-sm btn-primary mb-3 text-white p-2">Lihat Semua Kandidat</a>
+                </div>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
                     @foreach($candidates as $candidate)
                     <div class="col">
@@ -152,6 +160,12 @@
                     </div>
                     @endforeach
                 </div>
+                @else
+                <div class="text-center">
+                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-25" alt="">
+                    <p class="text-center">Belum ada kandidat pelamar untuk lowongan ini</p>
+                </div>
+                @endif
                 <!-- Pagination -->
                 <nav class="mt-4 pagination-web">
                     <ul class="pagination justify-content-center">
@@ -246,6 +260,20 @@
                 </div>
             </div>
         </div>
+
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong id="toastTitle" class="me-auto">Aksi</strong>
+                    <small>Baru saja</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastMessage">
+                    <!-- Pesan akan dinamis diubah melalui JS -->
+                </div>
+            </div>
+        </div>
     </section>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -271,6 +299,29 @@
                 }
             });
         });
+    });
+
+    function showToast(message, type, title) {
+        $('#toastTitle').text(title || 'Favorit');
+        $('#toastMessage').text(message);
+
+        var toast = new bootstrap.Toast($('#liveToast')[0]);
+        toast.show();
+    }
+
+    document.getElementById('shareButton').addEventListener('click', function() {
+        const jobWorkId = "{{ $jobWork->id }}";
+        const baseUrl = window.location.origin;
+        const urlToCopy = `${baseUrl}/job-work/${jobWorkId}`;
+
+        navigator.clipboard.writeText(urlToCopy)
+            .then(() => {
+                showToast('Link telah disalin ke clipboard!', 'success', 'Link Disalin');
+            })
+            .catch((error) => {
+                console.error('Gagal menyalin: ', error);
+                showToast('Gagal menyalin link', 'error', 'Kesalahan');
+            });
     });
 </script>
 

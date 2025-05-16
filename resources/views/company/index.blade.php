@@ -53,7 +53,11 @@
                     <!-- Image Section -->
                     <div class="col-md-4">
                         <div class="d-flex justify-content-center align-items-center">
+                            @if ($company->user->avatar)
                             <img src="{{ asset('storage/avatars/' . $company->user->avatar) }}" alt="Profile Avatar" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover; border: 1px solid #ddd;" class="img-fluid rounded-2">
+                            @else
+                            <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" style="max-width: 500px; max-height: 200px; width:100%; height:100%; object-fit: cover; border: 1px solid #ddd;" class="img-fluid rounded-2">
+                            @endif
                         </div>
                     </div>
                     <!-- Text and Details Section -->
@@ -105,6 +109,7 @@
                     </a>
                 </div>
                 <div class="row g-4" id="job-list">
+                    @if ($jobWorks->count() > 0)
                     @foreach ($jobWorks as $jobWork)
                     <div class="col-md-6 mb-4 d-flex">
                         <div class="card border-1 w-100 h-100">
@@ -163,6 +168,11 @@
                     </div>
 
                     @endforeach
+                    @else
+                    <div class="text-center">
+                        <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-25" alt="">
+                    </div>
+                    @endif
 
                     <!-- Pagination -->
                     <nav class="mt-4 pagination-web">
@@ -171,7 +181,7 @@
                                 <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
                                     <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
                                 </li>
-                            @endfor
+                                @endfor
                         </ul>
                     </nav>
 
@@ -187,9 +197,15 @@
                         <i class="ph-duotone ph-pen"></i>
                     </a>
                 </div>
+                @if (strlen($company->user->description) > 0)
                 <p>
                     {{$company->user->description}}
                 </p>
+                @else
+                <div class="text-center">
+                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-25" alt="">
+                </div>
+                @endif
             </div>
         </div>
 
@@ -333,6 +349,7 @@
                         <i class="ph-duotone ph-pen"></i>
                     </a>
                 </div>
+                @if ($company->galleries->count() > 0)
                 <div class="row g-4">
                     @foreach ($company->galleries as $gallery)
                     @for ($i = 1; $i <= 6; $i++)
@@ -350,8 +367,13 @@
                         </div>
                         @endif
                         @endfor
-                        @endforeach
+                    @endforeach
                 </div>
+                @else
+                <div class="text-center">
+                    <img src="{{ asset('assets/img/notfound.png') }}" class="opacity-50 w-25" alt="">
+                </div>
+                @endif
             </div>
         </div>
 
