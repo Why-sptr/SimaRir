@@ -47,7 +47,7 @@
         </div>
     </nav>
     <section>
-        <div class="container py-3">
+        <div class="container py-3 body-list">
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="d-flex justify-content-between align-items-center">
@@ -269,7 +269,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             `;
-                            $('.container').prepend(alertHtml);
+                            $('.body-list').prepend(alertHtml);
                         }
                     },
                     error: function(xhr) {
