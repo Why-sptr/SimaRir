@@ -210,4 +210,12 @@ class CompanyJobWorkController extends Controller
 
         return redirect()->route('company.index')->with('success', 'Lowongan pekerjaan berhasil diperbarui.');
     }
+
+    public function destroy($id)
+    {
+        $jobWork = JobWork::findOrFail($id);
+        $jobWork->delete();
+
+        return redirect()->route('company.index')->with('success', 'Job berhasil dihapus.');
+    }
 }

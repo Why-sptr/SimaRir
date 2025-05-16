@@ -146,20 +146,48 @@
                             <input type="number" id="toefl" name="qualification[toefl]" class="form-control" value="{{ isset($jobWork) ? $jobWork->qualification->toefl : old('qualification.toefl') }}" required>
                         </div>
 
-                        <div class="my-4 col-md-12">
-                            <button type="submit" class="btn btn-primary col-12">
+                        <div class="my-4 d-flex flex-row gap-3">
+                            <button type="submit" class="btn btn-primary col">
                                 {{ isset($jobWork) ? 'Update Lowongan' : 'Posting Lowongan' }}
                             </button>
+                            @if (request()->routeIs('company-job-work.edit'))
+                            <button type="button" class="btn btn-danger col-6" data-bs-toggle="modal" data-bs-target="#deleteJobModal">
+                                Hapus Lowongan
+                            </button>
+                            @endif
                         </div>
                     </div>
                 </form>
         </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    @if (request()->routeIs('company-job-work.edit'))
+    <div class="modal fade" id="deleteJobModal" tabindex="-1" aria-labelledby="deleteJobModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteJobModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    Apakah Anda yakin ingin menghapus lowongan ini? Tindakan ini tidak dapat dibatalkan.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <form action="{{ route('company-job-work.destroy', $jobWork->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 <script>
     $(document).ready(function() {
         $('.select2').select2({
