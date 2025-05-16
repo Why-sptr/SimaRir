@@ -18,6 +18,7 @@
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -47,6 +48,98 @@
     </nav>
     <section>
         <div class="container mt-4">
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <div class="card bg-white border border-1 border-primary h-100">
+                        @if($candidate->status == \App\Models\Candidate::STATUS_ACCEPTED)
+                        <div class="alert bg-white border-0 m-0 p-3" role="alert">
+                            <div class="card border-0 h-100">
+                                <div class="row gap-2 px-2">
+                                    <div class="p-0 m-0 col">
+                                        @php
+                                        $whatsappNumber = $candidate->user->phone;
+                                        $whatsappNumber = str_replace('-', '', $whatsappNumber);
+                                        if (substr($whatsappNumber, 0, 1) === '0') {
+                                        $whatsappNumber = '62' . substr($whatsappNumber, 1);
+                                        }
+                                        $jobName = $jobWork->name ?? 'Lowongan Pekerjaan';
+                                        $whatsappMessage = "Halo " . $candidate->user->name . ", saya tertarik dengan lamaran Anda untuk posisi " . $jobName;
+                                        $whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode($whatsappMessage);
+                                        @endphp
+                                        <a href="{{ $whatsappLink }}" target="_blank" class="btn btn-sm btn-outline-primary px-2 py-1 col-md-12">
+                                            <i class="fa-brands fa-whatsapp"></i> Hubungi
+                                        </a>
+                                    </div>
+                                    <div class="p-0 m-0 col">
+                                        @php
+                                        $subject = "Lowongan " . ($jobWork->name ?? "Pekerjaan");
+                                        $body = "Halo " . $candidate->user->name . ",%0D%0A%0D%0ASaya tertarik dengan lamaran Anda untuk posisi " . ($jobWork->name ?? "Lowongan Pekerjaan") . ".%0D%0A%0D%0ATerima kasih,%0D%0A" . auth()->user()->name;
+                                        $mailtoLink = "mailto:" . $candidate->user->email . "?subject=" . urlencode($subject) . "&body=" . $body;
+                                        @endphp
+                                        <a href="{{ $mailtoLink }}" class="btn btn-sm btn-primary px-2 py-1 text-white col-md-12">
+                                            <i class="fa-regular fa-envelope"></i> Email
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="d-flex align-items-center justify-content-center h-100 p-3">
+                            <p class="text-center text-muted mb-0">
+                                Kontak kandidat akan tersedia setelah status diubah menjadi "Diterima"
+                            </p>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-white border border-1 border-primary h-100 p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div id="status-badge-{{ $candidate->id }}">
+                                @if($candidate->status == \App\Models\Candidate::STATUS_PENDING)
+                                <span class="badge bg-warning">Menunggu</span>
+                                @elseif($candidate->status == \App\Models\Candidate::STATUS_REVIEW)
+                                <span class="badge bg-info">Sedang Ditinjau</span>
+                                @elseif($candidate->status == \App\Models\Candidate::STATUS_ACCEPTED)
+                                <span class="badge bg-success">Diterima</span>
+                                @elseif($candidate->status == \App\Models\Candidate::STATUS_REJECTED)
+                                <span class="badge bg-danger">Ditolak</span>
+                                @endif
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#statusModal{{ $candidate->id }}">
+                                <i class="ph-duotone ph-pen"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="statusModal{{ $candidate->id }}" tabindex="-1" aria-labelledby="statusModalLabel{{ $candidate->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="statusModalLabel{{ $candidate->id }}">Ubah Status Kandidat</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="updateStatusForm{{ $candidate->id }}">
+                                        <div class="mb-3">
+                                            <label for="candidateStatus{{ $candidate->id }}" class="form-label">Status</label>
+                                            <select class="form-select" id="candidateStatus{{ $candidate->id }}" name="status">
+                                                <option value="{{ \App\Models\Candidate::STATUS_PENDING }}" {{ $candidate->status == \App\Models\Candidate::STATUS_PENDING ? 'selected' : '' }}>Menunggu</option>
+                                                <option value="{{ \App\Models\Candidate::STATUS_REVIEW }}" {{ $candidate->status == \App\Models\Candidate::STATUS_REVIEW ? 'selected' : '' }}>Sedang Ditinjau</option>
+                                                <option value="{{ \App\Models\Candidate::STATUS_ACCEPTED }}" {{ $candidate->status == \App\Models\Candidate::STATUS_ACCEPTED ? 'selected' : '' }}>Diterima</option>
+                                                <option value="{{ \App\Models\Candidate::STATUS_REJECTED }}" {{ $candidate->status == \App\Models\Candidate::STATUS_REJECTED ? 'selected' : '' }}>Ditolak</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-primary updateStatusBtn" data-candidate-id="{{ $candidate->id }}">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row g-4">
                 <!-- Left Column -->
                 <div class="col-lg-3">
@@ -276,5 +369,35 @@
         </div>
     </section>
 </body>
+<script>
+    $(document).ready(function() {
+        $('.updateStatusBtn').click(function() {
+            const candidateId = $(this).data('candidate-id');
+            const status = $('#candidateStatus' + candidateId).val();
+
+            $.ajax({
+                url: '/candidates/' + candidateId,
+                type: 'PUT',
+                data: {
+                    status: status,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Close the modal
+                        $('#statusModal' + candidateId).modal('hide');
+
+                        // Refresh the page to update all elements
+                        window.location.reload();
+                    }
+                },
+                error: function(xhr) {
+                    console.error('Error updating status:', xhr);
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                }
+            });
+        });
+    });
+</script>
 
 </html>

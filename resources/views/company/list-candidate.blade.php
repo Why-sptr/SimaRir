@@ -229,56 +229,56 @@
     </section>
 
 </body>
-    <script>
-        $(document).ready(function() {
-            $('.updateStatusBtn').click(function() {
-                const candidateId = $(this).data('candidate-id');
-                const status = $('#candidateStatus' + candidateId).val();
-                
-                $.ajax({
-                    url: '/candidates/' + candidateId,
-                    type: 'PUT',
-                    data: {
-                        status: status,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            // Update the badge on the page
-                            let badgeHtml = '';
-                            
-                            if (status == '{{ \App\Models\Candidate::STATUS_PENDING }}') {
-                                badgeHtml = '<span class="badge bg-warning">Menunggu</span>';
-                            } else if (status == '{{ \App\Models\Candidate::STATUS_REVIEW }}') {
-                                badgeHtml = '<span class="badge bg-info">Sedang Ditinjau</span>';
-                            } else if (status == '{{ \App\Models\Candidate::STATUS_ACCEPTED }}') {
-                                badgeHtml = '<span class="badge bg-success">Diterima</span>';
-                            } else if (status == '{{ \App\Models\Candidate::STATUS_REJECTED }}') {
-                                badgeHtml = '<span class="badge bg-danger">Ditolak</span>';
-                            }
-                            
-                            $('#status-badge-' + candidateId).html(badgeHtml);
-                            
-                            // Close the modal
-                            $('#statusModal' + candidateId).modal('hide');
-                            
-                            // Show alert
-                            const alertHtml = `
+<script>
+    $(document).ready(function() {
+        $('.updateStatusBtn').click(function() {
+            const candidateId = $(this).data('candidate-id');
+            const status = $('#candidateStatus' + candidateId).val();
+
+            $.ajax({
+                url: '/candidates/' + candidateId,
+                type: 'PUT',
+                data: {
+                    status: status,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Update the badge on the page
+                        let badgeHtml = '';
+
+                        if (status == '{{ \App\Models\Candidate::STATUS_PENDING }}') {
+                            badgeHtml = '<span class="badge bg-warning">Menunggu</span>';
+                        } else if (status == '{{ \App\Models\Candidate::STATUS_REVIEW }}') {
+                            badgeHtml = '<span class="badge bg-info">Sedang Ditinjau</span>';
+                        } else if (status == '{{ \App\Models\Candidate::STATUS_ACCEPTED }}') {
+                            badgeHtml = '<span class="badge bg-success">Diterima</span>';
+                        } else if (status == '{{ \App\Models\Candidate::STATUS_REJECTED }}') {
+                            badgeHtml = '<span class="badge bg-danger">Ditolak</span>';
+                        }
+
+                        $('#status-badge-' + candidateId).html(badgeHtml);
+
+                        // Close the modal
+                        $('#statusModal' + candidateId).modal('hide');
+
+                        // Show alert
+                        const alertHtml = `
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     ${response.message}
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             `;
-                            $('.body-list').prepend(alertHtml);
-                        }
-                    },
-                    error: function(xhr) {
-                        console.error('Error updating status:', xhr);
-                        alert('Terjadi kesalahan. Silakan coba lagi.');
+                        $('.body-list').prepend(alertHtml);
                     }
-                });
+                },
+                error: function(xhr) {
+                    console.error('Error updating status:', xhr);
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                }
             });
         });
-    </script>
+    });
+</script>
 
 </html>

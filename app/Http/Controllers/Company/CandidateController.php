@@ -12,32 +12,32 @@ class CandidateController extends Controller
     public function index($jobWorkId)
     {
         $jobWork = JobWork::findOrFail($jobWorkId);
-        
+
         // Ensure the company user only sees their own job posts' candidates
         $company = auth()->user()->companies()->first();
         if ($jobWork->company_id != $company->id) {
             return redirect()->route('company-job-work.index')->with('error', 'Anda tidak memiliki akses ke data kandidat ini.');
         }
-        
+
         // Get candidates with pagination and apply filters if needed
         $query = $jobWork->candidates()->with('user', 'user.jobRole', 'user.education');
-        
+
         // Filter by status if requested
         if (request('status')) {
             $query->where('status', request('status'));
         }
-        
+
         // Search by name or email
         if (request('search')) {
             $search = request('search');
-            $query->whereHas('user', function($q) use ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
-        
+
         $candidates = $query->paginate(10);
-        
+
         return view('company.list-candidate', compact('jobWork', 'candidates'));
     }
 
@@ -77,6 +77,12 @@ class CandidateController extends Controller
             'user.organizations',
         ])->findOrFail($id);
 
-        return view('company.detail-user', compact('candidate'));
+        // Get the job information related to this candidate
+        $jobWork = null;
+        if ($candidate->job_id) {
+            $jobWork = JobWork::find($candidate->job_id);
+        }
+
+        return view('company.detail-user', compact('candidate', 'jobWork'));
     }
 }
