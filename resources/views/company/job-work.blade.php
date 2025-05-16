@@ -100,8 +100,11 @@
                 <!-- Card 1 -->
                 @if (count($jobWorks) > 0)
                 @foreach ($jobWorks as $jobWork)
+                @php
+                $isExpired = \Carbon\Carbon::parse($jobWork->end_date)->lt(\Carbon\Carbon::now());
+                @endphp
                 <div class="col-md-6 mb-3 d-flex">
-                    <div class="card border-1 border-primary w-100">
+                    <div class="card border-1 border-primary w-100 {{ $isExpired ? 'bg-secondary bg-opacity-25' : 'bg-white' }}">
                         <a class="card-body d-flex flex-column text-decoration-none text-dark" href="{{ route('company-job-work.show', $jobWork->id) }}">
 
                             <!-- Nama Pekerjaan & Gaji -->

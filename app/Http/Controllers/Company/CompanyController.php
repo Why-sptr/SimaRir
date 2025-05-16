@@ -23,6 +23,7 @@ class CompanyController extends Controller
     {
         $user = Auth::user();
         $corporateFields = CorporateField::all();
+        $currentDate = now()->format('Y-m-d');
         $workTypes = WorkType::all();
         $workMethods = WorkMethod::all();
         $jobRoles = JobRole::all();
@@ -30,16 +31,18 @@ class CompanyController extends Controller
         $jobWorks = JobWork::whereHas('company', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })
-        ->with([
-            'workType',
-            'workMethod',
-            'jobRole',
-            'qualification.education',
-            'skillJobs',
-            'company.user',
-        ])
-        ->paginate(2);
-    
+            ->with([
+                'workType',
+                'workMethod',
+                'jobRole',
+                'qualification.education',
+                'skillJobs',
+                'company.user',
+            ])
+            ->orderByRaw("CASE WHEN end_date IS NULL OR end_date >= '$currentDate' THEN 0 ELSE 1 END")
+            ->orderBy('created_at', 'desc')
+            ->paginate(2);
+
         $companies = Company::where('user_id', $user->id)->with([
             'galleries',
             'user.socialMedia',
@@ -53,7 +56,7 @@ class CompanyController extends Controller
             'corporateField'
         ])->get();
 
-        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'jobWorks','user'));
+        return view('company.index', compact('companies', 'corporateFields', 'workTypes', 'workMethods', 'jobRoles', 'skills', 'jobWorks', 'user', 'currentDate'));
     }
 
     public function store(Request $request)

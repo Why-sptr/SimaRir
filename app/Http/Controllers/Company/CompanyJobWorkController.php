@@ -21,6 +21,7 @@ class CompanyJobWorkController extends Controller
     {
         $user = Auth::user();
         $company = auth()->user()->companies()->with('corporateField')->first();
+        $currentDate = now()->format('Y-m-d');
 
         $jobWorks = JobWork::with([
             'workType',
@@ -30,10 +31,13 @@ class CompanyJobWorkController extends Controller
             'candidates',
             'bookmarks',
             'skillJobs'
-        ])->where('company_id', $company->id)->paginate(10);
+        ])
+            ->where('company_id', $company->id)
+            ->orderByRaw("CASE WHEN end_date IS NULL OR end_date >= '$currentDate' THEN 0 ELSE 1 END")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        // Also pass the company to the view
-        return view('company.job-work', compact('jobWorks', 'company', 'user'));
+        return view('company.job-work', compact('jobWorks', 'company', 'user', 'currentDate'));
     }
 
     public function create()
@@ -117,6 +121,7 @@ class CompanyJobWorkController extends Controller
     {
         $user = Auth::user();
         $company = auth()->user()->companies()->with('corporateField')->first();
+        $currentDate = now()->format('Y-m-d');
         $jobWork = JobWork::with([
             'workType',
             'workMethod',
@@ -128,7 +133,7 @@ class CompanyJobWorkController extends Controller
 
         $candidates = $jobWork->candidates()->paginate(10);
 
-        return view('company.detail-job', compact('jobWork', 'candidates', 'user', 'company'));
+        return view('company.detail-job', compact('jobWork', 'candidates', 'user', 'company', 'currentDate'));
     }
 
     public function edit($id)

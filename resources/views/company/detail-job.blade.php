@@ -106,7 +106,16 @@
                     </div>
                     <!-- Text and Details Section -->
                     <div class="col-md-8">
-                        <h3 class="fw-bold">{{ $jobWork->name }}</h3>
+                        <div class="d-flex align-items-center">
+
+                            <h3 class="fw-bold">{{ $jobWork->name }}</h3>
+                            @php
+                            $isExpired = \Carbon\Carbon::parse($jobWork->end_date)->lt(\Carbon\Carbon::now());
+                            @endphp
+                            @if ($isExpired)
+                            <span class="badge bg-danger ms-3 p-2">Lowongan Kadaluarsa</span>
+                            @endif
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="d-flex gap-2 align-items-center">
