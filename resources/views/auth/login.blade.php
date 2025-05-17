@@ -23,7 +23,7 @@
 <body>
     <section>
         <div class="container min-vh-100 d-flex flex-column align-items-center justify-content-center">
-            <div class="d-flex bg-white flex-row px-3 py-2 mb-3 rounded-pill align-items-center justify-content-center">
+            <!-- <div class="d-flex bg-white flex-row px-3 py-2 mb-3 rounded-pill align-items-center justify-content-center">
                 <i class="fa-solid fa-star text-warning"></i>
                 <i class="fa-solid fa-star text-warning"></i>
                 <i class="fa-solid fa-star text-warning"></i>
@@ -31,7 +31,8 @@
                 <i class="fa-solid fa-star text-warning"></i>
                 <p class="text-muted p-0 mx-2 mb-0">SISTEM MAHASISWA BERKARIR</p>
                 <img src="{{ asset('assets/img/logo.png') }}" alt="" style="width: 50px;">
-            </div>
+            </div> -->
+            <img src="{{ asset('assets/img/logo.png') }}" alt="" style="width: 200px;">
             <div class="d-flex flex-column mb-3 align-items-center justify-content-center">
                 <h1 class="text-center fw-bold w-75 mb-2">Mahasiswa Berkarir - Temukan Lowongan Magang & Kerja yang Cocok untuk Kamu</h1>
                 <p>Rekomendasi cerdas sesuai minat dan keahlianmu.</p>
