@@ -336,18 +336,17 @@
       <div class="card p-3 border-1 border-primary">
         <h5 class="fw-bold">Rekomendasi Pekerjaan</h5>
         <div class="row g-4">
-          @foreach ($jobWorks as $jobWork)
+          @forelse ($recommendedJobs as $job)
           <div class="col-md-6 mb-4 d-flex">
             <div class="card border-1 border-primary w-100 h-100">
-              <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $jobWork->id) }}" style="text-decoration: none; color: inherit;">
-
+              <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $job->id) }}" style="text-decoration: none; color: inherit;">
                 <div class="d-flex justify-content-between gap-2 px-3 mt-3">
                   <h5 class="card-title text-truncate fw-semibold" style="width: 80%;">
-                    {{ $jobWork->name }}
+                    {{ $job->name }}
                   </h5>
                   <p class="text-primary fw-semibold text-end">
                     @php
-                    $salary = $jobWork->salary;
+                    $salary = $job->salary;
                     if ($salary >= 1000000000) {
                     $salary = number_format($salary / 1000000000, 1) . ' m';
                     } elseif ($salary >= 1000000) {
@@ -361,36 +360,57 @@
                 </div>
                 <div class="d-flex flex-column flex-grow-1 px-3 mb-3">
                   <div class="d-flex flex-wrap mb-3 gap-1">
-                    <span class="badge badge-outline-primary p-2">{{ $jobWork->workMethod->name }}</span>
-                    <span class="badge badge-outline-primary p-2">{{ $jobWork->workType->name }}</span>
-                    <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->work_experience }} Tahun</span>
-                    <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->education->name }}</span>
-                    @if ($jobWork->qualification->major)
-                    <span class="badge badge-outline-primary p-2">{{ $jobWork->qualification->major }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $job->workMethod->name }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $job->workType->name }}</span>
+                    <span class="badge badge-outline-primary p-2">{{ $job->qualification->work_experience }} Tahun</span>
+                    <span class="badge badge-outline-primary p-2">{{ $job->qualification->education->name }}</span>
+                    @if ($job->qualification->major)
+                    <span class="badge badge-outline-primary p-2">{{ $job->qualification->major }}</span>
                     @endif
-                    @if ($jobWork->qualification->ipk)
-                    <span class="badge badge-outline-primary p-2">IPK {{ $jobWork->qualification->ipk }}</span>
+                    @if ($job->qualification->ipk)
+                    <span class="badge badge-outline-primary p-2">IPK {{ $job->qualification->ipk }}</span>
                     @endif
-                    <span class="badge badge-outline-primary p-2">+ {{ $jobWork->skillJobs->count() + 1 }}</span>
+                    <span class="badge badge-outline-primary p-2">+ {{ $job->skillJobs->count() + 1 }}</span>
+
+                    @if(auth()->check() && isset($job->matchingSkillsCount) && $job->matchingSkillsCount > 0)
+                    <span class="badge badge-outline-success p-2"><i class="ph-duotone ph-check me-1"></i>{{ $job->matchingSkillsCount }} skill cocok</span>
+                    @endif
                   </div>
                   <div class="mt-auto">
                     <div class="d-flex align-items-center mb-2">
-                      <img src="{{ asset('storage/avatars/' . $jobWork->company->user->avatar) }}" alt="Company Logo"
+                      <img src="{{ asset('storage/avatars/' . $job->company->user->avatar) }}" alt="Company Logo"
                         class="rounded me-2 border border-1"
                         style="width: 50px; height: 50px; object-fit: cover;">
                       <div>
-                        <p class="mb-0 text-primary fw-semibold">{{ $jobWork->company->user->name }}</p>
-                        <p class="mb-0 text-muted">{{ $jobWork->location }}</p>
+                        <p class="mb-0 text-primary fw-semibold">{{ $job->company->user->name }}</p>
+                        <p class="mb-0 text-muted">{{ $job->location }}</p>
                       </div>
                     </div>
                     <hr>
-                    <small class="text-muted">{{ count($jobWork->candidates) }} Pelamar</small>
+                    <div class="d-flex justify-content-between">
+                      <small class="text-muted">{{ count($job->candidates) }} Pelamar</small>
+                    </div>
                   </div>
                 </div>
               </a>
             </div>
           </div>
-          @endforeach
+          @empty
+          <div class="col-12">
+            <div class="alert alert-info">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-info-circle me-2"></i>
+                <div>
+                  @if(auth()->check())
+                  <p class="mb-0">Belum ada rekomendasi pekerjaan yang sesuai dengan skillmu. Lengkapi profilmu untuk mendapatkan rekomendasi yang lebih baik.</p>
+                  @else
+                  <p class="mb-0">Silakan login untuk melihat rekomendasi pekerjaan yang sesuai dengan skillmu.</p>
+                  @endif
+                </div>
+              </div>
+            </div>
+          </div>
+          @endforelse
         </div>
       </div>
     </div>

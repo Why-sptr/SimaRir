@@ -10,6 +10,7 @@ use App\Models\WorkMethod;
 use App\Models\WorkType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserJobWorkController extends Controller
 {
@@ -128,6 +129,86 @@ class UserJobWorkController extends Controller
             'user'
         ));
     }
+    public function getSkillBasedRecommendations($currentJob, $user = null)
+    {
+        $currentDate = now()->format('Y-m-d');
+
+        $recommendedJobs = collect();
+
+        if ($user && $user->skills && $user->skills->count() > 0) {
+            $userSkillIds = $user->skills->pluck('id')->toArray();
+
+            $matchingJobIds = DB::table('skill_jobs')
+                ->join('job_works', 'skill_jobs.job_id', '=', 'job_works.id')
+                ->whereIn('skill_jobs.skill_id', $userSkillIds)
+                ->where('job_works.id', '!=', $currentJob->id)
+                ->where(function ($q) use ($currentDate) {
+                    $q->whereNull('job_works.end_date')
+                        ->orWhere('job_works.end_date', '>=', $currentDate);
+                })
+                ->groupBy('job_works.id')
+                ->select('job_works.id', DB::raw('COUNT(DISTINCT skill_jobs.skill_id) as skill_match_count'))
+                ->orderByDesc('skill_match_count')
+                ->limit(2)
+                ->pluck('id')
+                ->toArray();
+
+            if (!empty($matchingJobIds)) {
+                $jobs = JobWork::whereIn('id', $matchingJobIds)
+                    ->with([
+                        'workType',
+                        'workMethod',
+                        'skillJobs.skill',
+                        'qualification.education',
+                        'company.user',
+                        'candidates'
+                    ])
+                    ->get();
+
+                foreach ($jobs as $job) {
+                    $jobSkillIds = $job->skillJobs->pluck('skill_id')->toArray();
+                    $job->matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
+                    $job->matchingSkillsCount = count($job->matchingSkills);
+                }
+
+                $recommendedJobs = $jobs->sortByDesc('matchingSkillsCount')->take(3)->values();
+            }
+        }
+
+        return $recommendedJobs;
+    }
+
+    public function getRecommendedJobs($currentJob)
+    {
+        $user = Auth::user();
+        $currentDate = now()->format('Y-m-d');
+
+        $skillBasedRecommendations = $this->getSkillBasedRecommendations($currentJob, $user);
+
+        if ($skillBasedRecommendations->isNotEmpty()) {
+            return $skillBasedRecommendations;
+        }
+
+        return JobWork::where('id', '!=', $currentJob->id)
+            ->where(function ($q) use ($currentJob) {
+                $q->where('work_type_id', $currentJob->work_type_id)
+                    ->orWhere('work_method_id', $currentJob->work_method_id);
+            })
+            ->where(function ($q) use ($currentDate) {
+                $q->whereNull('end_date')
+                    ->orWhere('end_date', '>=', $currentDate);
+            })
+            ->with([
+                'workType',
+                'workMethod',
+                'qualification.education',
+                'company.user',
+                'candidates'
+            ])
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+    }
 
     public function show($id)
     {
@@ -150,8 +231,14 @@ class UserJobWorkController extends Controller
                 ->exists();
         }
 
-        $jobWorks = JobWork::take(2)->get();
+        $recommendedJobs = $this->getRecommendedJobs($jobWork);
 
-        return view('user.job-work.show', compact('jobWork', 'jobWorks', 'alreadyApplied', 'user', 'currentDate'));
+        return view('user.job-work.show', compact(
+            'jobWork',
+            'recommendedJobs',
+            'alreadyApplied',
+            'user',
+            'currentDate'
+        ));
     }
 }
