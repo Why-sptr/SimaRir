@@ -90,7 +90,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/', [DashboardController::class, 'index']);
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('company', CompanyController::class)->names([
             'index' => 'admin.company.index',
             'store' => 'admin.company.store',

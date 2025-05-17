@@ -2,12 +2,12 @@
   <ul class="sidebar-nav" id="sidebar-nav">
 
     <li class="nav-item">
-      <a class="nav-link {{ request()->is('admin') ? 'active' : '' }}" href="{{ url('/admin') }}">
+      <a class="nav-link {{ Request::is('admin') ? '' : 'collapsed' }}" href="{{ route('dashboard') }}">
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
     </li><!-- End Dashboard Nav -->
-    
+
     <li class="nav-heading">Halaman</li>
 
     <li class="nav-item">
@@ -29,16 +29,10 @@
     </li><!-- End Perusahaan Nav -->
 
     <li class="nav-item">
-      <a class="nav-link {{ request()->is('admin/job-admin', 'admin/job-work') ? 'active' : '' }} collapsed" data-bs-target="#loker-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Loker</span><i class="bi bi-chevron-down ms-auto"></i>
+      <a class="nav-link {{ request()->is('admin/job-work') ? '' : 'collapsed' }}" href="{{ url('/admin/job-work') }}">
+        <i class="bi bi-journal-text"></i>
+        <span>Loker Perusahaan</span>
       </a>
-      <ul id="loker-nav" class="nav-content collapse {{ request()->is('admin/job-admin', 'admin/job-work') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="{{url('/admin/job-work')}}" class="{{ request()->is('admin/job-work') ? 'active' : '' }}">
-            <i class="bi bi-circle"></i><span>Loker Perusahaan</span>
-          </a>
-        </li>
-      </ul>
     </li><!-- End Loker Nav -->
 
     <li class="nav-item">
