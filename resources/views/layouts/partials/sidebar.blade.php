@@ -38,11 +38,6 @@
             <i class="bi bi-circle"></i><span>Loker Perusahaan</span>
           </a>
         </li>
-        <li>
-          <a href="{{url('/admin/job-admin')}}" class="{{ request()->is('admin/job-admin') ? 'active' : '' }}">
-            <i class="bi bi-circle"></i><span>Loker Admin</span>
-          </a>
-        </li>
       </ul>
     </li><!-- End Loker Nav -->
 

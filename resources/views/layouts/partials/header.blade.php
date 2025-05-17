@@ -33,17 +33,11 @@
 <body>
     <header id="header" class="header fixed-top d-flex align-items-center">
         <div class="d-flex align-items-center justify-content-between">
-            <a href="{{ url('/dashboard') }}" class="logo d-flex align-items-center">
+            <a href="{{ url('/admin') }}" class="logo d-flex align-items-center">
                 <img src="{{ asset('assets/img/logo.png') }}" style="width: 50px; object-fit: cover;" alt="">
                 
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
-        <div class="search-bar">
-            <form class="search-form d-flex align-items-center" method="POST" action="#">
-                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-            </form>
-        </div><!-- End Search Bar -->
         @include('layouts.partials.navbar') <!-- Include Navbar Here -->
     </header><!-- End Header -->
