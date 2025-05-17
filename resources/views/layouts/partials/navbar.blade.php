@@ -19,7 +19,7 @@
         @php
         $avatarUrl = Str::startsWith($admin->avatar, 'http') ? $admin->avatar : asset('storage/' . $admin->avatar);
         @endphp
-        <img src="{{ $avatarUrl }}" alt="Profile" class="rounded-circle border border-1 border-primary" width="32" height="32">
+        <img src="{{ asset('storage/admin-avatars/' . $admin->avatar) }}" alt="Profile" class="rounded-circle border border-1 border-primary" width="32" height="32">
         @else
         <div class="avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style="width: 32px; height: 32px;">
           {{ strtoupper(substr($admin->name, 0, 1)) }}
@@ -40,7 +40,7 @@
         </li>
 
         <li>
-          <a class="dropdown-item d-flex align-items-center" href="#">
+          <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.edit', Auth::guard('admin')->user()->id) }}">
             <i class="bi bi-person"></i>
             <span>Profile</span>
           </a>
