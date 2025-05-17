@@ -56,9 +56,9 @@
                                         @if($company->status_verification == '1')
                                         <span class="badge rounded-pill bg-success">Terverifikasi</span>
                                         @elseif($company->status_verification == '0')
-                                        <span class="badge rounded-pill bg-danger">Ditolak</span>
+                                        <span class="badge rounded-pill bg-danger">Menunggu</span>
                                         @else
-                                        <span class="badge rounded-pill bg-warning text-dark">Menunggu Verifikasi</span>
+                                        <span class="badge rounded-pill bg-warning text-dark">Ditolak</span>
                                         @endif
                                     </td>
                                     <td>
