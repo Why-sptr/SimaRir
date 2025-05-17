@@ -2,8 +2,8 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
 <title>Dashboard - Simarir</title>
-<meta content="" name="description">
-<meta content="" name="keywords">
+<meta content="Mahasiwa Berkarir" name="description">
+<meta content="Info Loker" name="keywords">
 
 <!-- Favicons -->
 <link href="assets/img/favicon.png" rel="icon">
