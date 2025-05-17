@@ -96,9 +96,9 @@
         </div>
     </nav>
     <section>
-        <div class="container mt-4">
-            <div class="row mb-3">
-                <div class="col-md-8">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 my-3">
                     <div class="card bg-white border border-1 border-primary h-100">
                         @if($candidate->status == \App\Models\Candidate::STATUS_ACCEPTED)
                         <div class="alert bg-white border-0 m-0 p-3" role="alert">
@@ -115,7 +115,7 @@
                                         $whatsappMessage = "Halo " . $candidate->user->name . ", saya tertarik dengan lamaran Anda untuk posisi " . $jobName;
                                         $whatsappLink = "https://wa.me/" . $whatsappNumber . "?text=" . urlencode($whatsappMessage);
                                         @endphp
-                                        <a href="{{ $whatsappLink }}" target="_blank" class="btn btn-sm btn-outline-primary px-2 py-1 col-md-12">
+                                        <a href="{{ $whatsappLink }}" target="_blank" class="btn btn-sm btn-outline-primary px-2 py-1 col-12">
                                             <i class="fa-brands fa-whatsapp"></i> Hubungi
                                         </a>
                                     </div>
@@ -125,7 +125,7 @@
                                         $body = "Halo " . $candidate->user->name . ",%0D%0A%0D%0ASaya tertarik dengan lamaran Anda untuk posisi " . ($jobWork->name ?? "Lowongan Pekerjaan") . ".%0D%0A%0D%0ATerima kasih,%0D%0A" . auth()->user()->name;
                                         $mailtoLink = "mailto:" . $candidate->user->email . "?subject=" . urlencode($subject) . "&body=" . $body;
                                         @endphp
-                                        <a href="{{ $mailtoLink }}" class="btn btn-sm btn-primary px-2 py-1 text-white col-md-12">
+                                        <a href="{{ $mailtoLink }}" class="btn btn-sm btn-primary px-2 py-1 text-white col-12">
                                             <i class="fa-regular fa-envelope"></i> Email
                                         </a>
                                     </div>
@@ -141,7 +141,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 my-3">
                     <div class="card bg-white border border-1 border-primary h-100 p-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div id="status-badge-{{ $candidate->id }}">
@@ -358,10 +358,10 @@
             </div>
         </div>
 
-        <div class="container mt-4">
+        <div class="container">
             <div class="row">
                 <!-- Kolom Kiri: Sertifikasi -->
-                <div class="col-md-6">
+                <div class="col-md-6 mt-4">
                     <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Sertifikasi</h5>
@@ -393,8 +393,8 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Kolom Kanan: Pengalaman Kerja -->
-                <div class="col-md-6">
+                <!-- Kolom Kanan: Pengalaman Organisasi -->
+                <div class="col-md-6 mt-4">
                     <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-3 fw-bold">Pengalaman Organisasi</h5>
@@ -428,6 +428,22 @@
         </div>
     </section>
 </body>
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <img src="{{ asset('assets/img/logo.png') }}" alt="" style="width: 50px;">
+      </a>
+      <span class="text-muted">&copy; 2025 Mahasiswa Berkarir, Simarir</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-twitter"></i></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-square-instagram"></i></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><i class="fa-brands fa-facebook-f"></i></svg></a></li>
+    </ul>
+  </footer>
+</div>
 <script>
     $(document).ready(function() {
         $('.updateStatusBtn').click(function() {
