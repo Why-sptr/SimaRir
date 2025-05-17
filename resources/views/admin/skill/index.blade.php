@@ -22,35 +22,37 @@
           <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#skillModal" onclick="clearForm()">
             Add Skill
           </button>
-          <table class="table datatable">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($skills as $skill)
-              <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $skill->name }}</td>
-                <td>
-                  <form id="skillForm{{ $skill->id }}" action="{{ url('admin/skill/'.$skill->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#skillModal" data-id="{{ $skill->id }}" data-name="{{ $skill->name }}">
-                      Edit
-                    </button>
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus Skill ini?')">
-                      Delete
-                    </button>
-                  </form>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($skills as $skill)
+                <tr>
+                  <td>{{ $loop->iteration }}</td>
+                  <td>{{ $skill->name }}</td>
+                  <td>
+                    <form id="skillForm{{ $skill->id }}" action="{{ url('admin/skill/'.$skill->id) }}" method="POST" style="display:inline;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#skillModal" data-id="{{ $skill->id }}" data-name="{{ $skill->name }}">
+                        Edit
+                      </button>
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus Skill ini?')">
+                        Delete
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -110,6 +112,17 @@
             form.method = 'POST';
             form.querySelector('#name').value = '';
         }
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Initialize datatable with options
+        $('.datatable').DataTable({
+            responsive: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/id.json'
+            }
+        });
     });
 </script>
 @endpush
