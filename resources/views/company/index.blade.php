@@ -485,8 +485,8 @@
 
                             <!-- Upload File for Verification -->
                             <div class="mb-3">
-                                <label for="attachment" class="form-label">Upload Verification</label>
-                                <input type="file" class="form-control" id="attachment" name="attachment">
+                                <label for="verification_file" class="form-label">Upload Verification</label>
+                                <input type="file" class="form-control" id="verification_file" name="verification_file">
                             </div>
 
                             <!-- Moto Field -->

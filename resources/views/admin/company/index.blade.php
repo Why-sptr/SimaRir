@@ -66,10 +66,10 @@
                                     <td>{{ $company->corporateField->name ?? '-' }}</td>
                                     <td>{{ $company->employee ?? '-' }}</td>
                                     <td>
-                                        @if($company->status_verification == 'approved')
-                                        <span class="badge bg-success">Disetujui</span>
-                                        @elseif($company->status_verification == 'rejected')
-                                        <span class="badge bg-danger">Ditolak</span>
+                                        @if($company->status_verification == '1')
+                                        <span class="badge bg-success">Terverifikasi</span>
+                                        @elseif($company->status_verification == '0')
+                                        <span class="badge bg-danger">Belum Verifikasi</span>
                                         @else
                                         <span class="badge bg-warning">Menunggu</span>
                                         @endif

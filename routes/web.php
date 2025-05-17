@@ -97,6 +97,7 @@ Route::prefix('admin')->group(function () {
         ]);
         Route::post('/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
         Route::resource('verification', VerificationController::class);
+        Route::post('/verification/{id}/process',[VerificationController::class, 'verify'])->name('verification.process');
         Route::resource('corporate-field', CorporateFieldController::class);
         Route::resource('education', EducationController::class);
         Route::resource('job-role', JobRoleController::class);

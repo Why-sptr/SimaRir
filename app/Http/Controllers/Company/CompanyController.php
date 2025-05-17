@@ -65,35 +65,37 @@ class CompanyController extends Controller
             'location' => 'nullable|string|max:255',
             'corporateField' => 'required|exists:corporate_fields,id',
             'employee' => 'nullable|integer',
-            'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
+            'verification_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
             'moto' => 'nullable|string|max:255',
             'avatar' => 'nullable|file|mimes:jpg,jpeg,png',
             'description' => 'nullable|string|max:500',
         ]);
 
         $user = auth()->user();
-
         $company = Company::where('user_id', $user->id)->first();
 
         if ($company) {
-
             $user->location = $request->location ?: $user->location;
             $user->moto = $request->moto ?: $user->moto;
             $user->description = $request->description ?: $user->description;
             $company->employee = $request->employee ?: $company->employee;
             $company->corporateField()->associate($request->corporateField);
+
+            // Proses verification file
+            if ($request->hasFile('verification_file')) {
+                $file = $request->file('verification_file');
+                $fileName = 'verification_' . time() . '.' . $file->getClientOriginalExtension();
+                $filePath = $file->storeAs('verification', $fileName, 'public');
+                $company->verification_file = basename($filePath);
+            }
+
+            // Simpan company setelah semua perubahan
             $company->save();
         } else {
             return redirect()->back()->with('error', 'Company data not found!');
         }
 
-        if ($request->hasFile('attachment')) {
-            $attachment = $request->file('attachment');
-            $fileName = 'attachment_' . time() . '.' . $attachment->getClientOriginalExtension();
-            $filePath = $attachment->storeAs('verification', $fileName, 'public');
-            $user->attachment_id = basename($filePath);
-        }
-
+        // Proses avatar
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $avatarFileName = 'avatar_' . time() . '.' . $avatar->getClientOriginalExtension();
