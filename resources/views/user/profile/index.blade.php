@@ -315,8 +315,8 @@
                             <a href="#" class="action" data-bs-toggle="modal" data-bs-target="#attachmentModal"><i class="ph-duotone ph-pen"></i></a>
                         </div>
                         <ul class="list-unstyled">
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="ph-duotone ph-files text-primary" style="width: 24px;"></i>
+                            <div class="d-flex gap-2">
+                                <i class="ph-duotone ph-files text-primary mt-2" style="width: 24px;"></i>
                                 @if (!empty($user->attachment) && !empty($user->attachment->cv))
                                 <a href="{{ asset('storage/attachments/' . $user->attachment->cv) }}" target="_blank" class="card-text fw-semibold">
                                     {{ $user->attachment->cv }}
@@ -325,8 +325,8 @@
                                 <span class="card-text fw-semibold">-</span>
                                 @endif
                             </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="ph-duotone ph-paperclip text-primary" style="width: 24px;"></i>
+                            <div class="d-flex gap-2">
+                                <i class="ph-duotone ph-paperclip text-primary mt-2" style="width: 24px;"></i>
                                 @if (!empty($user->attachment) && !empty($user->attachment->portfolio))
                                 <a href="{{ asset('storage/attachments/' . $user->attachment->portfolio) }}" target="_blank" class="card-text fw-semibold">
                                     {{ $user->attachment->portfolio }}
@@ -335,7 +335,6 @@
                                 <span class="card-text fw-semibold">-</span>
                                 @endif
                             </div>
-
                         </ul>
                     </div>
                 </div>

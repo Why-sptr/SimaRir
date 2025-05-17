@@ -273,18 +273,16 @@
                     <div class="card border-1 border-primary p-3 flex-fill">
                         <h5 class="fw-bold">Skill</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            <span class="badge badge-outline-primary p-2">Skill 1</span>
-                            <span class="badge badge-outline-primary p-2">Skill 2</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
-                            <span class="badge badge-outline-primary p-2">Skill 3</span>
+                            @if ($candidate->user->skills->isNotEmpty())
+                            @foreach ($candidate->user->skills as $skill)
+                            <span class="badge badge-outline-primary p-2 d-flex align-items-center">
+                                <i class="ph-duotone ph-lightning me-1"></i> {{-- Ikon untuk Skill --}}
+                                {{ $skill->name }}
+                            </span>
+                            @endforeach
+                            @else
+                            <span class="text-muted fst-italic">Belum ada skill</span>
+                            @endif
                         </div>
                     </div>
                     <div class="card border-1 border-primary p-3 flex-fill">
@@ -334,13 +332,25 @@
                             <h5 class="mb-3 fw-bold">Lampiran</h5>
                         </div>
                         <ul class="list-unstyled">
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-file" style="width: 24px;"></i>
-                                <p class="card-text fw-semibold">{{ $candidate->user->attachment->cv ?? '-'}}</p>
+                            <div class="d-flex gap-2">
+                                <i class="ph-duotone ph-files text-primary mt-2" style="width: 24px;"></i>
+                                @if (!empty($candidate->user->attachment) && !empty($candidate->user->attachment->cv))
+                                <a href="{{ asset('storage/attachments/' . $candidate->user->attachment->cv) }}" target="_blank" class="card-text fw-semibold">
+                                    {{ $candidate->user->attachment->cv }}
+                                </a>
+                                @else
+                                <span class="card-text fw-semibold">-</span>
+                                @endif
                             </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <i class="fa-solid fa-paperclip" style="width: 24px;"></i>
-                                <a href="#" class="card-text fw-semibold">{{ $candidate->user->attachment->portfolio ?? '-'}}</a>
+                            <div class="d-flex gap-2">
+                                <i class="ph-duotone ph-paperclip text-primary mt-2" style="width: 24px;"></i>
+                                @if (!empty($candidate->user->attachment) && !empty($candidate->user->attachment->portfolio))
+                                <a href="{{ asset('storage/attachments/' . $candidate->user->attachment->portfolio) }}" target="_blank" class="card-text fw-semibold">
+                                    {{ $candidate->user->attachment->portfolio }}
+                                </a>
+                                @else
+                                <span class="card-text fw-semibold">-</span>
+                                @endif
                             </div>
                         </ul>
                     </div>

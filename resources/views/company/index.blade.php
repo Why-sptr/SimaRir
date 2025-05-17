@@ -19,6 +19,13 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 </head>
+<style>
+        #location-suggestions {
+        width: 93%;
+        max-width: 93%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+</style>
 
 <body>
     <!-- Navbar -->
@@ -450,6 +457,7 @@
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
                                 <input type="text" class="form-control" id="location" name="location" value="{{ auth()->user()->location }}">
+                                <div id="location-suggestions" class="list-group position-absolute w-100" style="max-height: 200px; overflow-y: auto; display: none;"></div>
                             </div>
 
                             <!-- Corporate Field -->
@@ -871,6 +879,67 @@
             }
         });
     }
+    document.addEventListener("DOMContentLoaded", function() {
+        const locationInput = document.getElementById("location");
+        const suggestionsBox = document.getElementById("location-suggestions");
+
+        let cities = [];
+
+        async function fetchCities() {
+            const provinceIds = [
+                11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 31, 32, 33, 34, 35, 36, 51, 52, 53, 61, 62, 63, 64, 65, 71, 72, 73, 74, 75, 76, 81, 82, 91, 92
+            ];
+
+            for (let provinceId of provinceIds) {
+                try {
+                    let response = await fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provinceId}.json`);
+                    let data = await response.json();
+                    cities = [...cities, ...data];
+                } catch (error) {
+                    console.error(`Error fetching cities for province ${provinceId}:`, error);
+                }
+            }
+        }
+
+        function showSuggestions(query) {
+            const filteredCities = cities.filter(city => city.name.toLowerCase().includes(query.toLowerCase()));
+
+            suggestionsBox.innerHTML = "";
+            if (filteredCities.length > 0) {
+                suggestionsBox.style.display = "block";
+
+                filteredCities.forEach(city => {
+                    let suggestionItem = document.createElement("div");
+                    suggestionItem.classList.add("list-group-item", "list-group-item-action");
+                    suggestionItem.textContent = city.name;
+                    suggestionItem.onclick = function() {
+                        locationInput.value = city.name;
+                        suggestionsBox.style.display = "none";
+                    };
+                    suggestionsBox.appendChild(suggestionItem);
+                });
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        }
+
+        locationInput.addEventListener("input", function() {
+            let query = this.value.trim();
+            if (query.length > 2) {
+                showSuggestions(query);
+            } else {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!suggestionsBox.contains(e.target) && e.target !== locationInput) {
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        fetchCities();
+    });
 </script>
 
 </html>

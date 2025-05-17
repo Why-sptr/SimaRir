@@ -24,7 +24,7 @@ class CandidateController extends Controller
         }
 
         // Get candidates with pagination and apply filters if needed
-        $query = $jobWork->candidates()->with('user', 'user.jobRole', 'user.education');
+        $query = $jobWork->candidates()->with('user', 'user.jobRole', 'user.education', 'user.skills');
 
         // Filter by status if requested
         if (request('status')) {
