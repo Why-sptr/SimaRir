@@ -52,7 +52,7 @@
                                     <td>{{ $index + 1 }}</td>
                                     <td>
                                         @if($admin->avatar)
-                                            <img src="{{ asset('storage/' . $admin->avatar) }}" alt="Avatar" class="rounded-circle object-fit-cover border border-1 border-primary" width="40" height="40">
+                                            <img src="{{ asset('storage/admin-avatars/' . $admin->avatar) }}" alt="Avatar" class="rounded-circle object-fit-cover border border-1 border-primary" width="40" height="40">
                                         @else
                                             <div class="avatar bg-primary text-white rounded-circle d-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
                                                 {{ substr($admin->name, 0, 1) }}
