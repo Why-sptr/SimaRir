@@ -88,12 +88,10 @@
                     <div class="row mb-2">
                         <div class="col-lg-5 col-md-5 label">Status Verifikasi</div>
                         <div class="col-lg-7 col-md-7">:
-                            @if($company->status_verification == 'approved')
-                            <span class="badge bg-success">Disetujui</span>
-                            @elseif($company->status_verification == 'rejected')
-                            <span class="badge bg-danger">Ditolak</span>
-                            @else
-                            <span class="badge bg-warning">Menunggu</span>
+                            @if($company->status_verification == '1')
+                            <span class="badge bg-success">Terverifikasi</span>
+                            @else($company->status_verification == '0')
+                            <span class="badge bg-danger">Belum Terverifikasi</span>
                             @endif
                         </div>
                     </div>
