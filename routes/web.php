@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CorporateFieldController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -83,20 +84,31 @@ Route::post('/register/company', [AuthController::class, 'registerCompany'])->na
 
 // Admin
 Route::prefix('admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index']);
-    Route::resource('company', CompanyController::class)->names([
-        'index' => 'admin.company.index',
-        'store' => 'admin.company.store',
-    ]);
-    Route::resource('verification', VerificationController::class);
-    Route::resource('corporate-field', CorporateFieldController::class);
-    Route::resource('education', EducationController::class);
-    Route::resource('job-role', JobRoleController::class);
-    Route::resource('job-work', JobWorkController::class);
-    Route::resource('job-admin', JobAdminController::class);
-    Route::resource('skill', SkillController::class);
-    Route::resource('user', UserController::class);
-    Route::resource('admin', AdminController::class);
-    Route::resource('work-method', WorkMethodController::class);
-    Route::resource('work-type', WorkTypeController::class);
+    Route::middleware('guest:admin')->group(function () {
+        Route::get('/login', [AuthAdminController::class, 'showLoginForm'])->name('admin.login');
+        Route::post('/login', [AuthAdminController::class, 'login'])->name('admin.login.post');
+    });
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/', [DashboardController::class, 'index']);
+        Route::resource('company', CompanyController::class)->names([
+            'index' => 'admin.company.index',
+            'store' => 'admin.company.store',
+        ]);
+        Route::post('/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
+        Route::resource('verification', VerificationController::class);
+        Route::resource('corporate-field', CorporateFieldController::class);
+        Route::resource('education', EducationController::class);
+        Route::resource('job-role', JobRoleController::class);
+        Route::resource('job-work', JobWorkController::class);
+        Route::resource('job-admin', JobAdminController::class);
+        Route::resource('skill', SkillController::class);
+        Route::resource('user', UserController::class);
+        Route::resource('admin', AdminController::class);
+        Route::resource('work-method', WorkMethodController::class);
+        Route::resource('work-type', WorkTypeController::class);
+
+        Route::get('/register', [AuthAdminController::class, 'showRegisterForm'])->name('admin.register');
+        Route::post('/register', [AuthAdminController::class, 'register'])->name('admin.register.post');
+    });
 });
