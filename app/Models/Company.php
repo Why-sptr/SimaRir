@@ -47,8 +47,12 @@ class Company extends Model
     }
 
     public function workTimes()
-{
-    return $this->hasOne(WorkTime::class);
-}
+    {
+        return $this->hasOne(WorkTime::class);
+    }
 
+    public function gallery()
+    {
+        return $this->hasOne(Gallery::class);
+    }
 }
