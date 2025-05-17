@@ -14,7 +14,7 @@ class UserController extends Controller
         $users = User::role('user')->with('jobRole')->get();
 
         return view('admin.user.index', [
-            'title' => 'User Management',
+            'title' => 'User',
             'users' => $users
         ]);
     }

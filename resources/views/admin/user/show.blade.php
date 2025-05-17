@@ -9,7 +9,7 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin/dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/admin/user') }}">User Management</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/user') }}">User</a></li>
             <li class="breadcrumb-item active">{{ $title }}</li>
         </ol>
     </nav>
@@ -38,17 +38,20 @@
                         @if($user->socialMedia->linkedin)
                         <a href="{{ $user->socialMedia->linkedin }}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
                         @endif
+                        @if($user->socialMedia->instagram)
+                        <a href="{{ $user->socialMedia->instagram }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                        @endif
+                        @if($user->socialMedia->tiktok)
+                        <a href="{{ $user->socialMedia->tiktok }}" target="_blank" class="tiktok"><i class="bi bi-tiktok"></i></a>
+                        @endif
                         @if($user->socialMedia->github)
                         <a href="{{ $user->socialMedia->github }}" target="_blank" class="github"><i class="bi bi-github"></i></a>
                         @endif
-                        @if($user->socialMedia->twitter)
-                        <a href="{{ $user->socialMedia->twitter }}" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
+                        @if($user->socialMedia->website)
+                        <a href="{{ $user->socialMedia->website }}" target="_blank" class="website"><i class="bi bi-globe"></i></a>
                         @endif
-                        @if($user->socialMedia->facebook)
-                        <a href="{{ $user->socialMedia->facebook }}" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
-                        @endif
-                        @if($user->socialMedia->instagram)
-                        <a href="{{ $user->socialMedia->instagram }}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                        @if($user->socialMedia->youtube)
+                        <a href="{{ $user->socialMedia->youtube }}" target="_blank" class="youtube"><i class="bi bi-youtube"></i></a>
                         @endif
                         @endif
                     </div>
