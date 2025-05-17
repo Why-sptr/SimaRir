@@ -43,7 +43,7 @@ Route::get('/', function () {
             return redirect()->route('admin');
         }
     } else {
-        return view('welcome');
+        return view('auth.login');
     }
 });
 Route::middleware(['auth', 'role:company'])->group(function () {

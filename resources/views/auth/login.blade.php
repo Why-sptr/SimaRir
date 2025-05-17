@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,33 +20,31 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 </head>
 
-
 <body>
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
-        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-            <div class="d-flex align-items-center justify-content-center w-100">
-                <div class="row justify-content-center w-100">
-                    <div class="col-md-8 col-lg-6 col-xxl-3">
-                        <div class="card mb-0">
-                            <div class="card-body">
-                                <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="../assets/images/logos/logo-pilar-interior.svg" width="180" alt="">
-                                </a>
-                                <p class="text-center">Mahasiswa Berkarir</p>
-                                <a class="btn btn-secondary w-100 py-2 fs-4 mb-4 rounded-2" href="{{ url('login/google?role=user') }}">Cari Kerja</a>
-                                <a class="btn btn-secondary w-100 py-2 fs-4 mb-4 rounded-2" href="{{ url('login/google?role=company') }}">Pasang Lowongan</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <section>
+        <div class="container min-vh-100 d-flex flex-column align-items-center justify-content-center">
+            <div class="d-flex bg-white flex-row px-3 py-2 mb-3 rounded-pill align-items-center justify-content-center">
+                <i class="fa-solid fa-star text-warning"></i>
+                <i class="fa-solid fa-star text-warning"></i>
+                <i class="fa-solid fa-star text-warning"></i>
+                <i class="fa-solid fa-star text-warning"></i>
+                <i class="fa-solid fa-star text-warning"></i>
+                <p class="text-muted p-0 mx-2 mb-0">Lorem ipsum dolor sit amet</p>
+                <img src="{{ asset('assets/img/logo.png') }}" alt="" style="width: 50px;">
+            </div>
+            <div class="d-flex flex-column mb-3 align-items-center justify-content-center">
+                <h1 class="text-center fw-bold w-75 mb-2">Mahasiswa Berkarir - Lorem ipsum dolor sit, amet consectetur adipisicing elit</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod, voluptate.</p>
+            </div>
+            <div class="d-flex gap-3 align-items-center justify-content-center">
+                <a class="btn btn-dark w-100 py-3 text-white mb-4 rounded-pill col-md-4" href="{{ url('login/google?role=user') }}">Cari Kerja</a>
+                <a class="btn btn-outline-primary w-100 py-3 mb-4 rounded-pill col-md-4" href="{{ url('login/google?role=company') }}">Pasang Lowongan</a>
             </div>
         </div>
-    </div>
+    </section>
     <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Login dengan Google -->
-
-
 </body>
 
 </html>
