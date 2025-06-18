@@ -28,7 +28,12 @@ class UserCompanyController extends Controller
     {
         $user = Auth::user();
         $company = Company::find($id);
-        $jobWorks = JobWork::where('company_id', $id)->paginate(2);
+        $jobWorks = JobWork::where('company_id', $id)
+            ->where(function ($query) {
+                $query->whereNull('end_date')
+                      ->orWhere('end_date', '>=', now()->format('Y-m-d'));
+            })
+            ->paginate(2);
         return view('user.company.show', compact('company', 'jobWorks','user'));
     }
 }

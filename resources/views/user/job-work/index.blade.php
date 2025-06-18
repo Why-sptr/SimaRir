@@ -113,7 +113,7 @@
                 <i class="ph-duotone ph-check-circle me-2"></i> Menampilkan pekerjaan sesuai dengan skill Anda.
             </div>
             @else
-            <div class="alert alert-info mb-4">
+            <div class="alert alert-danger mb-4">
                 <i class="ph-duotone ph-info me-2"></i> Tidak ditemukan pekerjaan yang sesuai dengan skill Anda. Menampilkan semua pekerjaan.
             </div>
             @endif
@@ -256,7 +256,7 @@
 
                                         <!-- Skills matching indicator -->
                                         @if(auth()->check() && $userHasSkills && isset($jobWork->matchingSkillsCount) && $jobWork->matchingSkillsCount > 0)
-                                        <span class="badge badge-outline-success p-2">
+                                        <span class="badge badge-outline-danger p-2">
                                             <i class="ph-duotone ph-check me-1"></i> {{ $jobWork->matchingSkillsCount }} Skill cocok
                                         </span>
                                         @else
@@ -286,7 +286,7 @@
                                         <img src="{{ asset('assets/img/default-user.png') }}" alt="Company Logo" class="rounded me-2 border border-1" style="width: 45px; height: 45px; object-fit: cover;">
                                         @endif
                                         <div>
-                                            <div class="d-flex align-items-center justify-content-center gap-1">
+                                            <div class="d-flex align-items-center gap-1">
                                                 <p class="mb-0 text-primary fw-semibold text-truncate">{{ $jobWork->company->user->name }}</p>
                                                 @if ($jobWork->company->status_verification == 1)
                                                 <i class="ph-duotone ph-seal-check" style="width: 24px; color: blue;"></i>

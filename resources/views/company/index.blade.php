@@ -18,6 +18,7 @@
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css" />
 </head>
 <style>
         #location-suggestions {
@@ -402,7 +403,7 @@
             </div>
         </div>
 
-        <div class="container mt-4">
+       <div class="container mt-4">
             <div class="card h-100 border-1 border-primary p-3">
                 <div class="d-flex justify-content-between">
                     <h5 class="fw-bold mb-3">Galeri Perusahaan</h5>
@@ -410,25 +411,31 @@
                         <i class="ph-duotone ph-pen"></i>
                     </a>
                 </div>
+
                 @if ($company->galleries->count() > 0)
                 <div class="row g-4">
                     @foreach ($company->galleries as $gallery)
-                    @for ($i = 1; $i <= 6; $i++)
-                        @php
-                        $column='image' . $i;
-                        $imagePath=$gallery->$column ? asset('storage/gallery_images/' . $gallery->$column) : null;
-                        @endphp
+                        @for ($i = 1; $i <= 6; $i++)
+                            @php
+                                $column = 'image' . $i;
+                                $imagePath = $gallery->$column ? asset('storage/gallery_images/' . $gallery->$column) : null;
+                            @endphp
 
-                        @if ($imagePath)
-                        <div class="col-4">
-                            <img src="{{ $imagePath }}"
-                                alt="Company Galeri {{ $i }}"
-                                style="max-height: 500px; max-width: 500px; width: 100%; height: 100%; object-fit: cover; border: 1px solid #ddd;"
-                                class="rounded w-100">
-                        </div>
-                        @endif
+                            @if ($imagePath)
+                            <div class="col-4">
+                                <a 
+                                    href="{{ $imagePath }}" 
+                                    data-fancybox="gallery" 
+                                    data-caption="Galeri Perusahaan {{ $i }}">
+                                    <img src="{{ $imagePath }}"
+                                        alt="Company Galeri {{ $i }}"
+                                        style="max-height: 500px; max-width: 500px; width: 100%; height: 100%; object-fit: cover; border: 1px solid #ddd;"
+                                        class="rounded w-100">
+                                </a>
+                            </div>
+                            @endif
                         @endfor
-                        @endforeach
+                    @endforeach
                 </div>
                 @else
                 <div class="text-center">
@@ -827,6 +834,7 @@
     </ul>
   </footer>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         function setupImagePreview() {
@@ -955,6 +963,11 @@
         });
 
         fetchCities();
+    });
+    Fancybox.bind("[data-fancybox]", {
+        Toolbar: {
+            display: ["zoom", "close"],
+        },
     });
 </script>
 

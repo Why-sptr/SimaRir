@@ -23,20 +23,13 @@ class UserJobWorkController extends Controller
 
         $query = JobWork::query();
 
-        // Filter out expired jobs
+        // Filter pekerjaan yang belum kedaluwarsa
         $query->where(function ($q) use ($currentDate) {
-            $q->whereNull('end_date')
-                ->orWhere('end_date', '>=', $currentDate);
+            $q->whereNull('end_date')->orWhere('end_date', '>=', $currentDate);
         });
 
-        // Get authenticated user
-        $user = auth()->user();
-        $userHasSkills = false;
-        $filteredBySkills = false;
-        $userSkillIds = [];
-
-        // Apply filters
-        if ($request->has('search') && $request->search != '') {
+        // Filter pencarian
+        if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
@@ -44,80 +37,56 @@ class UserJobWorkController extends Controller
             });
         }
 
-        if ($request->has('work_types') && !empty($request->work_types)) {
+        if ($request->filled('work_types')) {
             $query->whereIn('work_type_id', $request->work_types);
         }
 
-        if ($request->has('work_methods') && !empty($request->work_methods)) {
+        if ($request->filled('work_methods')) {
             $query->whereIn('work_method_id', $request->work_methods);
         }
 
-        if ($request->has('location') && $request->location != '') {
+        if ($request->filled('location')) {
             $query->where('location', 'like', "%{$request->location}%");
         }
 
-        // Order by most recent
         $query->orderBy('created_at', 'desc');
 
-        // Get all job works with their skills
         $allJobs = $query->with(['skillJobs.skill'])->get();
 
-        // Check if user is logged in and has skills
-        if ($user) {
-            $userSkills = $user->skills;
-            if ($userSkills->count() > 0) {
-                $userHasSkills = true;
-                $userSkillIds = $userSkills->pluck('id')->toArray();
+        $userHasSkills = false;
+        $filteredBySkills = false;
 
-                // For each job, calculate matching skills with user
-                $matchingJobs = collect();
-                $nonMatchingJobs = collect();
+        if ($user && $user->skills->isNotEmpty()) {
+            $userHasSkills = true;
+            $userSkillIds = $user->skills->pluck('id')->toArray();
 
-                foreach ($allJobs as $jobWork) {
-                    $jobSkillIds = $jobWork->skillJobs->pluck('skill_id')->toArray();
-                    $jobWork->matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
-                    $jobWork->matchingSkillsCount = count($jobWork->matchingSkills);
+            $matchingJobs = $allJobs->filter(function ($job) use ($userSkillIds) {
+                $jobSkillIds = $job->skillJobs->pluck('skill_id')->toArray();
+                $matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
+                $job->matchingSkills = $matchingSkills;
+                $job->matchingSkillsCount = count($matchingSkills);
+                return $job->matchingSkillsCount > 0;
+            })->sortByDesc('matchingSkillsCount')->values();
 
-                    // Split jobs into matching and non-matching collections
-                    if ($jobWork->matchingSkillsCount > 0) {
-                        $matchingJobs->push($jobWork);
-                    } else {
-                        $nonMatchingJobs->push($jobWork);
-                    }
-                }
-
-                // Sort matching jobs by matchingSkillsCount (descending)
-                $matchingJobs = $matchingJobs->sortByDesc('matchingSkillsCount');
-
-                // Merge collections - matching jobs first, then non-matching jobs
-                $allJobs = $matchingJobs->merge($nonMatchingJobs);
-
-                // Set filtered flag if we have matching jobs
-                if ($matchingJobs->count() > 0) {
-                    $filteredBySkills = true;
-                }
-            }
+            $filteredBySkills = $matchingJobs->isNotEmpty();
+            $allJobs = $matchingJobs;
         } else {
-            // If user is not logged in, ensure we set matchingSkillsCount to 0 for all jobs
-            foreach ($allJobs as $jobWork) {
-                $jobWork->matchingSkills = [];
-                $jobWork->matchingSkillsCount = 0;
-            }
+            // Jika user tidak login atau tidak punya skill, kosongkan hasil
+            $allJobs = collect();
         }
 
-        // Manual pagination for sorted collection
-        $page = request()->get('page', 1);
+        // Manual pagination
+        $page = $request->get('page', 1);
         $perPage = 10;
         $total = $allJobs->count();
-        $currentPageItems = $allJobs->slice(($page - 1) * $perPage, $perPage);
+        $currentPageItems = $allJobs->slice(($page - 1) * $perPage, $perPage)->values();
 
-        // Create a new paginator instance
         $jobWorks = new \Illuminate\Pagination\LengthAwarePaginator(
             $currentPageItems,
             $total,
             $perPage,
             $page,
-            ['path' => \Request::url(), 'query' => $request->query()]
+            ['path' => $request->url(), 'query' => $request->query()]
         );
 
         return view('user.job-work.index', compact(
@@ -129,6 +98,7 @@ class UserJobWorkController extends Controller
             'user'
         ));
     }
+
     public function getSkillBasedRecommendations($currentJob, $user = null)
     {
         $currentDate = now()->format('Y-m-d');
@@ -183,37 +153,40 @@ class UserJobWorkController extends Controller
         $user = Auth::user();
         $currentDate = now()->format('Y-m-d');
 
-        $skillBasedRecommendations = $this->getSkillBasedRecommendations($currentJob, $user);
+        $recommendations = collect();
 
-        if ($skillBasedRecommendations->isNotEmpty()) {
-            return $skillBasedRecommendations;
+        if ($user && $user->skills->isNotEmpty()) {
+            $userSkillIds = $user->skills->pluck('id')->toArray();
+
+            $recommendations = JobWork::where('id', '!=', $currentJob->id)
+                ->where(function ($q) use ($currentJob) {
+                    $q->where('work_type_id', $currentJob->work_type_id)
+                        ->orWhere('work_method_id', $currentJob->work_method_id);
+                })
+                ->where(function ($q) use ($currentDate) {
+                    $q->whereNull('end_date')
+                        ->orWhere('end_date', '>=', $currentDate);
+                })
+                ->with(['skillJobs.skill'])
+                ->get()
+                ->filter(function ($job) use ($userSkillIds) {
+                    $jobSkillIds = $job->skillJobs->pluck('skill_id')->toArray();
+                    $matching = array_intersect($userSkillIds, $jobSkillIds);
+                    return count($matching) > 0;
+                })
+                ->shuffle()
+                ->take(2)
+                ->values();
         }
 
-        return JobWork::where('id', '!=', $currentJob->id)
-            ->where(function ($q) use ($currentJob) {
-                $q->where('work_type_id', $currentJob->work_type_id)
-                    ->orWhere('work_method_id', $currentJob->work_method_id);
-            })
-            ->where(function ($q) use ($currentDate) {
-                $q->whereNull('end_date')
-                    ->orWhere('end_date', '>=', $currentDate);
-            })
-            ->with([
-                'workType',
-                'workMethod',
-                'qualification.education',
-                'company.user',
-                'candidates'
-            ])
-            ->inRandomOrder()
-            ->take(3)
-            ->get();
+        return $recommendations;
     }
 
     public function show($id)
     {
         $user = Auth::user();
         $currentDate = now()->format('Y-m-d');
+
         $jobWork = JobWork::with([
             'workType',
             'workMethod',
@@ -221,17 +194,39 @@ class UserJobWorkController extends Controller
             'qualification',
             'candidates',
             'bookmarks',
-            'skillJobs'
+            'skillJobs.skill'
         ])->findOrFail($id);
 
         $alreadyApplied = false;
-        if (auth()->check()) {
-            $alreadyApplied = Candidate::where('user_id', auth()->id())
+        if ($user) {
+            $alreadyApplied = Candidate::where('user_id', $user->id)
                 ->where('job_id', $jobWork->id)
                 ->exists();
         }
 
+        // Matching skill untuk job utama
+        $jobWork->matchingSkills = [];
+        $jobWork->matchingSkillsCount = 0;
+
+        if ($user && $user->skills->isNotEmpty()) {
+            $userSkillIds = $user->skills->pluck('id')->toArray();
+            $jobSkillIds = $jobWork->skillJobs->pluck('skill_id')->toArray();
+            $jobWork->matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
+            $jobWork->matchingSkillsCount = count($jobWork->matchingSkills);
+        }
+
         $recommendedJobs = $this->getRecommendedJobs($jobWork);
+
+        // Tambahkan matching skill untuk job rekomendasi
+        if ($user && $user->skills->isNotEmpty() && $recommendedJobs->isNotEmpty()) {
+            $userSkillIds = $user->skills->pluck('id')->toArray();
+
+            foreach ($recommendedJobs as $job) {
+                $jobSkillIds = $job->skillJobs->pluck('skill_id')->toArray();
+                $job->matchingSkills = array_intersect($userSkillIds, $jobSkillIds);
+                $job->matchingSkillsCount = count($job->matchingSkills);
+            }
+        }
 
         return view('user.job-work.show', compact(
             'jobWork',
@@ -241,4 +236,6 @@ class UserJobWorkController extends Controller
             'currentDate'
         ));
     }
+
+
 }

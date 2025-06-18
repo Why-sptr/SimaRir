@@ -20,6 +20,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css"/>
 </head>
 
 
@@ -347,7 +348,7 @@
                 <div class="col-md-6">
                     <div class="card border-1 border-primary p-3 h-100">
                         <div class="d-flex justify-content-between">
-                            <h5 class="mb-3 fw-bold">Sertifikasi</h5>
+                            <h5 class="mb-3 fw-bold">Sertifikat</h5>
                             <a href="#" class="action-add" class="add-certificate" data-bs-toggle="modal" data-bs-target="#certificateModal">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
@@ -368,7 +369,19 @@
                             <li>
                                 <p class="fw-normal mb-0">{{ $certificate->publisher }}</p>
                             </li>
-                            <li>
+                            <li class="mt-2 p-1 border border-1 border-gray rounded-2">
+                                <a
+                                    href="{{ asset('storage/certificates/' . $certificate->media) }}"
+                                    data-fancybox="gallery"
+                                    data-caption="Certificate Preview"
+                                >
+                                    <img src="{{ asset('storage/certificates/' . $certificate->media) }}" 
+                                        class="img-fluid mb-2 rounded-2" 
+                                        style="height: 200px; object-fit: cover; width: 100%;" 
+                                        alt="Certificate Image">
+                                </a>
+                            </li>
+                            <li class="mt-2">
                                 <p class="text-muted mb-2">
                                     {{ $certificate->start_date ? date('M Y', strtotime($certificate->start_date)) : '-' }}
                                     -
@@ -450,6 +463,7 @@
     </ul>
   </footer>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
@@ -757,6 +771,16 @@
 
         fetchCities();
     });
+    
+    Fancybox.bind("[data-fancybox]", {
+    // opsional konfigurasi
+    Toolbar: {
+      display: [
+        "zoom",
+        "close",
+      ],
+    },
+  });
 </script>
 
 </html>

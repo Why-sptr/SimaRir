@@ -338,7 +338,7 @@
         <div class="row g-4">
           @forelse ($recommendedJobs as $job)
           <div class="col-md-6 mb-4 d-flex">
-            <div class="card border-1 border-primary w-100 h-100">
+             <div class="card border-1 border-primary w-100 {{ auth()->check() && isset($job->matchingSkillsCount) && $job->matchingSkillsCount > 0 ? 'border-success' : 'border-primary' }}">
               <a class="card-body d-flex flex-column" href="{{ route('user-job-work.show', $job->id) }}" style="text-decoration: none; color: inherit;">
                 <div class="d-flex justify-content-between gap-2 px-3 mt-3">
                   <h5 class="card-title text-truncate fw-semibold" style="width: 80%;">
@@ -372,10 +372,25 @@
                     @endif
                     <span class="badge badge-outline-primary p-2">+ {{ $job->skillJobs->count() + 1 }}</span>
 
-                    @if(auth()->check() && isset($job->matchingSkillsCount) && $job->matchingSkillsCount > 0)
-                    <span class="badge badge-outline-success p-2"><i class="ph-duotone ph-check me-1"></i>{{ $job->matchingSkillsCount }} skill cocok</span>
+                   @if(auth()->check() && isset($job->matchingSkillsCount) && $job->matchingSkillsCount > 0)
+                    <span class="badge badge-outline-danger p-2">
+                        <i class="ph-duotone ph-check me-1"></i> {{ $job->matchingSkillsCount }} Skill cocok
+                    </span>
                     @endif
                   </div>
+                  <!-- Skills yang cocok -->
+                  @if(auth()->check() && isset($job->matchingSkillsCount) && $job->matchingSkillsCount > 0)
+                    <div class="mb-3 px-3">
+                        <small class="text-success fw-medium">
+                            <i class="ph-duotone ph-sparkle me-1"></i> Skill yang cocok:
+                            @foreach($job->skillJobs as $index => $skillJob)
+                            @if(in_array($skillJob->skill_id, $job->matchingSkills))
+                            {{ $skillJob->skill->name }}{{ !$loop->last ? ', ' : '' }}
+                            @endif
+                            @endforeach
+                        </small>
+                    </div>
+                  @endif
                   <div class="mt-auto">
                     <div class="d-flex align-items-center mb-2">
                       <img src="{{ asset('storage/avatars/' . $job->company->user->avatar) }}" alt="Company Logo"

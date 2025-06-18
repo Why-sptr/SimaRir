@@ -19,6 +19,7 @@
         crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.css" />
 </head>
 
 <body>
@@ -206,9 +207,15 @@
 
                     @endforeach
 
-                    <div class="d-flex justify-content-center mt-4" id="pagination">
-                        {{ $jobWorks->links('pagination::bootstrap-5') }}
-                    </div>
+                    <nav class="mt-4 pagination-web">
+                        <ul class="pagination justify-content-center">
+                            @for ($i = 1; $i <= $jobWorks->lastPage(); $i++)
+                                <li class="page-item {{ $jobWorks->currentPage() == $i ? 'active' : '' }}">
+                                    <a class="page-link p-2 {{ $jobWorks->currentPage() == $i ? 'active' : '' }}" href="{{ $jobWorks->url($i) }}">{{ $i }}</a>
+                                </li>
+                            @endfor
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -350,22 +357,27 @@
                 <h5 class="fw-bold mb-3">Galeri Perusahaan</h5>
                 <div class="row g-4">
                     @foreach ($company->galleries as $gallery)
-                    @for ($i = 1; $i <= 6; $i++)
-                        @php
-                        $column='image' . $i;
-                        $imagePath=$gallery->$column ? asset('storage/gallery_images/' . $gallery->$column) : null;
-                        @endphp
+                        @for ($i = 1; $i <= 6; $i++)
+                            @php
+                                $column = 'image' . $i;
+                                $imagePath = $gallery->$column ? asset('storage/gallery_images/' . $gallery->$column) : null;
+                            @endphp
 
-                        @if ($imagePath)
-                        <div class="col-4">
-                            <img src="{{ $imagePath }}"
-                                alt="Company Galeri {{ $i }}"
-                                style="max-height: 500px; max-width: 500px; width: 100%; height: 100%; object-fit: cover; border: 1px solid #ddd;"
-                                class="rounded w-100">
-                        </div>
-                        @endif
+                            @if ($imagePath)
+                            <div class="col-4">
+                                <a 
+                                    href="{{ $imagePath }}" 
+                                    data-fancybox="gallery" 
+                                    data-caption="Galeri Perusahaan {{ $i }}">
+                                    <img src="{{ $imagePath }}"
+                                        alt="Company Galeri {{ $i }}"
+                                        style="max-height: 500px; max-width: 500px; width: 100%; height: 100%; object-fit: cover; border: 1px solid #ddd;"
+                                        class="rounded w-100">
+                                </a>
+                            </div>
+                            @endif
                         @endfor
-                        @endforeach
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -387,6 +399,7 @@
     </ul>
   </footer>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).on('click', '.pagination a', function(e) {
@@ -408,6 +421,15 @@
             }
         });
     }
+
+     Fancybox.bind("[data-fancybox]", {
+        Toolbar: {
+            display: [
+                "zoom",
+                "close"
+            ],
+        },
+    });
 </script>
 
 </html>

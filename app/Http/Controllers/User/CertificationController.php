@@ -18,18 +18,25 @@ class CertificationController extends Controller
             'publisher' => 'nullable|string|max:255',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
+            'media' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // max 2MB
         ]);
 
         $certificate = new Certification();
         $certificate->user_id = $user->id;
-        $certificate->name = $validated['name'];
-        $certificate->publisher = $validated['publisher'];
-        $certificate->start_date = $validated['start_date'];
-        $certificate->end_date = $validated['end_date'];
+        $certificate->fill($validated);
+
+        if ($request->hasFile('media')) {
+            $mediaFile = $request->file('media');
+            $mediaName = 'cert_' . $user->name . '_' . time() . '.' . $mediaFile->getClientOriginalExtension();
+            $mediaPath = $mediaFile->storeAs('certificates', $mediaName, 'public');
+            $certificate->media = basename($mediaPath);
+        }
+
         $certificate->save();
 
         return redirect()->back()->with('success', 'Sertifikasi berhasil ditambahkan');
     }
+
 
     public function show($id)
     {
@@ -44,13 +51,24 @@ class CertificationController extends Controller
             'publisher' => 'nullable|string|max:255',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
+            'media' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         $certificate = Certification::findOrFail($id);
-        $certificate->update($validated);
+        $certificate->fill($validated);
+
+        if ($request->hasFile('media')) {
+            $mediaFile = $request->file('media');
+            $mediaName = 'cert_' . $certificate->user_id . '_' . time() . '.' . $mediaFile->getClientOriginalExtension();
+            $mediaPath = $mediaFile->storeAs('certificates', $mediaName, 'public');
+            $certificate->media = basename($mediaPath);
+        }
+
+        $certificate->save();
 
         return redirect()->back()->with('success', 'Sertifikasi berhasil diperbarui');
     }
+
 
     public function destroy($id)
     {

@@ -12,7 +12,7 @@ class Certification extends Model
     protected $table = 'certifications';
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['user_id', 'name', 'publisher', 'start_date', 'end_date'];
+    protected $fillable = ['user_id', 'name', 'publisher', 'start_date', 'end_date', 'media'];
 
     protected static function boot()
     {
